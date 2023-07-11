@@ -18,11 +18,11 @@
 	<description>Parent for `Student Award` microservice</description>
 
 	<modules>
+		<module>accountant-service</module>
         <module>auth-service</module>
 		<module>household-service</module>
-		<module>student-service</module>
-		<module>accountant-service</module>
 		<module>statistic-service</module>
+		<module>student-service</module>
 	</modules>
 
     <properties>

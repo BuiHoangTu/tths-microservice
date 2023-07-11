@@ -1,0 +1,20 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://java:java@tths.np7ff7c.mongodb.net/?retryWrites=true&w=majority
+      database: StudentReward
+
+  testdata:
+    student:
+      householdnumber: 16894576
+
+  app:
+    jwtCookieName: tths
+    jwtSecret: tths_private
+    jwtExpirationMs: 86400000
+
+gui:
+  uri: http://localhost:4200, http://localhost:4201
+
+logging:
+  rootCategory: INFO, consoleAppender, fileAppender
