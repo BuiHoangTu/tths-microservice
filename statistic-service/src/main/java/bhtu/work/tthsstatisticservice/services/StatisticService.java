@@ -15,7 +15,7 @@ public class StatisticService {
     private final PrizePeriodRepo prizePeriodRepo;
     private final StudentRepo studentRepo;
 
-    @Autowired
+    // @Autowired
     public StatisticService(AwardPeriodRepo awardPeriodRepo, PrizePeriodRepo prizePeriodRepo,
             StudentRepo studentRepo) {
         this.awardPeriodRepo = awardPeriodRepo;
