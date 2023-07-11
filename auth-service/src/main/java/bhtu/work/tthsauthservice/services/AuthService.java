@@ -75,7 +75,7 @@ public class AuthService {
         // with parent, AccessRegion is household number, 1 family should only have 1
         // account
         if (this.userRepo.existsByAccessRegion(signUpRequest.householdNumber())) {
-            return Map.of("Error", "This household already have an account!");
+            return Map.of("Error", "This household already has an account!");
         }
 
         // Create new user's account

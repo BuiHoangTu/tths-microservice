@@ -36,7 +36,7 @@ public class AuthController {
         var res = this.authService.registerParent(signUpRequest);
 
         if ("true".equals(res.get("Created")))
-            return ResponseEntity.status(HttpStatus.CREATED).body(null);
+            return ResponseEntity.status(HttpStatus.CREATED).body(res);
         else
             return ResponseEntity.badRequest().body(res);
     }
