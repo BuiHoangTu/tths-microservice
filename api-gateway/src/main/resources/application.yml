@@ -1,0 +1,43 @@
+logging:
+  level:
+    root: INFO
+    
+    org:
+      springframework:
+        cloud:
+          gateway:
+            "": TRACE
+            route:
+              RouteDefinitionLocator: INFO
+          
+spring:
+  application:
+    name: api-gateway      
+
+  cloud:
+    gateway:
+      routes:
+      ## accountant service
+      - id: accountant-service
+        uri: lb://accountant-service # lb -> load balancer // this is the link to microservice
+        predicates: Path=/api/award-period/**, /api/prize-period/** # these links would be redirect to the above mservice
+
+      ## auth-service
+      - id: auth-service
+        uri: lb://auth-service
+        predicates: Path=/api/auth/**
+      
+      ## household-pseu-service
+      - id: household-service
+        uri: lb://household-service
+        predicates: Path=/api/pseu-household/**
+      
+      ## statistic
+      - id: statistic-service
+        uri: lb://statistic-service
+        predicates: Path=/api/statistic/**
+
+      ## student
+      - id: student-service
+        uri: lb://student-service
+        predicates: Path=/api/student/**

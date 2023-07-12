@@ -28,7 +28,7 @@ public class Student {
 		this.id = id;
 		this.name = name;
 		this.dateOfBirth = dateOfBirth;
-		this.school = school;
+
 		this.householdNumber = householdNumber;
 		this.parent = parent;
 	}
