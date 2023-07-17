@@ -6,7 +6,7 @@
 	<parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.1</version>
+        <version>2.7.13</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -70,11 +70,11 @@
                 <scope>import</scope>
 			</dependency>
 			<!-- gRPC -->
-			<!-- <dependency>
+			<dependency>
 				<groupId>com.google.protobuf</groupId>
 				<artifactId>protobuf-java</artifactId>
-				<version>${grpc.version}</version>
-			</dependency> -->
+				<version>${protobuf.version}</version>
+			</dependency>
 			<!-- <dependency>
 				<groupId>io.grpc</groupId>
 				<artifactId>grpc-netty-shaded</artifactId>
@@ -90,11 +90,24 @@
 				<artifactId>grpc-protobuf</artifactId>
 				<version>${grpc.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-netty</artifactId>
+				<version>${grpc.version}</version>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
+		<extensions>
+			<extension>
+				<groupId>kr.motd.maven</groupId>
+				<artifactId>os-maven-plugin</artifactId>
+				<version>1.7.0</version>
+			</extension>
+		</extensions>
+
 		<defaultGoal>clean generate-sources compile install</defaultGoal>
 
 		<pluginManagement>

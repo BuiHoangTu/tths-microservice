@@ -93,8 +93,8 @@ public class ApiSecurityConfig {
 
         http.authorizeHttpRequests((requests) -> {
             requests
-                    .requestMatchers(openUrls).permitAll() // open, auth apis are for all
-                    .requestMatchers("/api/**").authenticated() // any other request to /api must be
+                    .antMatchers(openUrls).permitAll() // open, auth apis are for all
+                    .antMatchers("/api/**").authenticated() // any other request to /api must be
                                                                 // authenticated first
                     .anyRequest().permitAll(); // non api prefix is not in our control, pass it
         });

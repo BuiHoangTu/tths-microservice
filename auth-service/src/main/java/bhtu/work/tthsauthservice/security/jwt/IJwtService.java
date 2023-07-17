@@ -1,7 +1,7 @@
 package bhtu.work.tthsauthservice.security.jwt;
 
 import bhtu.work.tthsauthservice.security.services.MyUserDetails;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseCookie;
 import org.springframework.lang.NonNull;
 

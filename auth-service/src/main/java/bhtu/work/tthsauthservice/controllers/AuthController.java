@@ -3,7 +3,7 @@ package bhtu.work.tthsauthservice.controllers;
 import bhtu.work.tthsauthservice.services.AuthService;
 import bhtu.work.tthsauthservice.models.dto.LoginRequest;
 import bhtu.work.tthsauthservice.models.dto.SignupRequest;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

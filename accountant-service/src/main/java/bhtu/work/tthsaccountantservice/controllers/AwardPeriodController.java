@@ -14,7 +14,7 @@ import bhtu.work.tthsaccountantservice.models.AwardPeriod;
 
 import java.util.Map;
 import bhtu.work.tthsaccountantservice.services.AwardPeriodService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/award-period")
