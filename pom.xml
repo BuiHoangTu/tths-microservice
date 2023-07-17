@@ -70,16 +70,16 @@
                 <scope>import</scope>
 			</dependency>
 			<!-- gRPC -->
-			<dependency>
+			<!-- <dependency>
 				<groupId>com.google.protobuf</groupId>
 				<artifactId>protobuf-java</artifactId>
 				<version>${grpc.version}</version>
-			</dependency>
-			<dependency>
+			</dependency> -->
+			<!-- <dependency>
 				<groupId>io.grpc</groupId>
 				<artifactId>grpc-netty-shaded</artifactId>
 				<version>${grpc.version}</version>
-			</dependency>
+			</dependency> -->
 			<dependency>
 				<groupId>io.grpc</groupId>
 				<artifactId>grpc-stub</artifactId>
@@ -101,35 +101,9 @@
 			<plugins>
 				<!-- compile proto -->
 				<plugin>
-					<groupId>com.github.os72</groupId>
-					<artifactId>protoc-jar-maven-plugin</artifactId>
-					<version>3.6.0.1</version>
-					<executions>
-						<execution>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>run</goal>
-							</goals>
-							<configuration>
-								<includeMavenTypes>
-									direct
-								</includeMavenTypes>
-								<inputDirectories>
-									<include>
-										src/main/resource <!-- where to find proto -->
-									</include>
-								</inputDirectories>
-								<outputTargets>
-									<outputTarget>
-										<type> java </type>
-										<outputDirectory>
-											src/main/java/protos
-										</outputDirectory>
-									</outputTarget>
-								</outputTargets>
-							</configuration>
-						</execution>
-					</executions>
+					<groupId>kr.motd.maven</groupId>
+					<artifactId>os-maven-plugin</artifactId>
+					<version>1.7.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.xolstice.maven.plugins</groupId>

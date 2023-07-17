@@ -3,8 +3,8 @@ syntax = "proto3";
 package proto;
 
 option java_multiple_files = true;
-option java_package = "bhtu.work.tthsstatisticservice.protos";
-option java_outer_classname = "StatisticProto"; // if not specified, it will convert the file name
+option java_package = "bhtu.work.tthsstatisticservice.proto";
+// option java_outer_classname = "StatisticProto"; // if not specified, it will convert the file name
 
 
 message Student {
