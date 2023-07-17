@@ -3,8 +3,8 @@ syntax = "proto3";
 package proto;
 
 option java_multiple_files = true;
-option java_package = "bhtu.work.tthsstatisticservice.proto";
-option java_outer_classname = "StatisticProto"; // if not specified, it will convert the file name
+option java_package = "bhtu.work.tthsstudentservice.proto";
+option java_outer_classname = "StudentProto"; // if not specified, it will convert the file name
 
 
 message Student {
@@ -15,7 +15,7 @@ message Student {
     }
 
     string dateOfEvent = 1;
-//    string nameOfEvent = 2; not necessary for this service
+    string nameOfEvent = 2;
     string achievement = 3;
     string classStr = 4;
     repeated PrizeGroup prizeGroup = 5;
@@ -28,7 +28,6 @@ message Student {
   string householdNumber = 4;
   string parent = 5;
   repeated EventOfStudent eventOfStudent = 6;
-
 }
 
 message StudentId {

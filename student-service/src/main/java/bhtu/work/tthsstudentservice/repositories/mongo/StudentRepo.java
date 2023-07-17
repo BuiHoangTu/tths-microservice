@@ -15,4 +15,6 @@ public interface StudentRepo extends MongoRepository<Student, String> {
     List<Student> findByParentRegex(String parent);
 
     List<Student> findBySchoolRegex(String string);
+
+    Student findDistinctFirstByHouseholdNumber(String householdNumber);
 }
