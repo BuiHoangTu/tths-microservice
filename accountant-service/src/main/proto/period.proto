@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package proto;
+
+option java_multiple_files = true;
+option java_package = "bhtu.work.tthsaccountantservice.proto";
+option java_outer_classname = "PeriodProto"; // if not specified, it will convert the file name
+
+
+message Date {
+  string dataOfApply = 1;
+}
+
+message AwardPeriod {
+  message AwardLevel {
+    string achievement = 1;
+    int64 prizeValue = 2;
+  }
+
+  string dataOfApply = 1;
+  repeated AwardLevel awardLevels = 2;
+}
+
+service AwardService {
+  rpc getByDate(Date) returns(AwardPeriod){}
+}
+
+message PrizePeriod {
+  message PrizeValue {
+    string nameOfPrize = 1;
+    int64 unitPrize = 2;
+  }
+
+  string dateOfApply = 1;
+  repeated PrizeValue prizeValues = 2;
+}
+service PrizeService {
+  rpc getByDate(Date) returns(PrizePeriod){}
+}

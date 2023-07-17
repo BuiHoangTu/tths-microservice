@@ -5,14 +5,14 @@ import bhtu.work.tthsstudentservice.proto.StudentHouseholdNumber;
 import bhtu.work.tthsstudentservice.proto.StudentId;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
-import bhtu.work.tthsstudentservice.proto.StudentServiceGrpc;
+import bhtu.work.tthsstudentservice.proto.StudentServiceGrpc.StudentServiceImplBase;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 @GrpcService
-public class GrpcServer extends StudentServiceGrpc.StudentServiceImplBase {
+public class StudentGrpcServer extends StudentServiceImplBase {
     /**
      * Map model student to proto student
      * @param mStudent model student
@@ -51,12 +51,11 @@ public class GrpcServer extends StudentServiceGrpc.StudentServiceImplBase {
         return pStudentBuilder.build();
     }
 
-
     private final StudentService studentService;
 
 
     @Autowired
-    public GrpcServer(StudentService studentService) {
+    public StudentGrpcServer(StudentService studentService) {
         this.studentService = studentService;
     }
 
