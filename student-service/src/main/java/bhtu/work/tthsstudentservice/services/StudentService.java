@@ -73,7 +73,7 @@ public class StudentService {
         return studentRepo.save(onDbStudent);
     }
 
-    public Student getStudentByHouseholdNumber(@NonNull String householdNumber) {
-        return studentRepo.findDistinctFirstByHouseholdNumber(householdNumber);
+    public List<Student> getStudentByHouseholdNumber(@NonNull String householdNumber) {
+        return studentRepo.findByHouseholdNumber(householdNumber);
     }
 }

@@ -6,6 +6,9 @@ import bhtu.work.tthsstudentservice.proto.StudentId;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import bhtu.work.tthsstudentservice.proto.StudentServiceGrpc;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 @GrpcService
@@ -72,11 +75,13 @@ public class GrpcServer extends StudentServiceGrpc.StudentServiceImplBase {
 
     @Override
     public void getByHouseholdNumber(StudentHouseholdNumber request, StreamObserver<Student> responseObserver) {
-        var mStudent = studentService.getStudentByHouseholdNumber(request.getHouseholdNumber());
+        List<bhtu.work.tthsstudentservice.models.Student> mStudents = studentService.getStudentByHouseholdNumber(request.getHouseholdNumber());
 
-        var pStudent = mapStudent(mStudent);
-
-        responseObserver.onNext(pStudent);
+        for (var mS: mStudents) {
+            var pStudent = mapStudent(mS);
+            responseObserver.onNext(pStudent);
+        }
+        
         responseObserver.onCompleted();
     }
 

@@ -17,8 +17,7 @@ public class GrpcClient {
                 LocalDate.parse(pStudent.getDateOfBirth()),
                 null,
                 pStudent.getHouseholdNumber(),
-                pStudent.getParent()
-        );
+                pStudent.getParent());
 
         mStudent.setEvents(pStudent.getEventOfStudentList()
                 .stream()
@@ -48,4 +47,10 @@ public class GrpcClient {
         return asyncClient.getById(request);
     }
 
+    public ListenableFuture<bhtu.work.tthsstatisticservice.proto.Student> getStudentByHouseholdNumber(
+            String householdNumber) {
+        var request = bhtu.work.tthsstatisticservice.proto.StudentHouseholdNumber.newBuilder()
+                .setHouseholdNumber(householdNumber).build();
+        return asyncClient.getByHouseholdNumber(request);
+    }
 }
