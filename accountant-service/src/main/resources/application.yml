@@ -1,4 +1,9 @@
+server:
+  port: 0
+
 spring:
+  application:
+    name: accountant-service
   data:
     mongodb:
       uri: mongodb+srv://java:java@tths.np7ff7c.mongodb.net/?retryWrites=true&w=majority
@@ -18,3 +23,9 @@ gui:
 
 logging:
   rootCategory: INFO, consoleAppender, fileAppender
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+# random port
