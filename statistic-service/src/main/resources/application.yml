@@ -18,3 +18,11 @@ gui:
 
 logging:
   rootCategory: INFO, consoleAppender, fileAppender
+
+grpc:
+  client:
+    grpc-student-service:
+      address: static://localhost:9000
+      negotiation-type: plaintext # ssl must be mentioned here if used
+    grpc-reward-detail-service: # need more detail
+    grpc-prize-period-service: # above

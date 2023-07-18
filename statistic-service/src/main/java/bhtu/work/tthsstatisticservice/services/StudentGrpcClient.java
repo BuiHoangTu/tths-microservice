@@ -3,14 +3,20 @@ package bhtu.work.tthsstatisticservice.services;
 import bhtu.work.tthsstatisticservice.models.EventOfStudent;
 import bhtu.work.tthsstatisticservice.models.PrizeGroup;
 import bhtu.work.tthsstatisticservice.models.Student;
-import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.Futures;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.concurrent.Future;
 
 @Service
-public class GrpcClient {
-    public static Student mapStudent(bhtu.work.tthsstatisticservice.proto.Student pStudent) {
+public class StudentGrpcClient {
+    /**
+     * Map proto student to model student
+     * @param pStudent proto student
+     * @return models.Student
+     */
+    private static Student mapStudent(bhtu.work.tthsstatisticservice.proto.Student pStudent) {
         Student mStudent = new Student(
                 pStudent.getId(),
                 pStudent.getName(),
@@ -40,17 +46,18 @@ public class GrpcClient {
     }
 
     @net.devh.boot.grpc.client.inject.GrpcClient("grpc-student-service")
-    bhtu.work.tthsstatisticservice.proto.StudentServiceGrpc.StudentServiceFutureStub asyncClient;
+    bhtu.work.tthsstatisticservice.proto.StudentServiceGrpc.StudentServiceFutureStub studentClient;
 
-    public ListenableFuture<bhtu.work.tthsstatisticservice.proto.Student> getStudentById(String id) {
+    public Future<Student> getStudentById(String id) {
         var request = bhtu.work.tthsstatisticservice.proto.StudentId.newBuilder().setId(id).build();
-        return asyncClient.getById(request);
+        return Futures.lazyTransform(studentClient.getById(request), StudentGrpcClient::mapStudent);
     }
 
-    public ListenableFuture<bhtu.work.tthsstatisticservice.proto.Student> getStudentByHouseholdNumber(
+    public Future<Student> getStudentByHouseholdNumber(
             String householdNumber) {
         var request = bhtu.work.tthsstatisticservice.proto.StudentHouseholdNumber.newBuilder()
                 .setHouseholdNumber(householdNumber).build();
-        return asyncClient.getByHouseholdNumber(request);
+
+        return Futures.lazyTransform(studentClient.getByHouseholdNumber(request), StudentGrpcClient::mapStudent);
     }
 }

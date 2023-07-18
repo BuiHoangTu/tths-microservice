@@ -13,7 +13,7 @@ public class AwardPeriodGrpcServer extends AwardServiceImplBase {
     private AwardPeriod mapAP(bhtu.work.tthsaccountantservice.models.AwardPeriod mAwardPeriod) {
         var pAPBuilder = AwardPeriod.newBuilder();
 
-        pAPBuilder.setDataOfApply(mAwardPeriod.getDateOfApply().toString());
+        pAPBuilder.setDateOfApply(mAwardPeriod.getDateOfApply().toString());
 
         for (var al : mAwardPeriod.getAwardLevels()) {
             var pALBuilder = AwardPeriod.AwardLevel.newBuilder();
@@ -36,7 +36,7 @@ public class AwardPeriodGrpcServer extends AwardServiceImplBase {
 
     @Override
     public void getByDate(Date request, StreamObserver<AwardPeriod> responseObserver) {
-        var awardPeriod = service.getAwardPeriod(request.getDataOfApply());
+        var awardPeriod = service.getAwardPeriod(request.getDateOfApply());
 
         var pAwardPeriod = mapAP(awardPeriod);
 

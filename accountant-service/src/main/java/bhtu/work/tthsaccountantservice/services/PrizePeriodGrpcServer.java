@@ -36,7 +36,7 @@ public class PrizePeriodGrpcServer extends PrizeServiceImplBase{
 
     @Override
     public void getByDate(Date request, StreamObserver<PrizePeriod> responseObserver) {
-        var prizePeriod = service.getAwardPeriod(request.getDataOfApply());
+        var prizePeriod = service.getAwardPeriod(request.getDateOfApply());
 
         var pPrizePeriod = mapPP(prizePeriod);
 
