@@ -67,6 +67,10 @@ public class AuthService {
                 .body(new LoginResponse(userDetails.getUsername(), accesses));
     }
 
+    public boolean validateJwt(String jwtStr) {
+        return jwtService.validateJwt(jwtStr);
+    }
+
     public Map<String, String> registerParent(SignupRequest signUpRequest) {
         if (this.userRepo.existsByUsername(signUpRequest.username())) {
             return Map.of("Error", "Username is already taken!");
