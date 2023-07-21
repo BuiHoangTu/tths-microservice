@@ -1,17 +1,16 @@
 package bhtu.work.tths.accountantservice.services;
 
-import bhtu.work.tths.accountantservice.models.AwardPeriod;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import bhtu.work.tthsaccountantservice.proto.AwardPeriod;
-import bhtu.work.tthsaccountantservice.proto.AwardServiceGrpc.AwardServiceImplBase;
-import bhtu.work.tthsaccountantservice.proto.Date;
+import bhtu.work.tths.accountantservice.proto.AwardPeriod;
+import bhtu.work.tths.accountantservice.proto.AwardServiceGrpc.AwardServiceImplBase;
+import bhtu.work.tths.accountantservice.proto.Date;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
 public class AwardPeriodGrpcServer extends AwardServiceImplBase {
-    private AwardPeriod mapAP(AwardPeriod mAwardPeriod) {
+    private AwardPeriod mapAP(bhtu.work.tths.accountantservice.models.AwardPeriod mAwardPeriod) {
         var pAPBuilder = AwardPeriod.newBuilder();
 
         pAPBuilder.setDateOfApply(mAwardPeriod.getDateOfApply().toString());

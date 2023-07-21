@@ -1,17 +1,16 @@
 package bhtu.work.tths.accountantservice.services;
 
-import bhtu.work.tths.accountantservice.models.PrizePeriod;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import bhtu.work.tthsaccountantservice.proto.Date;
-import bhtu.work.tthsaccountantservice.proto.PrizePeriod;
-import bhtu.work.tthsaccountantservice.proto.PrizeServiceGrpc.PrizeServiceImplBase;
+import bhtu.work.tths.accountantservice.proto.Date;
+import bhtu.work.tths.accountantservice.proto.PrizePeriod;
+import bhtu.work.tths.accountantservice.proto.PrizeServiceGrpc.PrizeServiceImplBase;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
 public class PrizePeriodGrpcServer extends PrizeServiceImplBase{
-    private PrizePeriod mapPP(PrizePeriod mPrizePeriod) {
+    private PrizePeriod mapPP(bhtu.work.tths.accountantservice.models.PrizePeriod mPrizePeriod) {
         var pPPBuilder = PrizePeriod.newBuilder();
 
         pPPBuilder.setDateOfApply(mPrizePeriod.getDateOfApply().toString());

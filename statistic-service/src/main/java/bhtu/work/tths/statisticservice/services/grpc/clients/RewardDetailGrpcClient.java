@@ -1,10 +1,9 @@
-package bhtu.work.tths.statisticservice.services;
+package bhtu.work.tths.statisticservice.services.grpc.clients;
 
 import bhtu.work.tths.statisticservice.models.AwardLevel;
 import bhtu.work.tths.statisticservice.models.AwardPeriod;
 import bhtu.work.tths.statisticservice.models.PrizePeriod;
 import bhtu.work.tths.statisticservice.models.PrizeValue;
-import bhtu.work.tthsstatisticservice.proto.*;
 import com.google.common.util.concurrent.Futures;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import java.util.concurrent.Future;
 
 @Service
 public class RewardDetailGrpcClient {
-    private static AwardPeriod mapAP(AwardPeriod pAwardPeriod) {
+    private static AwardPeriod mapAP(bhtu.work.tths.statisticservice.proto.AwardPeriod pAwardPeriod) {
         var mAwardPeriod = new AwardPeriod();
         mAwardPeriod.setDateOfApply(LocalDate.parse(pAwardPeriod.getDateOfApply()));
         mAwardPeriod.setAwardLevels(pAwardPeriod.getAwardLevelsList()
@@ -29,7 +28,7 @@ public class RewardDetailGrpcClient {
         return mAwardPeriod;
     }
 
-    private static PrizePeriod mapPP(PrizePeriod pPrizePeriod) {
+    private static PrizePeriod mapPP(bhtu.work.tths.statisticservice.proto.PrizePeriod pPrizePeriod) {
         var mPrizePeriod = new PrizePeriod();
         mPrizePeriod.setDateOfApply(LocalDate.parse(pPrizePeriod.getDateOfApply()));
         mPrizePeriod.setRewardTypes(pPrizePeriod.getPrizeValuesList()
@@ -45,18 +44,18 @@ public class RewardDetailGrpcClient {
     }
 
     @GrpcClient("grpc-reward-detail-service")
-    AwardServiceGrpc.AwardServiceFutureStub awardClient;
+    bhtu.work.tths.statisticservice.proto.AwardServiceGrpc.AwardServiceFutureStub awardClient;
     @GrpcClient("grpc-prize-period-service")
-    PrizeServiceGrpc.PrizeServiceFutureStub prizeClient;
+    bhtu.work.tths.statisticservice.proto.PrizeServiceGrpc.PrizeServiceFutureStub prizeClient;
 
     public Future<AwardPeriod> getAwardPeriod(LocalDate dateOfApply) {
-        var req = Date.newBuilder().setDateOfApply(dateOfApply.toString()).build();
+        var req = bhtu.work.tths.statisticservice.proto.Date.newBuilder().setDateOfApply(dateOfApply.toString()).build();
 
         return Futures.lazyTransform(awardClient.getByDate(req), RewardDetailGrpcClient::mapAP);
     }
 
     public Future<PrizePeriod> getPrizePeriod(LocalDate dateOfApply) {
-        var req = Date.newBuilder().setDateOfApply(dateOfApply.toString()).build();
+        var req = bhtu.work.tths.statisticservice.proto.Date.newBuilder().setDateOfApply(dateOfApply.toString()).build();
 
         return Futures.lazyTransform(prizeClient.getByDate(req), RewardDetailGrpcClient::mapPP);
     }

@@ -1,4 +1,4 @@
-package bhtu.work.tths.statisticservice.services;
+package bhtu.work.tths.statisticservice.services.grpc.clients;
 
 import bhtu.work.tths.statisticservice.models.EventOfStudent;
 import bhtu.work.tths.statisticservice.models.PrizeGroup;
@@ -16,7 +16,7 @@ public class StudentGrpcClient {
      * @param pStudent proto student
      * @return models.Student
      */
-    private static Student mapStudent(bhtu.work.tthsstatisticservice.proto.Student pStudent) {
+    private static Student mapStudent(bhtu.work.tths.statisticservice.proto.Student pStudent) {
         Student mStudent = new Student(
                 pStudent.getId(),
                 pStudent.getName(),
@@ -46,16 +46,16 @@ public class StudentGrpcClient {
     }
 
     @net.devh.boot.grpc.client.inject.GrpcClient("grpc-student-service")
-    bhtu.work.tthsstatisticservice.proto.StudentServiceGrpc.StudentServiceFutureStub studentClient;
+    bhtu.work.tths.statisticservice.proto.StudentServiceGrpc.StudentServiceFutureStub studentClient;
 
     public Future<Student> getStudentById(String id) {
-        var request = bhtu.work.tthsstatisticservice.proto.StudentId.newBuilder().setId(id).build();
+        var request = bhtu.work.tths.statisticservice.proto.StudentId.newBuilder().setId(id).build();
         return Futures.lazyTransform(studentClient.getById(request), StudentGrpcClient::mapStudent);
     }
 
     public Future<Student> getStudentByHouseholdNumber(
             String householdNumber) {
-        var request = bhtu.work.tthsstatisticservice.proto.StudentHouseholdNumber.newBuilder()
+        var request = bhtu.work.tths.statisticservice.proto.StudentHouseholdNumber.newBuilder()
                 .setHouseholdNumber(householdNumber).build();
 
         return Futures.lazyTransform(studentClient.getByHouseholdNumber(request), StudentGrpcClient::mapStudent);

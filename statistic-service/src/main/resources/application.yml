@@ -32,7 +32,11 @@ eureka:
 grpc:
   client:
     grpc-student-service:
-      address: static://localhost:9000
+      address: lb://student-service
       negotiation-type: plaintext # ssl must be mentioned here if used
     grpc-reward-detail-service: # need more detail
-    grpc-prize-period-service: # above
+      address: lb://accountant-service
+      negotiation-type: plaintext
+    grpc-prize-period-service:
+      address: lb://accountant-service
+      negotiation-type: plaintext

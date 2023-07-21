@@ -1,12 +1,12 @@
-package bhtu.work.tths.studentservice.services;
+package bhtu.work.tths.studentservice.services.grpc.servers;
 
 import bhtu.work.tths.studentservice.models.Student;
-import bhtu.work.tthsstudentservice.proto.Student;
-import bhtu.work.tthsstudentservice.proto.StudentHouseholdNumber;
-import bhtu.work.tthsstudentservice.proto.StudentId;
+import bhtu.work.tths.studentservice.proto.StudentHouseholdNumber;
+import bhtu.work.tths.studentservice.proto.StudentId;
+import bhtu.work.tths.studentservice.services.StudentService;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
-import bhtu.work.tthsstudentservice.proto.StudentServiceGrpc.StudentServiceImplBase;
+import bhtu.work.tths.studentservice.proto.StudentServiceGrpc.StudentServiceImplBase;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class StudentGrpcServer extends StudentServiceImplBase {
      * @param mStudent model student
      * @return proto student
      */
-    private static Student mapStudent(Student mStudent) {
-        Student.Builder pStudentBuilder = Student.newBuilder();
+    private static bhtu.work.tths.studentservice.proto.Student mapStudent(Student mStudent) {
+        var pStudentBuilder = bhtu.work.tths.studentservice.proto.Student.newBuilder();
 
         pStudentBuilder.setId(mStudent.getId())
                 .setName(mStudent.getName())
@@ -31,7 +31,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
 
         for (var e: mStudent.getEvents()) {
             // build events
-            var eBuilder = Student.EventOfStudent.newBuilder();
+            var eBuilder = bhtu.work.tths.studentservice.proto.Student.EventOfStudent.newBuilder();
             eBuilder.setDateOfEvent(e.getDateOfEvent().toString())
                     .setNameOfEvent(e.getNameOfEvent())
                     .setAchievement(e.getAchievement())
@@ -39,7 +39,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
 
             // build prizes in event
             for (var p: e.getPrizes()) {
-                var pBuilder = Student.EventOfStudent.PrizeGroup.newBuilder();
+                var pBuilder = bhtu.work.tths.studentservice.proto.Student.EventOfStudent.PrizeGroup.newBuilder();
                 pBuilder.setNameOfPrize(p.getNameOfPrize())
                         .setAmount(p.getAmount());
                 // add prize to event
@@ -62,7 +62,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
 
 
     @Override
-    public void getById(StudentId request, StreamObserver<Student> responseObserver) {
+    public void getById(StudentId request, StreamObserver<bhtu.work.tths.studentservice.proto.Student> responseObserver) {
         var mStudent = studentService.getStudentById(request.getId());
 
         var pStudent = mapStudent(mStudent);
@@ -74,7 +74,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
     }
 
     @Override
-    public void getByHouseholdNumber(StudentHouseholdNumber request, StreamObserver<Student> responseObserver) {
+    public void getByHouseholdNumber(StudentHouseholdNumber request, StreamObserver<bhtu.work.tths.studentservice.proto.Student> responseObserver) {
         List<Student> mStudents = studentService.getStudentByHouseholdNumber(request.getHouseholdNumber());
 
         for (var mS: mStudents) {

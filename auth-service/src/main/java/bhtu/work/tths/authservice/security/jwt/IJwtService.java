@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseCookie;
 import org.springframework.lang.NonNull;
 
+import java.util.List;
+
 public interface IJwtService {
     String getJwt(HttpServletRequest request);
 
@@ -14,6 +16,8 @@ public interface IJwtService {
     ResponseCookie getCleanJwtCookie();
 
     String extractUserName(String jwt);
+
+    List<String> extractAuthorities(String jwt);
 
     boolean validateJwt(String authToken);
 }

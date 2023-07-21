@@ -12,8 +12,11 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtUtils implements IJwtService {
@@ -52,6 +55,21 @@ public class JwtUtils implements IJwtService {
     @Override
     public String extractUserName(String jwt) {
         return this.extractClaim(jwt, Claims::getSubject);
+    }
+
+    @Override
+    public List<String> extractAuthorities(String jwt) {
+        var authorities = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(jwt)
+                .getBody()
+                .get("authorities");
+        if (authorities instanceof List<?>) {
+            return ((List<?>) authorities).stream()
+                    .map(Object::toString)
+                    .collect(Collectors.toList());
+        }
+        else return Collections.emptyList();
     }
 
     @Override
