@@ -25,7 +25,8 @@
 		<module>student-service</module>
     	<module>discovery-server</module>
     	<module>api-gateway</module>
-	</modules>
+        <module>check-authorities</module>
+    </modules>
 
     <properties>
 		<java.version>17</java.version>
