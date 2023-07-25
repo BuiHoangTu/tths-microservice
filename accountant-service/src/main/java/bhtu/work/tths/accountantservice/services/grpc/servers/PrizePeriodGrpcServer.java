@@ -1,5 +1,6 @@
-package bhtu.work.tths.accountantservice.services;
+package bhtu.work.tths.accountantservice.services.grpc.servers;
 
+import bhtu.work.tths.accountantservice.services.PrizePeriodService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bhtu.work.tths.accountantservice.proto.Date;

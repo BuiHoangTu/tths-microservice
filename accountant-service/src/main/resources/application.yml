@@ -29,3 +29,8 @@ eureka:
 grpc:
   server:
     port: 0
+
+  client:
+    auth-service:
+      address: lb://auth-service
+      negotiation-type: plaintext
