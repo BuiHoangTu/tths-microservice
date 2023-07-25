@@ -40,3 +40,6 @@ grpc:
     grpc-prize-period-service:
       address: lb://accountant-service
       negotiation-type: plaintext
+    auth-service:
+      address: lb://auth-service
+      negotiation-type: plaintext
