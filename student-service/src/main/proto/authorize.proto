@@ -3,8 +3,8 @@ syntax = "proto3";
 package proto;
 
 option java_multiple_files = true;
-option java_package = "bhtu.work.tths.gateway.proto";
-option java_outer_classname = "AuthProto";
+option java_package = "bhtu.work.tths.studentservice.proto";
+//option java_outer_classname = "AuthProto";
 
 message Jwt {
   string jwt = 1;

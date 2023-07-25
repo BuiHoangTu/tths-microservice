@@ -25,7 +25,6 @@
 		<module>student-service</module>
     	<module>discovery-server</module>
     	<module>api-gateway</module>
-        <module>check-authorities</module>
     </modules>
 
     <properties>
