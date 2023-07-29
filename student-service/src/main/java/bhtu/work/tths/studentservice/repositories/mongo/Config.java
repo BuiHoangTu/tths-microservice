@@ -14,7 +14,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
 @Configuration
-@EnableMongoRepositories(basePackages = "bhtu.work.tthsstudentservice")
+@EnableMongoRepositories(basePackages = "bhtu.work.tths.studentservice")
 public class Config extends AbstractMongoClientConfiguration {
     @Value("${spring.data.mongodb.uri}")
     private String connectionUri;
@@ -37,7 +37,7 @@ public class Config extends AbstractMongoClientConfiguration {
 
     @Override
     public Collection<String> getMappingBasePackages() {
-        return Set.of("bhtu.work.tthsstudentservice");
+        return Set.of("bhtu.work.tths.studentservice");
     }
 
     @Override
