@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Auth {
-    @GrpcClient("auth-service")
+    @GrpcClient("grpc-auth-service")
     AuthorizeGrpc.AuthorizeBlockingStub authClient;
 
     public Verifications authorize(String jwt) {
