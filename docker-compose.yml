@@ -1,0 +1,84 @@
+version: '3'
+
+services:
+  mongo:
+    container_name: mongodb
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    expose:
+      - 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - ./data-example/mongodb-data:/data/db
+  discovery-server:
+    image: oziousprime/tths-microservice_discovery-server:latest
+    container_name: discovery-server
+    pull_policy: always
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+  api-gateway:
+    image: oziousprime/tths-microservice_api-gateway
+    container_name: api-gateway
+    pull_policy: always
+    ports:
+      - 8181:8080
+    expose:
+      - 8181
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
+  accountant-service:
+    image: oziousprime/tths-microservice_accountant-service
+    container_name: accountant-service
+    pull_policy: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongo
+      - discovery-server
+      - api-gateway
+  auth-service:
+    image: oziousprime/tths-microservice_auth-service
+    container_name: auth-service
+    pull_policy: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongo
+      - discovery-server
+      - api-gateway
+  household-service:
+    image: oziousprime/tths-microservice_household-service
+    container_name: household-service
+    pull_policy: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery-server
+      - api-gateway
+  statistic-service:
+    image: oziousprime/tths-microservice_statistic-service
+    container_name: statistic-service
+    pull_policy: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongo
+      - discovery-server
+      - api-gateway
+  student-service:
+    image: oziousprime/tths-microservice_student-service
+    container_name: student-service
+    pull_policy: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongo
+      - discovery-server
+      - api-gateway
