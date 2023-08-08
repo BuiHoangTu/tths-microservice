@@ -15,7 +15,7 @@ services:
     volumes:
       - ./data-example/mongodb-data:/data/db
   discovery-server:
-    image: oziousprime/tths-microservice_discovery-server:latest
+    image: oziousprime/tths-microservice-discovery-server:latest
     container_name: discovery-server
     pull_policy: always
     ports:
@@ -23,7 +23,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
   api-gateway:
-    image: oziousprime/tths-microservice_api-gateway
+    image: oziousprime/tths-microservice-api-gateway
     container_name: api-gateway
     pull_policy: always
     ports:
@@ -34,7 +34,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
   accountant-service:
-    image: oziousprime/tths-microservice_accountant-service
+    image: oziousprime/tths-microservice-accountant-service
     container_name: accountant-service
     pull_policy: always
     environment:
@@ -45,7 +45,7 @@ services:
       - discovery-server
       - api-gateway
   auth-service:
-    image: oziousprime/tths-microservice_auth-service
+    image: oziousprime/tths-microservice-auth-service
     container_name: auth-service
     pull_policy: always
     environment:
@@ -55,7 +55,7 @@ services:
       - discovery-server
       - api-gateway
   household-service:
-    image: oziousprime/tths-microservice_household-service
+    image: oziousprime/tths-microservice-household-service
     container_name: household-service
     pull_policy: always
     environment:
@@ -64,7 +64,7 @@ services:
       - discovery-server
       - api-gateway
   statistic-service:
-    image: oziousprime/tths-microservice_statistic-service
+    image: oziousprime/tths-microservice-statistic-service
     container_name: statistic-service
     pull_policy: always
     environment:
@@ -74,7 +74,7 @@ services:
       - discovery-server
       - api-gateway
   student-service:
-    image: oziousprime/tths-microservice_student-service
+    image: oziousprime/tths-microservice-student-service
     container_name: student-service
     pull_policy: always
     environment:
