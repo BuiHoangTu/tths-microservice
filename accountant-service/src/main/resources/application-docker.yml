@@ -7,9 +7,9 @@ eureka:
       defaultZone: http://eureka:password@discovery-server:8761/eureka # http://uname:pword@docker_name:port/eureka
 
 spring:
+  application:
+    name: accountant-service
   data:
     mongodb:
-      host: mongo
-      username: root
-      password: example
-      port: 27017
+      uri: mongodb://root:example@localhost:27017/?authMechanism=SCRAM-SHA-256
+      database: StudentReward
