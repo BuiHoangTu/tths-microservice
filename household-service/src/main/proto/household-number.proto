@@ -15,5 +15,5 @@ message Verifications {
 }
 
 service Authorize {
-  rpc checkJwt(HouseholdNumber) returns(Verifications) {}
+  rpc verifyHouseholdNumber(HouseholdNumber) returns(Verifications) {}
 }

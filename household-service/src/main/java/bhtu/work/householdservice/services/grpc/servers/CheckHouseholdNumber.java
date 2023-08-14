@@ -18,7 +18,7 @@ public class CheckHouseholdNumber extends AuthorizeGrpc.AuthorizeImplBase{
 
 
     @Override
-    public void checkJwt(
+    public void verifyHouseholdNumber(
             bhtu.work.tths.householdservice.proto.HouseholdNumber request,
             StreamObserver<bhtu.work.tths.householdservice.proto.Verifications> responseObserver
     ) {
