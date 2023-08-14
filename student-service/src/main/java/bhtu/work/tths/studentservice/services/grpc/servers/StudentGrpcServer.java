@@ -1,7 +1,6 @@
 package bhtu.work.tths.studentservice.services.grpc.servers;
 
 import bhtu.work.tths.studentservice.models.Student;
-import bhtu.work.tths.studentservice.proto.StudentHouseholdNumber;
 import bhtu.work.tths.studentservice.proto.StudentId;
 import bhtu.work.tths.studentservice.services.StudentService;
 import io.grpc.stub.StreamObserver;
@@ -31,7 +30,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
 
         for (var e: mStudent.getEvents()) {
             // build events
-            var eBuilder = bhtu.work.tths.studentservice.proto.Student.EventOfStudent.newBuilder();
+            var eBuilder = bhtu.work.tths.studentservice.proto.EventOfStudent.newBuilder();
             eBuilder.setDateOfEvent(e.getDateOfEvent().toString())
                     .setNameOfEvent(e.getNameOfEvent())
                     .setAchievement(e.getAchievement())
@@ -39,7 +38,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
 
             // build prizes in event
             for (var p: e.getPrizes()) {
-                var pBuilder = bhtu.work.tths.studentservice.proto.Student.EventOfStudent.PrizeGroup.newBuilder();
+                var pBuilder = bhtu.work.tths.studentservice.proto.EventOfStudent.PrizeGroup.newBuilder();
                 pBuilder.setNameOfPrize(p.getNameOfPrize())
                         .setAmount(p.getAmount());
                 // add prize to event
@@ -63,7 +62,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
 
     @Override
     public void getById(StudentId request, StreamObserver<bhtu.work.tths.studentservice.proto.Student> responseObserver) {
-        var mStudent = studentService.getStudentById(request.getId());
+        var mStudent = studentService.getStudentById(request.getIdentifier());
 
         var pStudent = mapStudent(mStudent);
 
@@ -74,8 +73,8 @@ public class StudentGrpcServer extends StudentServiceImplBase {
     }
 
     @Override
-    public void getByHouseholdNumber(StudentHouseholdNumber request, StreamObserver<bhtu.work.tths.studentservice.proto.Student> responseObserver) {
-        List<Student> mStudents = studentService.getStudentByHouseholdNumber(request.getHouseholdNumber());
+    public void getByHouseholdNumber(StudentId request, StreamObserver<bhtu.work.tths.studentservice.proto.Student> responseObserver) {
+        List<Student> mStudents = studentService.getStudentByHouseholdNumber(request.getIdentifier());
 
         for (var mS: mStudents) {
             var pStudent = mapStudent(mS);

@@ -3,16 +3,25 @@ package bhtu.work.tths.statisticservice.services.grpc.clients;
 import bhtu.work.tths.statisticservice.models.EventOfStudent;
 import bhtu.work.tths.statisticservice.models.PrizeGroup;
 import bhtu.work.tths.statisticservice.models.Student;
-import com.google.common.util.concurrent.Futures;
+import bhtu.work.tths.utils.BlockingIterator;
+import com.google.common.collect.Iterators;
+import io.grpc.stub.StreamObserver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.concurrent.Future;
+import java.util.stream.Stream;
 
 @Service
 public class StudentGrpcClient {
+    private static final Logger studentGrpcLog = LoggerFactory.getLogger(StudentGrpcClient.class);
+
     /**
      * Map proto student to model student
+     *
      * @param pStudent proto student
      * @return models.Student
      */
@@ -45,19 +54,41 @@ public class StudentGrpcClient {
         return mStudent;
     }
 
-    @net.devh.boot.grpc.client.inject.GrpcClient("grpc-student-service")
-    bhtu.work.tths.statisticservice.proto.StudentServiceGrpc.StudentServiceFutureStub studentClient;
 
-    public Future<Student> getStudentById(String id) {
-        var request = bhtu.work.tths.statisticservice.proto.StudentId.newBuilder().setId(id).build();
-        return Futures.lazyTransform(studentClient.getById(request), StudentGrpcClient::mapStudent);
+
+    @net.devh.boot.grpc.client.inject.GrpcClient("grpc-student-service")
+    bhtu.work.tths.statisticservice.proto.StudentServiceGrpc.StudentServiceStub studentClient;
+
+
+    public Iterator<Student> getStudentByHouseholdNumber(
+            String householdNumber) {
+        var request = bhtu.work.tths.statisticservice.proto.StudentId.newBuilder()
+                .setIdentifier(householdNumber).build();
+
+        BlockingIterator<Student> students = new BlockingIterator<>();
+        studentClient.getByHouseholdNumber(request, new StreamObserver<>() {
+            @Override
+            public void onNext(bhtu.work.tths.statisticservice.proto.Student student) {
+                students.offer(mapStudent(student));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                studentGrpcLog.error(throwable.getMessage());
+            }
+
+            @Override
+            public void onCompleted() {
+                students.close();
+            }
+
+
+        });
+
+        return students;
     }
 
-    public Future<Student> getStudentByHouseholdNumber(
-            String householdNumber) {
-        var request = bhtu.work.tths.statisticservice.proto.StudentHouseholdNumber.newBuilder()
-                .setHouseholdNumber(householdNumber).build();
-
-        return Futures.lazyTransform(studentClient.getByHouseholdNumber(request), StudentGrpcClient::mapStudent);
+    public Stream<Student> getByEvent(String date, String name) {
+        return null;
     }
 }

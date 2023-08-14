@@ -6,22 +6,21 @@ option java_multiple_files = true;
 option java_package = "bhtu.work.tths.studentservice.proto";
 option java_outer_classname = "StudentProto"; // if not specified, it will convert the file name
 
-
-message Student {
-  message EventOfStudent {
-    message PrizeGroup {
-      string nameOfPrize = 1;
-      int32 amount = 2;
-    }
-
-    string dateOfEvent = 1;
-    string nameOfEvent = 2;
-    string achievement = 3;
-    string classStr = 4;
-    repeated PrizeGroup prizeGroup = 5;
-
+message EventOfStudent {
+  message PrizeGroup {
+    string nameOfPrize = 1;
+    int32 amount = 2;
   }
 
+  string dateOfEvent = 1;
+  string nameOfEvent = 2;
+  string achievement = 3;
+  string classStr = 4;
+  repeated PrizeGroup prizeGroup = 5;
+
+}
+
+message Student {
   string id = 1;
   string name = 2;
   string dateOfBirth = 3;
@@ -31,13 +30,17 @@ message Student {
 }
 
 message StudentId {
-  string id = 1;
+  string identifier = 1;
 }
-message StudentHouseholdNumber {
-  string householdNumber = 1;
+
+message EventId {
+  string date = 1;
+  string name = 2;
 }
+
 
 service StudentService {
   rpc getById(StudentId) returns(Student){}
-  rpc getByHouseholdNumber(StudentHouseholdNumber) returns(Student){}
+  rpc getByHouseholdNumber(StudentId) returns(stream Student){}
+  rpc getByEvent(EventId) returns(stream EventOfStudent){}
 }

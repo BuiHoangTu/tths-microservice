@@ -16,6 +16,7 @@ import bhtu.work.tths.statisticservice.services.StatisticService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("api/statistic")
@@ -47,14 +48,19 @@ public class StatisticController {
     @GetMapping("household-number")
     public ResponseEntity<RewardByHouseholdNumber> getByHouseholdNumber(
             HttpServletRequest request,
-            @RequestParam(name = "filter") String householdNumber) {
+            @RequestParam(name = "filter") String householdNumber
+    ) {
         String jwt = Objects.requireNonNull(request.getHeaders(HttpHeaders.AUTHORIZATION)).nextElement(); // get first jwt
         var verifications = auth.authorize(jwt);
         if (!verifications.getIsValid() || !verifications.getAuthoritiesList().contains(""/*Todo: add things*/)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.ok().body(this.statisticService.getByHouseholdNumber(householdNumber));
+        try {
+            return ResponseEntity.ok().body(this.statisticService.getByHouseholdNumber(householdNumber));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     // #endregion
 }
