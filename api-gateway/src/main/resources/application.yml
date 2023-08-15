@@ -28,7 +28,8 @@ spring:
       ## accountant service
       - id: accountant-service
         uri: lb://accountant-service # lb -> load balancer // this is the link to microservice
-        predicates: Path=/api/award-period/**, Path=/api/prize-period/** # these links would be redirect to the above mservice
+        predicates:
+          - Path=/api/award-period/**, /api/prize-period/** # these links would be redirected to the above mservice
 
       ## auth-service
       - id: auth-service
