@@ -1,4 +1,4 @@
-package bhtu.work.householdservice.services;
+package bhtu.work.tths.householdservice.services;
 
 import org.springframework.stereotype.Service;
 

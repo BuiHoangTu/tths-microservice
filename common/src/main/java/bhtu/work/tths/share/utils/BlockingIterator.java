@@ -1,4 +1,4 @@
-package bhtu.work.tths.utils;
+package bhtu.work.tths.share.utils;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

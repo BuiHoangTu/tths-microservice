@@ -87,6 +87,8 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+
+        <!-- project's library -->
         <dependency>
             <groupId>bhtu.work</groupId>
             <artifactId>common</artifactId>

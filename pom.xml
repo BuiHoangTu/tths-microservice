@@ -36,6 +36,14 @@
 		<grpc.version>1.42.1</grpc.version>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
 	<dependencyManagement> <!-- help to manage version and config, still have to include it in child -->
 		<dependencies>
 			<!-- container test-->

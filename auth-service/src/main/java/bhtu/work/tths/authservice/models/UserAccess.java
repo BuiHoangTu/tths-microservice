@@ -1,30 +1,29 @@
 package bhtu.work.tths.authservice.models;
 
-import bhtu.work.tths.authservice.models.enums.EUserAccess;
+import bhtu.work.tths.share.models.enums.EUserAccess;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Document
 @Data
-public class UserAcess {
+public class UserAccess {
     @Id
     private int id;
     private EUserAccess access;
 
-    public UserAcess(EUserAccess access) {
+    public UserAccess(EUserAccess access) {
         this.access = access;
         this.id = access.value;
     }
 
-    public static Set<UserAcess> build (EUserAccess ...eUserAccesses) {
-        var s = new HashSet<UserAcess>(eUserAccesses.length);
+    public static Set<UserAccess> build (EUserAccess...eUserAccesses) {
+        var s = new HashSet<UserAccess>(eUserAccesses.length);
         for(var e : eUserAccesses) {
-            var a = new UserAcess(e);
+            var a = new UserAccess(e);
             s.add(a);
         }
         return s;

@@ -39,7 +39,7 @@ public class StudentService {
                 return this.studentRepo.findByParentRegex(".*" + filter + ".*");
             }
             default -> {
-                return null;
+                throw new IllegalArgumentException();
             }
         }
 

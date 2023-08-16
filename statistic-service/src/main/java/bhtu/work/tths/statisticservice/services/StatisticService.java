@@ -23,13 +23,20 @@ public class StatisticService {
         this.rewardGrpc = rewardGrpc;
     }
 
-    public RewardByEvent getRewardByEvent(String eventFilter, String filterType) {
+    /**
+     * Reward of all events that match whole
+     * @param filterType type of filter: date or name
+     * @param eventFilter date or name respectively, must match whole
+     * @return all Reward from the matched events
+     * @throws IllegalArgumentException if filterType does not match
+     */
+    public RewardByEvent getRewardByEvent(String eventFilter, String filterType) throws IllegalArgumentException {
 
         return null;
-        // TODO: implement this and below
+        // TODO: implement this and below, match whole name - all in that date
     }
 
-    public RewardByHouseholdNumber getByHouseholdNumber(String householdNumber) throws ExecutionException, InterruptedException {
+    public RewardByHouseholdNumber getByHouseholdNumber(String householdNumber) {
         var students = studentGrpc.getStudentByHouseholdNumber(householdNumber);
         PrizeCounter counter = new PrizeCounter();
 

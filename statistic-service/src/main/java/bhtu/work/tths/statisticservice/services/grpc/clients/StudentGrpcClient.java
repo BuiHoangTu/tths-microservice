@@ -3,8 +3,7 @@ package bhtu.work.tths.statisticservice.services.grpc.clients;
 import bhtu.work.tths.statisticservice.models.EventOfStudent;
 import bhtu.work.tths.statisticservice.models.PrizeGroup;
 import bhtu.work.tths.statisticservice.models.Student;
-import bhtu.work.tths.utils.BlockingIterator;
-import com.google.common.collect.Iterators;
+import bhtu.work.tths.share.utils.BlockingIterator;
 import io.grpc.stub.StreamObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Iterator;
-import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
 @Service

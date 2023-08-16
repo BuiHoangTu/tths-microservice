@@ -106,6 +106,14 @@
             <groupId>net.devh</groupId>
             <artifactId>grpc-server-spring-boot-starter</artifactId>
         </dependency>
+
+        <!-- project's common        -->
+        <dependency>
+            <groupId>bhtu.work</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

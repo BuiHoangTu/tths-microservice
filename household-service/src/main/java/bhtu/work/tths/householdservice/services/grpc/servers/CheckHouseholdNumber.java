@@ -1,6 +1,6 @@
-package bhtu.work.householdservice.services.grpc.servers;
+package bhtu.work.tths.householdservice.services.grpc.servers;
 
-import bhtu.work.householdservice.services.HouseholdService;
+import bhtu.work.tths.householdservice.services.HouseholdService;
 import bhtu.work.tths.householdservice.proto.AuthorizeGrpc;
 import bhtu.work.tths.householdservice.proto.Verifications;
 import io.grpc.stub.StreamObserver;

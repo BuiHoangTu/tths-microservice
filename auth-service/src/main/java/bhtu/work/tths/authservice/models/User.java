@@ -22,7 +22,7 @@ public class User {
     @Size(min = 8, max = 50)
     private String password;
     @DBRef
-    private Set<UserAcess> accesses = new HashSet<>();
+    private Set<UserAccess> accesses = new HashSet<>();
     /**
      * City name, District name or Household Number for parents
      */

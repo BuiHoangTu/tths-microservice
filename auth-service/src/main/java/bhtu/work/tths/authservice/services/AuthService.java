@@ -1,15 +1,14 @@
 package bhtu.work.tths.authservice.services;
 
-import bhtu.work.tths.authservice.repositories.mongo.UserRepo;
-import bhtu.work.tths.authservice.security.jwt.IJwtService;
-import bhtu.work.tths.authservice.security.services.MyUserDetails;
 import bhtu.work.tths.authservice.models.User;
-import bhtu.work.tths.authservice.models.UserAcess;
+import bhtu.work.tths.authservice.models.UserAccess;
 import bhtu.work.tths.authservice.models.dto.LoginRequest;
 import bhtu.work.tths.authservice.models.dto.LoginResponse;
 import bhtu.work.tths.authservice.models.dto.SignupRequest;
-import bhtu.work.tths.authservice.models.enums.EUserAccess;
-
+import bhtu.work.tths.authservice.repositories.mongo.UserRepo;
+import bhtu.work.tths.authservice.security.jwt.IJwtService;
+import bhtu.work.tths.authservice.security.services.MyUserDetails;
+import bhtu.work.tths.share.models.enums.EUserAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -89,7 +88,7 @@ public class AuthService {
                 passwordEncoder.encode(signUpRequest.password()),
                 signUpRequest.householdNumber());
 
-        Set<UserAcess> userAccesses = UserAcess.build(EUserAccess.READ_A_STUDENT, EUserAccess.FIX_A_STUDENT_DETAIL);
+        Set<UserAccess> userAccesses = UserAccess.build(EUserAccess.READ_A_STUDENT, EUserAccess.FIX_A_STUDENT_DETAIL);
 
         user.setAccesses(userAccesses);
         userRepo.insert(user);
