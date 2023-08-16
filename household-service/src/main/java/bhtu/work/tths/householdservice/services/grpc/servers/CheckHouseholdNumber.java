@@ -1,14 +1,14 @@
 package bhtu.work.tths.householdservice.services.grpc.servers;
 
+import bhtu.work.tths.householdservice.proto.VerifyGrpc;
 import bhtu.work.tths.householdservice.services.HouseholdService;
-import bhtu.work.tths.householdservice.proto.AuthorizeGrpc;
 import bhtu.work.tths.householdservice.proto.Verifications;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @GrpcService
-public class CheckHouseholdNumber extends AuthorizeGrpc.AuthorizeImplBase{
+public class CheckHouseholdNumber extends VerifyGrpc.VerifyImplBase{
     private final HouseholdService service;
 
     @Autowired
