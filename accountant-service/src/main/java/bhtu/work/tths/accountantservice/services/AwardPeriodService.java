@@ -1,20 +1,15 @@
 package bhtu.work.tths.accountantservice.services;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import bhtu.work.tths.accountantservice.models.AwardPeriod;
+import bhtu.work.tths.accountantservice.repositories.mongo.AwardPeriodRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bhtu.work.tths.accountantservice.models.AwardPeriod;
-import bhtu.work.tths.accountantservice.repositories.mongo.AwardPeriodRepo;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 @Service
 public class AwardPeriodService {
-    private static final Logger logger = LoggerFactory.getLogger(AwardPeriodService.class);
-
     private final AwardPeriodRepo awardPeriodRepo;
 
     @Autowired
@@ -33,8 +28,6 @@ public class AwardPeriodService {
         } else {
             dateOfApply = LocalDate.now();
         }
-
-        logger.debug("Got:" + dateString + ". Parsed:" + dateOfApply);
 
         return this.awardPeriodRepo.findByDateOfApply(dateOfApply);
     }
