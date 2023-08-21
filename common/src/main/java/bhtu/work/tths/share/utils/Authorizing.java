@@ -20,7 +20,7 @@ public class Authorizing {
      * @param <T> Common type of both run.
      * @throws NullPointerException if userAuthorities or validAccesses or validRun is null
      */
-    public static <T> T matchAuthority(
+    public static <T> T matchAuthorities(
             Collection<String> userAuthorities,
             Set<Integer> validAccesses,
             Supplier<T> validRun,
