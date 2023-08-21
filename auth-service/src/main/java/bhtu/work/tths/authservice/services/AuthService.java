@@ -63,7 +63,9 @@ public class AuthService {
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 // .header(CSRF, null)
-                .body(new LoginResponse(userDetails.getUsername(), accesses));
+                .body(new LoginResponse(userDetails.getUsername(),
+                        accesses,
+                        jwtCookie.toString()));
     }
 
     public boolean validateJwt(String jwtStr) {
