@@ -40,13 +40,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-
         <!--discovery server-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
