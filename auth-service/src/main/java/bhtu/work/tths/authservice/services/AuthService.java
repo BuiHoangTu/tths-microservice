@@ -65,11 +65,7 @@ public class AuthService {
                 // .header(CSRF, null)
                 .body(new LoginResponse(userDetails.getUsername(),
                         accesses,
-                        jwtCookie.toString()));
-    }
-
-    public boolean validateJwt(String jwtStr) {
-        return jwtService.validateJwt(jwtStr);
+                        jwtCookie.getValue()));
     }
 
     public Map<String, String> registerParent(SignupRequest signUpRequest) {

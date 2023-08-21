@@ -18,11 +18,11 @@ public class Authorize extends AuthorizeGrpc.AuthorizeImplBase {
     }
 
     @Override
-    public void checkJwt(Jwt request, StreamObserver<Verifications> responseObserver) {
+    public void checkJwt(Jwt jwt, StreamObserver<Verifications> responseObserver) {
         var builder = Verifications.newBuilder();
 
         try {
-             builder.addAllAuthorities(jwtUtils.extractAuthorities(request.getJwt()));
+             builder.addAllAuthorities(jwtUtils.extractAuthorities(jwt.getJwt()));
              builder.setIsValid(true);
         } catch (Exception e) {
             builder.setIsValid(false);

@@ -2,16 +2,18 @@ package bhtu.work.tths.authservice.security.jwt;
 
 import bhtu.work.tths.authservice.security.services.MyUserDetails;
 import io.jsonwebtoken.*;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class JwtUtils implements IJwtService {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+    private static String AUTHORITIES = "authorities";
 
     @Value("${spring.app.jwtSecret}")
     private String jwtSecret;
@@ -43,7 +46,7 @@ public class JwtUtils implements IJwtService {
 
     @Override
     public ResponseCookie generateJwtCookie(@NonNull MyUserDetails userPrincipal) {
-        String jwt = generateTokenFromUsername(userPrincipal.getUsername());
+        String jwt = generateToken(userPrincipal);
         return ResponseCookie.from(jwtCookieName, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
     }
 
@@ -63,7 +66,7 @@ public class JwtUtils implements IJwtService {
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(jwt)
                 .getBody()
-                .get("authorities");
+                .get(AUTHORITIES);
         if (authorities instanceof List<?>) {
             return ((List<?>) authorities).stream()
                     .map(Object::toString)
@@ -92,9 +95,10 @@ public class JwtUtils implements IJwtService {
         return false;
     }
 
-    private String generateTokenFromUsername(String username) {
+    private String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .setSubject(username)
+                .claim(AUTHORITIES, userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
