@@ -56,7 +56,7 @@ public class AwardPeriodController {
             if (verifications.getIsValid()) {
                 List<String> authorities = verifications.getAuthoritiesList();
                 // authority match will return non-null
-                ResponseEntity<?> res = Authorizing.matchAuthority(
+                ResponseEntity<?> res = Authorizing.matchAuthorities(
                         authorities,
                         VALID_ACCESS_CODES,
                         () -> {

@@ -53,7 +53,7 @@ public class StudentController {
         if (verifications.getIsValid()) {
             List<String> authorities = verifications.getAuthoritiesList();
             // authority match will return non-null
-            var res = Authorizing.matchAuthority(
+            var res = Authorizing.matchAuthorities(
                     authorities,
                     VALID_ACCESS_CODES,
                     () -> ResponseEntity.ok().body(studentService.getStudentById(id)),
@@ -86,7 +86,7 @@ public class StudentController {
         if (verifications.getIsValid()) {
             List<String> authorities = verifications.getAuthoritiesList();
             // authority match will return non-null
-            var res = Authorizing.matchAuthority(
+            var res = Authorizing.matchAuthorities(
                     authorities,
                     VALID_ACCESS_CODES,
                     () -> {
@@ -124,7 +124,7 @@ public class StudentController {
         if (verifications.getIsValid()) {
             List<String> authorities = verifications.getAuthoritiesList();
             // authority match will return non-null
-            var res = Authorizing.matchAuthority(
+            var res = Authorizing.matchAuthorities(
                     authorities,
                     VALID_ACCESS_CODES,
                     () -> {
@@ -160,7 +160,7 @@ public class StudentController {
         if (verifications.getIsValid()) {
             List<String> authorities = verifications.getAuthoritiesList();
             // authority match will return non-null
-            var res = Authorizing.matchAuthority(
+            var res = Authorizing.matchAuthorities(
                     authorities,
                     VALID_ACCESS_CODES,
                     () -> {

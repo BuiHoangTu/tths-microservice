@@ -1,8 +1,6 @@
 package bhtu.work.tths.statisticservice.controllers;
 
 import bhtu.work.tths.share.utils.Authorizing;
-import bhtu.work.tths.statisticservice.models.dto.RewardByEvent;
-import bhtu.work.tths.statisticservice.models.dto.RewardByHouseholdNumber;
 import bhtu.work.tths.statisticservice.services.grpc.clients.Auth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +17,8 @@ import bhtu.work.tths.statisticservice.services.StatisticService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("api/statistic")
@@ -61,7 +57,7 @@ public class StatisticController {
         if (verifications.getIsValid()) {
             List<String> authorities = verifications.getAuthoritiesList();
 
-            var res = Authorizing.matchAuthority(
+            var res = Authorizing.matchAuthorities(
                     authorities,
                     VALID_ACCESS_CODES,
                     () -> {
@@ -96,7 +92,7 @@ public class StatisticController {
         if (verifications.getIsValid()) {
             List<String> authorities = verifications.getAuthoritiesList();
             // authority match will return non-null
-            var res = Authorizing.matchAuthority(
+            var res = Authorizing.matchAuthorities(
                     authorities,
                     VALID_ACCESS_CODES,
                     () -> {
