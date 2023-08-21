@@ -18,13 +18,12 @@ import bhtu.work.tths.studentservice.services.StudentService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 @RestController
 @RequestMapping(path = "api/student")
 public class StudentController {
-    private static final Logger studentControllerLogger = LoggerFactory.getLogger(StudentController.class);
+    private static final Logger STUDENT_CONTROLLER_LOGGER = LoggerFactory.getLogger(StudentController.class);
     private final StudentService studentService;
     private final Auth auth;
 
@@ -43,26 +42,24 @@ public class StudentController {
     ) {
         final Set<Integer> VALID_ACCESS_CODES = Set.of(10, 11, 30, 20);
 
-        String jwt = null;
-        try {
-            jwt = Objects.requireNonNull(request.getHeaders(HttpHeaders.AUTHORIZATION)).nextElement(); // get first jwt
-        } catch (NullPointerException ignored) {}
+        String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        var verifications = auth.authorize(jwt);
+        if (jwt != null) {
+            var verifications = auth.authorize(jwt);
 
-        if (verifications.getIsValid()) {
-            List<String> authorities = verifications.getAuthoritiesList();
-            // authority match will return non-null
-            var res = Authorizing.matchAuthorities(
-                    authorities,
-                    VALID_ACCESS_CODES,
-                    () -> ResponseEntity.ok().body(studentService.getStudentById(id)),
-                    null,
-                    studentControllerLogger::error
-            );
-            if (res != null) return res;
+            if (verifications.getIsValid()) {
+                List<String> authorities = verifications.getAuthoritiesList();
+                // authority match will return non-null
+                var res = Authorizing.matchAuthorities(
+                        authorities,
+                        VALID_ACCESS_CODES,
+                        () -> ResponseEntity.ok().body(studentService.getStudentById(id)),
+                        null,
+                        STUDENT_CONTROLLER_LOGGER::error
+                );
+                if (res != null) return res;
+            }
         }
-
         return ResponseEntity.ok().body(studentService.getStudentById(id));
     }
 
@@ -74,32 +71,29 @@ public class StudentController {
     ) {
         final Set<Integer> VALID_ACCESS_CODES = Set.of(20, 30);
 
-        String jwt = null;
-        try {
-            jwt = Objects.requireNonNull(request.getHeaders(HttpHeaders.AUTHORIZATION)).nextElement(); // get first jwt
-        } catch (NullPointerException ignored) {
-        }
+        String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        var verifications = auth.authorize(jwt);
-
-        // must be valid jwt
-        if (verifications.getIsValid()) {
-            List<String> authorities = verifications.getAuthoritiesList();
-            // authority match will return non-null
-            var res = Authorizing.matchAuthorities(
-                    authorities,
-                    VALID_ACCESS_CODES,
-                    () -> {
-                        try {
-                            return ResponseEntity.ok().body(studentService.findStudent(categoryStr, filter));
-                        } catch (IllegalArgumentException e) {
-                            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-                        }
-                    },
-                    null,
-                    studentControllerLogger::error
-            );
-            if (res != null) return res;
+        if (jwt != null) {
+            var verifications = auth.authorize(jwt);
+            // must be valid jwt
+            if (verifications.getIsValid()) {
+                List<String> authorities = verifications.getAuthoritiesList();
+                // authority match will return non-null
+                var res = Authorizing.matchAuthorities(
+                        authorities,
+                        VALID_ACCESS_CODES,
+                        () -> {
+                            try {
+                                return ResponseEntity.ok().body(studentService.findStudent(categoryStr, filter));
+                            } catch (IllegalArgumentException e) {
+                                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+                            }
+                        },
+                        null,
+                        STUDENT_CONTROLLER_LOGGER::error
+                );
+                if (res != null) return res;
+            }
         }
         // if not, user not authorized
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -112,33 +106,30 @@ public class StudentController {
     ) {
         final Set<Integer> VALID_ACCESS_CODES = Set.of(23, 32);
 
-        String jwt = null;
-        try {
-            jwt = Objects.requireNonNull(request.getHeaders(HttpHeaders.AUTHORIZATION)).nextElement(); // get first jwt
-        } catch (NullPointerException ignored) {
-        }
+        String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        var verifications = auth.authorize(jwt);
+        if (jwt != null) {
+            var verifications = auth.authorize(jwt);
 
-        // must be valid jwt
-        if (verifications.getIsValid()) {
-            List<String> authorities = verifications.getAuthoritiesList();
-            // authority match will return non-null
-            var res = Authorizing.matchAuthorities(
-                    authorities,
-                    VALID_ACCESS_CODES,
-                    () -> {
-                        studentService.addStudent(idlessHocSinh);
-                        Map<String, Boolean> response = Map.of("isAdded", true);
-                        return ResponseEntity.ok().body(response);                    },
-                    null,
-                    studentControllerLogger::error
-            );
-            if (res != null) return res;
+            // must be valid jwt
+            if (verifications.getIsValid()) {
+                List<String> authorities = verifications.getAuthoritiesList();
+                // authority match will return non-null
+                var res = Authorizing.matchAuthorities(
+                        authorities,
+                        VALID_ACCESS_CODES,
+                        () -> {
+                            studentService.addStudent(idlessHocSinh);
+                            Map<String, Boolean> response = Map.of("isAdded", true);
+                            return ResponseEntity.ok().body(response);                    },
+                        null,
+                        STUDENT_CONTROLLER_LOGGER::error
+                );
+                if (res != null) return res;
+            }
         }
         // if not, user not authorized
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
     }
 
     @PutMapping("update")
@@ -148,30 +139,28 @@ public class StudentController {
     ) {
         final Set<Integer> VALID_ACCESS_CODES = Set.of(23, 32);
 
-        String jwt = null;
-        try {
-            jwt = Objects.requireNonNull(request.getHeaders(HttpHeaders.AUTHORIZATION)).nextElement(); // get first jwt
-        } catch (NullPointerException ignored) {
-        }
+        String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        var verifications = auth.authorize(jwt);
+        if (jwt != null) {
+            var verifications = auth.authorize(jwt);
 
-        // must be valid jwt
-        if (verifications.getIsValid()) {
-            List<String> authorities = verifications.getAuthoritiesList();
-            // authority match will return non-null
-            var res = Authorizing.matchAuthorities(
-                    authorities,
-                    VALID_ACCESS_CODES,
-                    () -> {
-                        studentService.updateStudent(changedStudent);
-                        Map<String, Boolean> response = Map.of("isUpdated", true);
-                        return ResponseEntity.ok().body(response);
-                    },
-                    null,
-                    studentControllerLogger::error
-            );
-            if (res != null) return res;
+            // must be valid jwt
+            if (verifications.getIsValid()) {
+                List<String> authorities = verifications.getAuthoritiesList();
+                // authority match will return non-null
+                var res = Authorizing.matchAuthorities(
+                        authorities,
+                        VALID_ACCESS_CODES,
+                        () -> {
+                            studentService.updateStudent(changedStudent);
+                            Map<String, Boolean> response = Map.of("isUpdated", true);
+                            return ResponseEntity.ok().body(response);
+                        },
+                        null,
+                        STUDENT_CONTROLLER_LOGGER::error
+                );
+                if (res != null) return res;
+            }
         }
         // if not, user not authorized
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

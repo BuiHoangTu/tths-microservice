@@ -23,7 +23,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("api/statistic")
 public class StatisticController {
-    private static final Logger statisticControllerLogger = LoggerFactory.getLogger(StatisticController.class);
+    private static final Logger STATISTIC_CONTROLLER_LOGGER = LoggerFactory.getLogger(StatisticController.class);
     private final StatisticService statisticService;
     private final Auth auth;
 
@@ -68,7 +68,7 @@ public class StatisticController {
                         }
                     },
                     null,
-                    statisticControllerLogger::error
+                    STATISTIC_CONTROLLER_LOGGER::error
             );
             if (res != null) return res;
         }
@@ -82,32 +82,30 @@ public class StatisticController {
     ) {
         final Set<Integer> VALID_ACCESS_CODES = Set.of(23,32);
 
-        String jwt = null;
-        try {
-            jwt = Objects.requireNonNull(request.getHeaders(HttpHeaders.AUTHORIZATION)).nextElement(); // get first jwt
-        } catch (NullPointerException ignored) {}
+        String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        var verifications = auth.authorize(jwt);
+        if (jwt != null) {
+            var verifications = auth.authorize(jwt);
 
-        if (verifications.getIsValid()) {
-            List<String> authorities = verifications.getAuthoritiesList();
-            // authority match will return non-null
-            var res = Authorizing.matchAuthorities(
-                    authorities,
-                    VALID_ACCESS_CODES,
-                    () -> {
-                        try {
-                            return ResponseEntity.ok().body(this.statisticService.getByHouseholdNumber(householdNumber));
-                        } catch (Exception e) {
-                            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                        }
-                    },
-                    null,
-                    statisticControllerLogger::error
-            );
-            if (res != null) return res;
+            if (verifications.getIsValid()) {
+                List<String> authorities = verifications.getAuthoritiesList();
+                // authority match will return non-null
+                var res = Authorizing.matchAuthorities(
+                        authorities,
+                        VALID_ACCESS_CODES,
+                        () -> {
+                            try {
+                                return ResponseEntity.ok().body(this.statisticService.getByHouseholdNumber(householdNumber));
+                            } catch (Exception e) {
+                                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                            }
+                        },
+                        null,
+                        STATISTIC_CONTROLLER_LOGGER::error
+                );
+                if (res != null) return res;
+            }
         }
-
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
 
