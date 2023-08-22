@@ -25,11 +25,11 @@ public class StudentGrpcClient {
      */
     private static Student mapStudent(bhtu.work.tths.statisticservice.proto.Student pStudent) {
         Student mStudent = new Student(
-                pStudent.getId(),
-                pStudent.getName(),
-                LocalDate.parse(pStudent.getDateOfBirth()),
                 null,
-                pStudent.getHouseholdNumber(),
+                null,
+                null,
+                null,
+                null,
                 pStudent.getParent());
 
         mStudent.setEvents(pStudent.getEventOfStudentList()
@@ -51,7 +51,6 @@ public class StudentGrpcClient {
 
         return mStudent;
     }
-
 
 
     @net.devh.boot.grpc.client.inject.GrpcClient("grpc-student-service")
