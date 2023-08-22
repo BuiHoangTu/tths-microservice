@@ -11,6 +11,7 @@ import bhtu.work.tths.studentservice.models.enums.EGetStudents;
 import bhtu.work.tths.studentservice.repositories.mongo.StudentRepo;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class StudentService {
@@ -38,9 +39,7 @@ public class StudentService {
             case PARENT -> {
                 return this.studentRepo.findByParentRegex(".*" + filter + ".*");
             }
-            default -> {
-                throw new IllegalArgumentException();
-            }
+            default -> throw new IllegalArgumentException();
         }
 
     }
@@ -50,7 +49,7 @@ public class StudentService {
     }
 
     public Student getStudentById(@NonNull String Id) {
-        return studentRepo.findById(Id).get();
+        return studentRepo.findById(Id).orElse(null);
     }
 
     public Student updateStudent(StudentOneReward changedStudent) {
@@ -58,7 +57,7 @@ public class StudentService {
         Student studentToChange = new Student(changedStudent.id(), changedStudent.name(), changedStudent.dateOfBirth(),
                 changedStudent.school(), changedStudent.householdNumber(), changedStudent.parent());
 
-        Student onDbStudent = studentRepo.findById(studentToChange.getId()).get();
+        Student onDbStudent = studentRepo.findById(studentToChange.getId()).orElseThrow(() -> new NoSuchElementException("This student's id is not existed"));
         onDbStudent.setHouseholdNumber(studentToChange.getHouseholdNumber());
         onDbStudent.setDateOfBirth(studentToChange.getDateOfBirth());
         onDbStudent.setParent(studentToChange.getParent());
@@ -71,9 +70,5 @@ public class StudentService {
         onDbStudent.getEvents().add(rewardToChange);
 
         return studentRepo.save(onDbStudent);
-    }
-
-    public List<Student> getStudentByHouseholdNumber(@NonNull String householdNumber) {
-        return studentRepo.findByHouseholdNumber(householdNumber);
     }
 }

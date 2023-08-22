@@ -14,11 +14,11 @@ message EventOfStudent {
   }
 
   string dateOfEvent = 1;
-  // string nameOfEvent = 2; // not necessary for this service
+  string nameOfEvent = 2; // not necessary for this service
   string achievement = 3;
   string classStr = 4;
   repeated PrizeGroup prizeGroup = 5;
-
+  int32 totalExpense = 6;
 }
 
 message Student {

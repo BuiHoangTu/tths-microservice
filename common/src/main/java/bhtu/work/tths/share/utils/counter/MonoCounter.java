@@ -1,4 +1,6 @@
-package bhtu.work.tths.share.utils;
+package bhtu.work.tths.share.utils.counter;
+
+import bhtu.work.tths.share.utils.MutableNumber;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +16,10 @@ public class MonoCounter<T> implements Counter<T>{
     private final Map<T, MutableNumber<Long>> counter = new HashMap<>();
 
     @Override
-    public long put(T key) {
-        var currentCount = counter.get(key);
+    public long put(T unit) {
+        var currentCount = counter.get(unit);
         if (currentCount == null) {
-            counter.put(key, MutableNumber.of(1L));
+            counter.put(unit, MutableNumber.of(1L));
             return 1;
         } else {
             var nextCount = currentCount.get() + 1;
@@ -27,9 +29,14 @@ public class MonoCounter<T> implements Counter<T>{
     }
 
     @Override
-    public long getCount(T key) {
-        var count = counter.get(key);
+    public long getCount(T unit) {
+        var count = counter.get(unit);
         if (count != null) return count.get();
         else return 0;
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super T, ? super Number> action) {
+        this.counter.forEach(action);
     }
 }

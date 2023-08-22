@@ -1,12 +1,19 @@
 package bhtu.work.tths.statisticservice.services;
 
+import bhtu.work.tths.statisticservice.models.EventOfStudent;
 import bhtu.work.tths.statisticservice.models.dto.RewardByEvent;
 import bhtu.work.tths.statisticservice.models.dto.RewardByHouseholdNumber;
 import bhtu.work.tths.statisticservice.services.grpc.clients.RewardDetailGrpcClient;
 import bhtu.work.tths.statisticservice.services.grpc.clients.StudentGrpcClient;
+import bhtu.work.tths.statisticservice.utils.EventCounter;
 import bhtu.work.tths.statisticservice.utils.PrizeCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class StatisticService {
@@ -26,11 +33,22 @@ public class StatisticService {
      * @param eventFilter date or name respectively, must match whole
      * @return all Reward from the matched events
      * @throws IllegalArgumentException if filterType does not match
+     * @throws java.time.format.DateTimeParseException if filterType == "date" and eventFilter can't be parsed to LocalDate
      */
-    public RewardByEvent getRewardByEvent(String eventFilter, String filterType) throws IllegalArgumentException {
+    public List<RewardByEvent> getRewardByEvent(String eventFilter, String filterType) throws IllegalArgumentException {
+        filterType = filterType.toLowerCase();
+        switch (filterType) {
+            case "date" -> {
+                return this.eventDate(eventFilter);
+            }
 
-        return null;
-        // TODO: implement this and below, match whole name - all in that date
+            case "name" -> {
+                return this.eventName(eventFilter);
+            }
+
+            default -> throw new IllegalArgumentException("The option " + filterType + "is not available");
+        }
+
     }
 
     public RewardByHouseholdNumber getByHouseholdNumber(String householdNumber) {
@@ -44,5 +62,37 @@ public class StatisticService {
             }
         }
         return new RewardByHouseholdNumber(counter.values().stream().toList(), householdNumber);
+    }
+
+
+    /**
+     * @throws java.time.format.DateTimeParseException if date is not parsable
+     */
+    private List<RewardByEvent> eventDate(String strDate) {
+        LocalDate date = LocalDate.parse(strDate);
+        var iterator = studentGrpc.getByEventDate(date);
+        return squashEvent(iterator);
+    }
+    private List<RewardByEvent> eventName(String name) {
+        var iterator = studentGrpc.getByEventName(name);
+        return squashEvent(iterator);
+    }
+
+    private List<RewardByEvent> squashEvent(Iterator<EventOfStudent> iterator) {
+        EventCounter counter = new EventCounter();
+
+        while (iterator.hasNext()) {
+            var eventOfStudent = iterator.next();
+            counter.put(eventOfStudent);
+        }
+
+        var out = new ArrayList<RewardByEvent>();
+
+        counter.forEach((ev, c) -> {
+            //Todo: add rewards
+            out.add(new RewardByEvent(null, c.intValue(), ev.getDateOfEvent(), ev.getNameOfEvent()));
+        });
+
+        return out;
     }
 }

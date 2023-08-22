@@ -1,6 +1,6 @@
 package bhtu.work.tths.statisticservice.utils;
 
-import bhtu.work.tths.share.utils.Counter;
+import bhtu.work.tths.share.utils.counter.Counter;
 import bhtu.work.tths.statisticservice.models.PrizeGroup;
 import lombok.NonNull;
 
@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 public class PrizeCounter implements Counter<PrizeGroup>, Iterable<PrizeGroup> {
     private final Map<String, PrizeGroup> counter = new HashMap<>();
@@ -34,14 +35,21 @@ public class PrizeCounter implements Counter<PrizeGroup>, Iterable<PrizeGroup> {
      * @return new total
      */
     @Override
-    public long put(PrizeGroup value) {
-        return this.put(value.getNameOfPrize(), value).getAmount();
+    public long put(PrizeGroup unit) {
+        return this.put(unit.getNameOfPrize(), unit).getAmount();
     }
 
 
     @Override
-    public long getCount(PrizeGroup key) {
-        return counter.get(key.getNameOfPrize()).getAmount();
+    public long getCount(PrizeGroup unit) {
+        return counter.get(unit.getNameOfPrize()).getAmount();
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super PrizeGroup, ? super Number> action) {
+        this.counter.forEach((k, v) -> {
+            action.accept(v, v.getAmount());
+        });
     }
 
     public Set<String> nameOfPrizes() {
