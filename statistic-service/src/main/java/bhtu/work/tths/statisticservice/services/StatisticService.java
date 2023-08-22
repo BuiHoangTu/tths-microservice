@@ -1,6 +1,5 @@
 package bhtu.work.tths.statisticservice.services;
 
-import bhtu.work.tths.statisticservice.models.PrizeGroup;
 import bhtu.work.tths.statisticservice.models.dto.RewardByEvent;
 import bhtu.work.tths.statisticservice.models.dto.RewardByHouseholdNumber;
 import bhtu.work.tths.statisticservice.services.grpc.clients.RewardDetailGrpcClient;
@@ -8,8 +7,6 @@ import bhtu.work.tths.statisticservice.services.grpc.clients.StudentGrpcClient;
 import bhtu.work.tths.statisticservice.utils.PrizeCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class StatisticService {
