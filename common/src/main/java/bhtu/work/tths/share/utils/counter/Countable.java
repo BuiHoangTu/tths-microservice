@@ -9,7 +9,7 @@ public interface Countable<K> {
         return Countable.of(key, null, counting);
     }
     static <K, C> Countable<K> of(K key, C content, long counting) {
-        return new Countable<K>() {
+        return new Countable<>() {
             private long track = counting;
 
             @Override
@@ -48,7 +48,7 @@ public interface Countable<K> {
     }
     static <K> Countable<K> asKey(K key) {
         final String MESSAGE = "This object is only use as key, try using [of] function";
-        return new Countable<K>() {
+        return new Countable<>() {
             @Override
             public K getKey() {
                 return key;

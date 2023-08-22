@@ -27,9 +27,7 @@ public class ComplexCounter<K, C extends Countable<K>> implements Counter<C>{
 
     @Override
     public void forEach(BiConsumer<? super C, ? super Number> action) {
-        this.counter.forEach((_k, c) -> {
-            action.accept(c,c.getCount());
-        });
+        this.counter.forEach((_k, c) -> action.accept(c,c.getCount()));
     }
 
 

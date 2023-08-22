@@ -4,6 +4,7 @@ import bhtu.work.tths.share.utils.MutableNumber;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class SkipCounter<T> implements AddingCounter<T>{
     private final Map<T, MutableNumber<Long>> counter = new HashMap<>();
@@ -26,6 +27,11 @@ public class SkipCounter<T> implements AddingCounter<T>{
         var count = counter.get(unit);
         if (count != null) return count.get();
         else return 0;
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super T, ? super Number> action) {
+        this.counter.forEach(action);
     }
 
     @Override

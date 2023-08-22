@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-public class PrizeCounter implements Counter<PrizeGroup>, Iterable<PrizeGroup> {
+public class PrizeCounter implements Counter<PrizeGroup>{
     private final Map<String, PrizeGroup> counter = new HashMap<>();
     /**
      *
@@ -47,18 +47,7 @@ public class PrizeCounter implements Counter<PrizeGroup>, Iterable<PrizeGroup> {
 
     @Override
     public void forEach(BiConsumer<? super PrizeGroup, ? super Number> action) {
-        this.counter.forEach((k, v) -> {
-            action.accept(v, v.getAmount());
-        });
-    }
-
-    public Set<String> nameOfPrizes() {
-        return counter.keySet();
-    }
-
-    @Override
-    public Iterator<PrizeGroup> iterator() {
-        return counter.values().iterator();
+        this.counter.forEach((k, v) -> action.accept(v, v.getAmount()));
     }
 
     public java.util.Collection<PrizeGroup> values() {

@@ -1,7 +1,6 @@
 package bhtu.work.tths.studentservice.repositories.mongo;
 
 import bhtu.work.tths.studentservice.models.EventOfStudent;
-import bhtu.work.tths.studentservice.models.PrizeGroup;
 import bhtu.work.tths.studentservice.models.Student;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
