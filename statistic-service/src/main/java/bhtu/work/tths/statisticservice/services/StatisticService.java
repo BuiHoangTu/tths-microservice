@@ -88,7 +88,9 @@ public class StatisticService {
 
         var out = new ArrayList<RewardByEvent>();
 
-        counter.forEach((ev, c) -> {
+        counter.entrySet().forEach((entry) -> {
+            var c = entry.getValue();
+            var ev = entry.getKey();
             //Todo: add rewards
             out.add(new RewardByEvent(null, c.intValue(), ev.getDateOfEvent(), ev.getNameOfEvent()));
         });

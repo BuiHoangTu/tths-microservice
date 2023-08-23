@@ -4,16 +4,17 @@ import bhtu.work.tths.share.utils.MutableNumber;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class SkipCounter<T> implements AddingCounter<T>{
-    private final Map<T, MutableNumber<Long>> counter = new HashMap<>();
+    private final Map<T, MutableNumber<Long>> counterMap = new HashMap<>();
 
     @Override
     public long put(T unit, long count) {
-        var currentCount = counter.get(unit);
+        var currentCount = counterMap.get(unit);
         if (currentCount == null) {
-            counter.put(unit, MutableNumber.of(count));
+            counterMap.put(unit, MutableNumber.of(count));
             return count;
         } else {
             var nextCount = currentCount.get() + count;
@@ -24,14 +25,29 @@ public class SkipCounter<T> implements AddingCounter<T>{
 
     @Override
     public long getCount(T unit) {
-        var count = counter.get(unit);
+        var count = counterMap.get(unit);
         if (count != null) return count.get();
         else return 0;
     }
 
     @Override
-    public void forEach(BiConsumer<? super T, ? super Number> action) {
-        this.counter.forEach(action);
+    public Set<Map.Entry<T, Long>> entrySet() {
+        return this.counterMap.entrySet().stream().map((entry) -> new Map.Entry<T, Long>() {
+            @Override
+            public T getKey() {
+                return entry.getKey();
+            }
+
+            @Override
+            public Long getValue() {
+                return entry.getValue().get();
+            }
+
+            @Override
+            public Long setValue(Long value) {
+                return entry.setValue(MutableNumber.of(value)).get();
+            }
+        }).collect(Collectors.toSet());
     }
 
     @Override

@@ -2,7 +2,8 @@ package bhtu.work.tths.share.utils.counter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Implementation using to counting the Countable
@@ -10,13 +11,13 @@ import java.util.function.BiConsumer;
  * @param <T> Content of Countable
  */
 public class ComplexCounter<K, T> implements Counter<Countable<K, T>>{
-    private final Map<K, Countable<K, T>> counter = new HashMap<>();
+    private final Map<K, Countable<K, T>> counterMap = new HashMap<>();
 
     @Override
     public long put(Countable<K, T> countable) {
-        Countable<K, T> currentCount = counter.get(countable.getKey());
+        Countable<K, T> currentCount = counterMap.get(countable.getKey());
         if (currentCount == null) {
-            counter.put(countable.getKey(), countable);
+            counterMap.put(countable.getKey(), countable);
             return countable.getCount();
         } else {
             var nextCount = currentCount.getCount() + countable.getCount();
@@ -27,12 +28,39 @@ public class ComplexCounter<K, T> implements Counter<Countable<K, T>>{
 
     @Override
     public long getCount(Countable<K,T> key) {
-        return this.counter.get(key.getKey()).getCount();
+        return this.counterMap.get(key.getKey()).getCount();
     }
 
     @Override
-    public void forEach(BiConsumer<? super Countable<K,T>, ? super Number> action) {
-        this.counter.forEach((_k, c) -> action.accept(c,c.getCount()));
+    public Set<Map.Entry<Countable<K, T>, Long>> entrySet() {
+        return counterMap.values().stream().map(countable -> new Map.Entry<Countable<K, T>, Long>() {
+            @Override
+            public Countable<K, T> getKey() {
+                return countable;
+            }
+
+            @Override
+            public Long getValue() {
+                return countable.getCount();
+            }
+
+            @Override
+            public Long setValue(Long value) {
+                var old = countable.getCount();
+                countable.setCount(value);
+                return old;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                return super.equals(o);
+            }
+
+            @Override
+            public int hashCode() {
+                return super.hashCode();
+            }
+        }).collect(Collectors.toSet());
     }
 
 

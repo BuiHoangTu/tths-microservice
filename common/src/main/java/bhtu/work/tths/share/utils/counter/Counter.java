@@ -1,6 +1,8 @@
 package bhtu.work.tths.share.utils.counter;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 public interface Counter<T>{
@@ -13,5 +15,5 @@ public interface Counter<T>{
         m.forEach(this::put);
     }
     long getCount(T unit);
-    void forEach(BiConsumer<? super T, ? super Number> action);
+    Set<Map.Entry<T, Long>> entrySet();
 }

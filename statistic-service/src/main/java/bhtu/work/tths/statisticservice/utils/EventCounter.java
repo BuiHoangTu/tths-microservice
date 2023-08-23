@@ -6,7 +6,8 @@ import bhtu.work.tths.statisticservice.models.EventOfStudent;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Count total expense of each event
@@ -40,7 +41,34 @@ public class EventCounter implements Counter<EventOfStudent> {
     }
 
     @Override
-    public void forEach(BiConsumer<? super EventOfStudent, ? super Number> action) {
-        this.counterMap.forEach((_k, v) -> action.accept(v, v.getTotalExpense()));
+    public Set<Map.Entry<EventOfStudent, Long>> entrySet() {
+        return this.counterMap.values().stream().map((event -> new Map.Entry<EventOfStudent, Long>() {
+            @Override
+            public EventOfStudent getKey() {
+                return event;
+            }
+
+            @Override
+            public Long getValue() {
+                return (long) event.getTotalExpense();
+            }
+
+            @Override
+            public Long setValue(Long value) {
+                var old = event.getTotalExpense();
+                event.setTotalExpense(value.intValue());
+                return (long) old;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                return super.equals(o);
+            }
+
+            @Override
+            public int hashCode() {
+                return super.hashCode();
+            }
+        })).collect(Collectors.toSet());
     }
 }

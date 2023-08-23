@@ -4,10 +4,12 @@ import bhtu.work.tths.share.utils.counter.ComplexCounter;
 import bhtu.work.tths.share.utils.counter.Countable;
 import bhtu.work.tths.share.utils.counter.Counter;
 import bhtu.work.tths.statisticservice.models.PrizeGroup;
-import lombok.NonNull;
 
-import java.util.*;
-import java.util.function.BiConsumer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PrizeCounter implements Counter<PrizeGroup>{
     private static Countable<String, PrizeGroup> warp(PrizeGroup p) {
@@ -49,13 +51,38 @@ public class PrizeCounter implements Counter<PrizeGroup>{
     }
 
     @Override
-    public void forEach(BiConsumer<? super PrizeGroup, ? super Number> action) {
-        this.counter.forEach((pgc, _v) -> action.accept(pgc.get(), pgc.getCount()));
+    public Set<Map.Entry<PrizeGroup, Long>> entrySet() {
+        return counter.entrySet().stream().map((entry -> new Map.Entry<PrizeGroup, Long>() {
+            @Override
+            public PrizeGroup getKey() {
+                return entry.getKey().get();
+            }
+
+            @Override
+            public Long getValue() {
+                return entry.getValue();
+            }
+
+            @Override
+            public Long setValue(Long value) {
+                return entry.setValue(value);
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                return entry.equals(o);
+            }
+
+            @Override
+            public int hashCode() {
+                return entry.hashCode();
+            }
+        })).collect(Collectors.toSet());
     }
 
     public java.util.Collection<PrizeGroup> values() {
         Collection<PrizeGroup> out = new ArrayList<>();
-        this.forEach(((prizeGroup, number) -> out.add(prizeGroup)));
+        this.entrySet().forEach((entry) -> out.add(entry.getKey()));
         return out;
     }
 }
