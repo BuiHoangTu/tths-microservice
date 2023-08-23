@@ -1,11 +1,11 @@
 package bhtu.work.tths.statisticservice.utils;
 
-import bhtu.work.tths.share.utils.counter.ComplexCounter;
-import bhtu.work.tths.share.utils.counter.Countable;
 import bhtu.work.tths.share.utils.counter.Counter;
 import bhtu.work.tths.statisticservice.models.EventOfStudent;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
@@ -13,21 +13,34 @@ import java.util.function.BiConsumer;
  */
 // Todo: add Prize counter
 public class EventCounter implements Counter<EventOfStudent> {
-    private final Counter<Countable<LocalDate>> counter = new ComplexCounter<>();
+    private final Map<LocalDate, EventOfStudent> counterMap = new HashMap<>();
+
 
     @Override
     public long put(EventOfStudent unit) {
-        return this.counter.put(Countable.of(unit.getDateOfEvent(), unit, unit.getTotalExpense()));
+        if (unit == null) throw new NullPointerException("Can't insert null");
+
+        var old = counterMap.get(unit.getDateOfEvent());
+
+        if (old != null){
+            var expense = old.getTotalExpense() + unit.getTotalExpense();
+            old.setTotalExpense(expense);
+            return expense;
+        } else {
+            counterMap.put(unit.getDateOfEvent(), unit);
+            return unit.getTotalExpense();
+        }
     }
 
     @Override
     public long getCount(EventOfStudent unit) {
-        return this.counter.getCount(Countable.asKey(unit.getDateOfEvent()));
+        unit = this.counterMap.get(unit.getDateOfEvent());
+        if (unit != null) return unit.getTotalExpense();
+        else return 0;
     }
 
     @Override
     public void forEach(BiConsumer<? super EventOfStudent, ? super Number> action) {
-        this.counter.forEach((c, _v) -> action.accept((EventOfStudent) c.get(), c.getCount()));
+        this.counterMap.forEach((_k, v) -> action.accept(v, v.getTotalExpense()));
     }
-
 }

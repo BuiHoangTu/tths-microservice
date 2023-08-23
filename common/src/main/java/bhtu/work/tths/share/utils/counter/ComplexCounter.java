@@ -4,12 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class ComplexCounter<K> implements Counter<Countable<K>>{
-    private final Map<K, Countable<K>> counter = new HashMap<>();
+/**
+ * Implementation using to counting the Countable
+ * @param <K> Key of Countable
+ * @param <T> Content of Countable
+ */
+public class ComplexCounter<K, T> implements Counter<Countable<K, T>>{
+    private final Map<K, Countable<K, T>> counter = new HashMap<>();
 
     @Override
-    public long put(Countable<K> countable) {
-        Countable<K> currentCount = counter.get(countable.getKey());
+    public long put(Countable<K, T> countable) {
+        Countable<K, T> currentCount = counter.get(countable.getKey());
         if (currentCount == null) {
             counter.put(countable.getKey(), countable);
             return countable.getCount();
@@ -21,12 +26,12 @@ public class ComplexCounter<K> implements Counter<Countable<K>>{
     }
 
     @Override
-    public long getCount(Countable<K> key) {
+    public long getCount(Countable<K,T> key) {
         return this.counter.get(key.getKey()).getCount();
     }
 
     @Override
-    public void forEach(BiConsumer<? super Countable<K>, ? super Number> action) {
+    public void forEach(BiConsumer<? super Countable<K,T>, ? super Number> action) {
         this.counter.forEach((_k, c) -> action.accept(c,c.getCount()));
     }
 
