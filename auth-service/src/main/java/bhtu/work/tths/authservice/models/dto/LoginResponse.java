@@ -5,6 +5,6 @@ import java.util.List;
 public record LoginResponse(
         String username,
         List<String> accesses,
-        String Authorization
+        String authorization
 ) {
 }
