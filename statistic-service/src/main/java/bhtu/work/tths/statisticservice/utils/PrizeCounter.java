@@ -5,10 +5,7 @@ import bhtu.work.tths.share.utils.counter.Countable;
 import bhtu.work.tths.share.utils.counter.Counter;
 import bhtu.work.tths.statisticservice.models.PrizeGroup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PrizeCounter implements Counter<PrizeGroup>{
@@ -80,8 +77,8 @@ public class PrizeCounter implements Counter<PrizeGroup>{
         })).collect(Collectors.toSet());
     }
 
-    public java.util.Collection<PrizeGroup> values() {
-        Collection<PrizeGroup> out = new ArrayList<>();
+    public java.util.Set<PrizeGroup> values() {
+        Set<PrizeGroup> out = new HashSet<>();
         this.entrySet().forEach((entry) -> out.add(entry.getKey()));
         return out;
     }

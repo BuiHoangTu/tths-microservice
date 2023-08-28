@@ -1,8 +1,9 @@
 package bhtu.work.tths.statisticservice.models;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 
@@ -21,16 +22,16 @@ public class EventOfStudent {
     /**
      * keo(cai), banh(goi)
      */
-    private List<PrizeGroup> prizes = new ArrayList<>();
+    private Set<PrizeGroup> prizes = new HashSet<>();
     private int totalExpense;
 
     public EventOfStudent(LocalDate dateOfEvent, String nameOfEvent, String achievement, String classStr,
-            List<PrizeGroup> prizes, int totalExpense) {
+                          Collection<PrizeGroup> prizes, int totalExpense) {
         this.dateOfEvent = dateOfEvent;
         this.nameOfEvent = nameOfEvent;
         this.achievement = achievement;
         this.classStr = classStr;
-        this.prizes = prizes;
+        this.prizes.addAll(prizes);
         this.totalExpense = totalExpense;
     }
 
