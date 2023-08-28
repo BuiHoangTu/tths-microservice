@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentGrpcClient {
@@ -48,7 +49,7 @@ public class StudentGrpcClient {
         mEvent.setDateOfEvent(LocalDate.parse(pEvent.getDateOfEvent()));
         mEvent.setClassStr(pEvent.getClassStr());
         mEvent.setTotalExpense(pEvent.getTotalExpense());
-        mEvent.setPrizes(pEvent.getPrizeGroupList().stream().map((pPrize) -> new PrizeGroup(pPrize.getNameOfPrize(), pPrize.getAmount())).toList());
+        mEvent.setPrizes(pEvent.getPrizeGroupList().stream().map((pPrize) -> new PrizeGroup(pPrize.getNameOfPrize(), pPrize.getAmount())).collect(Collectors.toSet()));
 
         return mEvent;
     }
