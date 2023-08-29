@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class PrizePeriodController {
     @PutMapping("update")
     public ResponseEntity<?> updatePrizeLevel(
             HttpServletRequest request,
-            @RequestBody PrizePeriod prizePeriod) {
+            @RequestBody @Valid PrizePeriod prizePeriod) {
         final Set<Integer> VALID_ACCESS_CODE = Set.of(23, 32);
 
         String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);

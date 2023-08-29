@@ -10,6 +10,7 @@ import bhtu.work.tths.studentservice.models.dto.StudentOneReward;
 import bhtu.work.tths.studentservice.models.enums.EGetStudents;
 import bhtu.work.tths.studentservice.repositories.mongo.StudentRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -45,7 +46,12 @@ public class StudentService {
     }
 
     public Student addStudent(Student student) {
-        return studentRepo.insert(student);
+        var optionalStudent = studentRepo.findStudentByHouseholdNumberAndName(student.getHouseholdNumber(), student.getName());
+        if (optionalStudent.isPresent()) {
+            var existingStudent = optionalStudent.get();
+            existingStudent.getEvents().addAll(student.getEvents());
+            return studentRepo.save(existingStudent);
+        } else return studentRepo.insert(student);
     }
 
     public Student getStudentById(@NonNull String Id) {
@@ -70,5 +76,11 @@ public class StudentService {
         onDbStudent.getEvents().add(rewardToChange);
 
         return studentRepo.save(onDbStudent);
+    }
+
+    public List<EventOfStudent> dsds() {
+        var student = studentRepo.findEventsByName("Trung Thu");
+
+        return new ArrayList<>(student.getEvents());
     }
 }

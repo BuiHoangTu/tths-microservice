@@ -32,5 +32,5 @@ grpc:
 
   client:
     auth-service:
-      address: auth-service
+      address: AUTH-SERVICE
       negotiation-type: plaintext

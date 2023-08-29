@@ -13,12 +13,17 @@ import bhtu.work.tths.studentservice.proto.StudentServiceGrpc.StudentServiceImpl
 import java.time.LocalDate;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @GrpcService
 public class StudentGrpcServer extends StudentServiceImplBase {
+    private static final Logger STUDENT_GRPC_LOGGER = LoggerFactory.getLogger(StudentGrpcServer.class);
+
     /**
      * Map model student to proto student
+     *
      * @param mStudent model student
      * @return proto student
      */
@@ -32,7 +37,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
                 .setHouseholdNumber(mStudent.getHouseholdNumber())
                 .setParent(mStudent.getParent());
 
-        for (var e: mStudent.getEvents()) {
+        for (var e : mStudent.getEvents()) {
             // build events
             var eBuilder = bhtu.work.tths.studentservice.proto.EventOfStudent.newBuilder();
             eBuilder.setDateOfEvent(e.getDateOfEvent().toString())
@@ -41,7 +46,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
                     .setClassStr(e.getClassStr());
 
             // build prizes in event
-            for (var p: e.getPrizes()) {
+            for (var p : e.getPrizes()) {
                 var pBuilder = bhtu.work.tths.studentservice.proto.EventOfStudent.PrizeGroup.newBuilder();
                 pBuilder.setNameOfPrize(p.getNameOfPrize())
                         .setAmount(p.getAmount());
@@ -67,7 +72,7 @@ public class StudentGrpcServer extends StudentServiceImplBase {
 
         var pgBuilder = bhtu.work.tths.studentservice.proto.EventOfStudent.PrizeGroup.newBuilder();
 
-        for(var pg: mEvent.getPrizes()) {
+        for (var pg : mEvent.getPrizes()) {
             var ppg = pgBuilder
                     .setAmount(pg.getAmount())
                     .setNameOfPrize(pg.getNameOfPrize())
@@ -88,60 +93,71 @@ public class StudentGrpcServer extends StudentServiceImplBase {
 
     @Override
     public void getById(StudentId request, StreamObserver<bhtu.work.tths.studentservice.proto.Student> responseObserver) {
-        var oStudent = studentRepo.findById(request.getIdentifier());
+        try {
+            var oStudent = studentRepo.findById(request.getIdentifier());
 
-        if (oStudent.isEmpty()) {
-            responseObserver.onError(new Exception("This student id is not existed"));
-            responseObserver.onCompleted();
-        } else {
-            var mStudent = oStudent.get();
-            var pStudent = mapStudent(mStudent);
-            // put student to response
-            responseObserver.onNext(pStudent);
-            // end sending message
+            if (oStudent.isEmpty()) {
+                throw new Exception("This student id is not existed");
+            } else {
+                var mStudent = oStudent.get();
+                var pStudent = mapStudent(mStudent);
+                // put student to response
+                responseObserver.onNext(pStudent);
+            }
+        } catch (Exception e) {
+            responseObserver.onError(e);
+        } finally {
             responseObserver.onCompleted();
         }
     }
 
     @Override
     public void getByHouseholdNumber(StudentId request, StreamObserver<bhtu.work.tths.studentservice.proto.Student> responseObserver) {
-        List<Student> mStudents = studentRepo.findByHouseholdNumber(request.getIdentifier());
+        try {
+            List<Student> mStudents = studentRepo.findByHouseholdNumber(request.getIdentifier());
 
-        for (var mS: mStudents) {
-            var pStudent = mapStudent(mS);
-            responseObserver.onNext(pStudent);
+            for (var mS : mStudents) {
+                var pStudent = mapStudent(mS);
+                responseObserver.onNext(pStudent);
+                STUDENT_GRPC_LOGGER.info("found and sending {}", pStudent);
+            }
+        } catch (Exception e) {
+            responseObserver.onError(e);
+        } finally {
+            responseObserver.onCompleted();
         }
-        
-        responseObserver.onCompleted();
     }
 
     @Override
     public void getByEventDate(EventDate request, StreamObserver<bhtu.work.tths.studentservice.proto.EventOfStudent> responseObserver) {
         try {
-            List<EventOfStudent> prizes = studentRepo.findPrizeGroupByEvents_DateOfEvent(LocalDate.parse(request.getDate()));
+            List<EventOfStudent> prizes = studentRepo.findEventsByDate(LocalDate.parse(request.getDate())).getEvents();
 
-            for (var p: prizes) {
+            for (var p : prizes) {
                 var pe = mapEvent(p);
                 responseObserver.onNext(pe);
             }
-
-            responseObserver.onCompleted();
-
         } catch (Exception e) {
             responseObserver.onError(e);
+        } finally {
             responseObserver.onCompleted();
         }
     }
 
     @Override
     public void getByEventName(EventName request, StreamObserver<bhtu.work.tths.studentservice.proto.EventOfStudent> responseObserver) {
-        List<EventOfStudent> prizes = studentRepo.findPrizeGroupByEvents_NameOfEvent(request.getName());
+        try {
+            var studentWarper = studentRepo.findEventsByName(request.getName());
 
-        for (var p: prizes) {
-            var pe = mapEvent(p);
-            responseObserver.onNext(pe);
+            for (var event : studentWarper.getEvents()) {
+                var pe = mapEvent(event);
+                responseObserver.onNext(pe);
+                STUDENT_GRPC_LOGGER.debug("Sent: {}", event);
+            }
+        } catch (Exception e) {
+            responseObserver.onError(e);
+        } finally {
+            responseObserver.onCompleted();
         }
-
-        responseObserver.onCompleted();
     }
 }

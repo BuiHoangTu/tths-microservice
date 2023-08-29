@@ -7,6 +7,8 @@ import bhtu.work.tths.statisticservice.services.grpc.clients.RewardDetailGrpcCli
 import bhtu.work.tths.statisticservice.services.grpc.clients.StudentGrpcClient;
 import bhtu.work.tths.statisticservice.utils.EventCounter;
 import bhtu.work.tths.statisticservice.utils.PrizeCounter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import java.util.List;
 
 @Service
 public class StatisticService {
+    private static final Logger STATISTIC_SERVICE_LOGGER = LoggerFactory.getLogger(StatisticService.class);
+
     private final StudentGrpcClient studentGrpc;
     private final RewardDetailGrpcClient rewardGrpc;
 
@@ -36,8 +40,8 @@ public class StatisticService {
      * @throws java.time.format.DateTimeParseException if filterType == "date" and eventFilter can't be parsed to LocalDate
      */
     public List<RewardByEvent> getRewardByEvent(String eventFilter, String filterType) throws IllegalArgumentException {
-        filterType = filterType.toLowerCase();
-        switch (filterType) {
+        var refinedFilterType = filterType.toLowerCase();
+        switch (refinedFilterType) {
             case "date" -> {
                 return this.eventDate(eventFilter);
             }
@@ -46,7 +50,7 @@ public class StatisticService {
                 return this.eventName(eventFilter);
             }
 
-            default -> throw new IllegalArgumentException("The option " + filterType + "is not available");
+            default -> throw new IllegalArgumentException("The option [`" + filterType + "`]is not available");
         }
 
     }
@@ -58,9 +62,11 @@ public class StatisticService {
         while (students.hasNext()) {
             var student = students.next();
             for (var event : student.getEvents()) {
+                STATISTIC_SERVICE_LOGGER.info("Putting {} inside counter", event);
                 counter.putAll(event.getPrizes());
             }
         }
+        STATISTIC_SERVICE_LOGGER.info("Finish counting");
         return new RewardByHouseholdNumber(counter.values().stream().toList(), householdNumber);
     }
 
@@ -89,10 +95,8 @@ public class StatisticService {
         var out = new ArrayList<RewardByEvent>();
 
         counter.entrySet().forEach((entry) -> {
-            var c = entry.getValue();
             var ev = entry.getKey();
-            //Todo: add rewards
-            out.add(new RewardByEvent(null, c.intValue(), ev.getDateOfEvent(), ev.getNameOfEvent()));
+            out.add(new RewardByEvent(ev.getPrizes().stream().toList(), ev.getTotalExpense(), ev.getDateOfEvent(), ev.getNameOfEvent()));
         });
 
         return out;

@@ -102,7 +102,7 @@ public class StudentController {
     @PostMapping("add")
     public ResponseEntity<?> addStudent(
             HttpServletRequest request,
-            @RequestBody Student idlessHocSinh
+            @RequestBody Student idLessHocSinh
     ) {
         final Set<Integer> VALID_ACCESS_CODES = Set.of(23, 32);
 
@@ -119,7 +119,7 @@ public class StudentController {
                         authorities,
                         VALID_ACCESS_CODES,
                         () -> {
-                            studentService.addStudent(idlessHocSinh);
+                            studentService.addStudent(idLessHocSinh);
                             Map<String, Boolean> response = Map.of("isAdded", true);
                             return ResponseEntity.ok().body(response);                    },
                         null,

@@ -1,12 +1,12 @@
 package bhtu.work.tths.studentservice.repositories.mongo;
 
-import bhtu.work.tths.studentservice.models.EventOfStudent;
 import bhtu.work.tths.studentservice.models.Student;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentRepo extends MongoRepository<Student, String> {
 
@@ -19,18 +19,31 @@ public interface StudentRepo extends MongoRepository<Student, String> {
     List<Student> findBySchoolRegex(String string);
 
     List<Student> findByHouseholdNumber(String householdNumber);
+    Optional<Student> findStudentByHouseholdNumberAndName(String householdNumber, String name);
 
+    /**
+     * All event are warped in an empty student
+     * @param dateOfEvent date of event
+     * @return An empty student warping all event that held in the date
+     */
     @Aggregation(pipeline = {
-            "{'$project': { _id:  0, events:  1} }", // get only events field
             "{'$unwind':  '$events'}", // un-group events into many one-event
-            "{'$match':  {'_id': ?0}}", // event_id : date == first argument
+            "{'$match':  {'events._id': ?0}}", // event_id : date == first argument
+            "{'$group': {'_id': null, 'events': {'$push': '$events'}}}",
+            "{'$project': { _id:  0, events:  1} }", // get only events field
     })
-    List<EventOfStudent> findPrizeGroupByEvents_DateOfEvent(LocalDate dateOfEvent);
+    Student findEventsByDate(LocalDate dateOfEvent);
 
+    /**
+     * All event are warped in an empty student
+     * @param eventName name of event
+     * @return An empty student warping all event that have event name
+     */
     @Aggregation(pipeline = {
-            "{'$project': { _id:  0, events:  1} }", // get only events field
             "{'$unwind':  '$events'}", // un-group events into many one-event
-            "{'$match':  {'nameOfEvent': ?0}}", // event_id : date == first argument
+            "{'$match':  {'events.nameOfEvent': ?0}}", // event_id : date == first argument
+            "{'$group': {'_id': null, 'events': {'$push': '$events'}}}",
+            "{'$project': { _id:  0, events:  1} }" // get only events field
     })
-    List<EventOfStudent> findPrizeGroupByEvents_NameOfEvent(String name);
+    Student findEventsByName(String eventName);
 }
