@@ -8,6 +8,7 @@ import bhtu.work.tths.authservice.models.dto.SignupRequest;
 import bhtu.work.tths.authservice.repositories.mongo.UserRepo;
 import bhtu.work.tths.authservice.security.jwt.IJwtService;
 import bhtu.work.tths.authservice.security.services.MyUserDetails;
+import bhtu.work.tths.authservice.services.grpc.clients.HouseholdGrpcService;
 import bhtu.work.tths.share.models.enums.EUserAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -32,14 +33,16 @@ public class AuthService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
     private final IJwtService jwtService;
+    private final HouseholdGrpcService householdService;
 
     @Autowired
     public AuthService(AuthenticationManager authenticationManager, UserRepo userRepo, PasswordEncoder passwordEncoder,
-            IJwtService jwtService) {
+            IJwtService jwtService, HouseholdGrpcService householdService) {
         this.authenticationManager = authenticationManager;
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.householdService = householdService;
     }
 
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
@@ -77,6 +80,10 @@ public class AuthService {
         // account
         if (this.userRepo.existsByAccessRegion(signUpRequest.householdNumber())) {
             return Map.of("Error", "This household already has an account!");
+        }
+
+        if (!this.householdService.verify(signUpRequest.householdNumber())) {
+            return Map.of("Error", "This household number is not existed in the system. Contact your regional authority for help.");
         }
 
         // Create new user's account

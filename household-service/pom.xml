@@ -11,8 +11,8 @@
 
     <artifactId>household-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>household-pseu-service</name>
-    <description>Pseu-service of household-service</description>
+    <name>household-pse-service</name>
+    <description>Pse-service of household-service</description>
     
     <properties>
         <java.version>17</java.version>

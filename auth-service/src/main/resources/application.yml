@@ -25,3 +25,11 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
+
+grpc:
+  server:
+    port: 0
+  client:
+    grpc-household:
+      address: lb:household-service
+      negotiation-type: plaintext

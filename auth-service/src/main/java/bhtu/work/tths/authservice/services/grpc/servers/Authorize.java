@@ -1,4 +1,4 @@
-package bhtu.work.tths.authservice.services.grpc.server;
+package bhtu.work.tths.authservice.services.grpc.servers;
 
 import bhtu.work.tths.authservice.proto.AuthorizeGrpc;
 import bhtu.work.tths.authservice.proto.Jwt;

@@ -98,7 +98,7 @@
         </dependency>
         <dependency>
             <groupId>net.devh</groupId>
-            <artifactId>grpc-server-spring-boot-starter</artifactId>
+            <artifactId>grpc-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- project's common        -->
