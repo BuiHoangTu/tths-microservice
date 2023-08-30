@@ -21,7 +21,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("api/award-period")
-@CrossOrigin(originPatterns = "*", maxAge = 3600)
 public class AwardPeriodController {
     private static final Logger awardPeriodControllerLogger = LoggerFactory.getLogger(AwardPeriodController.class);
     private final AwardPeriodService awardPeriodService;

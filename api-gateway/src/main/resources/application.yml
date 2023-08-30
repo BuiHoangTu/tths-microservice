@@ -24,6 +24,13 @@ spring:
 
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-headers: "*"
+            allowed-origins: http://localhost:4200
+            allowed-methods: "*"
+
       routes:
       ## accountant service
       - id: accountant-service
