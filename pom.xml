@@ -26,7 +26,8 @@
     	<module>discovery-server</module>
     	<module>api-gateway</module>
         <module>common</module>
-    </modules>
+		<module>test-template</module>
+	</modules>
 
     <properties>
 		<java.version>17</java.version>
@@ -156,7 +157,7 @@
                 <configuration>
                     <excludes>
                         <exclude>
-                            <groupId>org.projectlombok</groupId>
+                            <groupId>org.project-lombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>

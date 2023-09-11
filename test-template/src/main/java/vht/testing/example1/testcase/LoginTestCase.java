@@ -2,7 +2,6 @@ package vht.testing.example1.testcase;
 
 import org.json.JSONObject;
 import vht.testing.CombinedSingleTestCase;
-import vht.testing.SingleTestCase;
 
 public class LoginTestCase extends CombinedSingleTestCase<RegisterTestCase> {
 

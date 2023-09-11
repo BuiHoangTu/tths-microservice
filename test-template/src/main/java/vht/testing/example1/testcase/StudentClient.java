@@ -11,8 +11,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.json.JSONObject;
 
-import java.util.concurrent.TimeUnit;
-
 public class StudentClient {
 
     public StudentClient(String user2, String password2) {

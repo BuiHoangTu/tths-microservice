@@ -2,9 +2,9 @@ package vht.testing.example1;
 
 import vht.testing.SingleTestCase;
 import vht.testing.TestCaseRunner;
-import vht.testing.example1.testcase.LoginTestCase;
 import vht.testing.example1.testcase.RegisterTestCase;
 import vht.testing.example1.testcase.StudentClient;
+import vht.testing.example1.testcase.LoginTestCase;
 
 public class StudentTester extends TestCaseRunner {
     static  {
