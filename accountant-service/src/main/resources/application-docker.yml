@@ -1,15 +1,23 @@
 server:
-  port: 8080
+  port: 0
+
+spring:
+  application:
+    name: accountant-service
+  data:
+    mongodb:
+      uri: mongodb://user2:password2@localhost:27017/?authMechanism=SCRAM-SHA-1
+      database: StudentReward
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka:password@discovery-server:8761/eureka # http://uname:pword@docker_name:port/eureka
+      defaultZone: http://localhost:8761/eureka # http://uname:pword@docker_name:port/eureka
 
-spring:
-  data:
-    mongodb:
-      host: mongo
-      username: root
-      password: example
-      port: 27017
+grpc:
+  server:
+    port: 0
+  client:
+    auth-service:
+      address: AUTH-SERVICE
+      negotiation-type: plaintext
