@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  mongo:
-    container_name: mongodb
+  mongo-service:
+    container_name: tths-database-mongo
     image: mongo
     restart: unless-stopped
     ports:
@@ -15,71 +15,71 @@ services:
     volumes:
       - ./data-example/mongodb-data:/data/db
   discovery-server:
-    image: oziousprime/tths-microservice-discovery-server:latest
+    build: discovery-server
+    image: tths-microservice-discovery-server:latest
     container_name: discovery-server
-    pull_policy: always
     ports:
       - "8761:8761"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
   api-gateway:
-    image: oziousprime/tths-microservice-api-gateway
+    build: api-gateway
+    image: tths-microservice-api-gateway
     container_name: api-gateway
-    pull_policy: always
     ports:
-      - 8181:8080
+      - "8080:8080"
     expose:
-      - 8181
+      - 8080
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
   accountant-service:
-    image: oziousprime/tths-microservice-accountant-service
+    build: accountant-service
+    image: tths-microservice-accountant-service
     container_name: accountant-service
-    pull_policy: always
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG
     depends_on:
-      - mongo
+      - mongo-service
       - discovery-server
       - api-gateway
   auth-service:
-    image: oziousprime/tths-microservice-auth-service
+    build: auth-service
+    image: tths-microservice-auth-service
     container_name: auth-service
-    pull_policy: always
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
-      - mongo
+      - mongo-service
       - discovery-server
       - api-gateway
   household-service:
-    image: oziousprime/tths-microservice-household-service
+    build: household-service
+    image: tths-microservice-household-service
     container_name: household-service
-    pull_policy: always
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - discovery-server
       - api-gateway
   statistic-service:
-    image: oziousprime/tths-microservice-statistic-service
+    build: statistic-service
+    image: tths-microservice-statistic-service
     container_name: statistic-service
-    pull_policy: always
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
-      - mongo
+      - mongo-service
       - discovery-server
       - api-gateway
   student-service:
-    image: oziousprime/tths-microservice-student-service
+    build: student-service
+    image: tths-microservice-student-service
     container_name: student-service
-    pull_policy: always
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
-      - mongo
+      - mongo-service
       - discovery-server
       - api-gateway

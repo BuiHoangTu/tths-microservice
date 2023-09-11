@@ -1,10 +1,5 @@
 server:
-  port: 8080
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka:password@discovery-server:8761/eureka # http://uname:pword@docker_name:port/eureka
+  port: 0
 
 spring:
   data:
@@ -13,3 +8,19 @@ spring:
       username: root
       password: example
       port: 27017
+      database: StudentReward
+  application:
+    name: auth-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka # http://uname:pword@docker_name:port/eureka
+
+grpc:
+  server:
+    port: 0
+  client:
+    grpc-household:
+      address: lb:household-service
+      negotiation-type: plaintext
