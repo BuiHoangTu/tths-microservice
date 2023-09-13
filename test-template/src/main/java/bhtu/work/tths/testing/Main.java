@@ -2,6 +2,7 @@ package bhtu.work.tths.testing;
 
 import bhtu.work.tths.testing.service.accountant.AccTest;
 import bhtu.work.tths.testing.service.statistic.StaTest;
+import bhtu.work.tths.testing.service.student.StuTest;
 import vht.testing.SingleTestCase;
 
 public class Main {
@@ -16,6 +17,8 @@ public class Main {
 
 //        new AccTest().test();
 
-        new StaTest().test();
+//        new StaTest().test();
+
+        new StuTest().test();
     }
 }

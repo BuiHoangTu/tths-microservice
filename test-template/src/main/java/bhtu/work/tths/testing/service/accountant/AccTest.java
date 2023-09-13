@@ -21,7 +21,7 @@ public class AccTest extends TestCaseRunner {
         awardLevel.put("achievement", "tot");
         awardLevel.put("prizeValue", 10);
         awardLevels.add(awardLevel);
-//        this.addTestCase(new Get(awardLevels));
+        this.addTestCase(new Get(awardLevels));
 
         // other type of level
         var rewardTypes = new LinkedList<Map<String, ?>>();
