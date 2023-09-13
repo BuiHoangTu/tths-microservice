@@ -27,7 +27,8 @@
     	<module>api-gateway</module>
         <module>common</module>
 		<module>test-template</module>
-	</modules>
+        <module>core</module>
+    </modules>
 
     <properties>
 		<java.version>17</java.version>
@@ -43,6 +44,12 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>bhtu.work</groupId>-->
+<!--			<artifactId>core</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<dependencyManagement> <!-- help to manage version and config, still have to include it in child -->

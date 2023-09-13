@@ -9,7 +9,7 @@ import bhtu.work.tths.authservice.repositories.mongo.UserRepo;
 import bhtu.work.tths.authservice.security.jwt.IJwtService;
 import bhtu.work.tths.authservice.security.services.MyUserDetails;
 import bhtu.work.tths.authservice.services.grpc.clients.HouseholdGrpcService;
-import bhtu.work.tths.share.models.enums.EUserAccess;
+import bhtu.work.tths.core.models.enums.EUserAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

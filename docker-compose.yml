@@ -20,6 +20,8 @@ services:
     container_name: discovery-server
     ports:
       - "8761:8761"
+    expose:
+      - 8761
     environment:
       - SPRING_PROFILES_ACTIVE=docker
   api-gateway:
