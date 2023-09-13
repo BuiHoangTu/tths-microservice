@@ -2,6 +2,7 @@ package bhtu.work.tths.testing.service.accountant.prizeperiod;
 
 import bhtu.work.tths.testing.service.auth.Login;
 import bhtu.work.tths.testing.service.auth.Signup;
+import bhtu.work.tths.testing.template.HttpUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +59,7 @@ public class Update extends SingleTestCase {
 
     @Override
     public JSONObject doWork() throws Exception {
-        var response = HttpUtil.put2(
+        var response = HttpUtils.put2(
                 "http://127.0.0.1:8080/api/prize-period/update",
                 request.toString(),
                 Map.of("Authorization", token),

@@ -1,5 +1,6 @@
 package bhtu.work.tths.testing.service.accountant.awardperiod;
 
+import bhtu.work.tths.testing.template.HttpUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import vht.testing.CombinedSingleTestCase;
@@ -25,10 +26,11 @@ public class Get extends CombinedSingleTestCase<Update> {
     @Override
     public JSONObject doWork() throws Exception {
         Thread.sleep(2000); // wait for update
-        return new JSONObject(HttpUtil.get2(
+        return new JSONObject(HttpUtils.get2(
                 "http://localhost:8080/api/award-period/get",
                 Collections.emptyMap(),
                 Collections.emptyMap()
+//                Map.of("date", "1992-01-01T00:00:00.000Z")
         ));
     }
 

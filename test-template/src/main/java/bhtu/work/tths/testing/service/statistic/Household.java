@@ -2,6 +2,7 @@ package bhtu.work.tths.testing.service.statistic;
 
 import bhtu.work.tths.testing.service.auth.Login;
 import bhtu.work.tths.testing.service.auth.Signup;
+import bhtu.work.tths.testing.template.HttpUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class Household extends SingleTestCase {
 
     @Override
     public JSONObject doWork() throws Exception {
-        var response = HttpUtil.get2(
+        var response = HttpUtils.get2(
                 "http://127.0.0.1:8080/api/statistic/household-number",
                 Map.of("Authorization", token),
                 Map.of("filter", "16894577")
