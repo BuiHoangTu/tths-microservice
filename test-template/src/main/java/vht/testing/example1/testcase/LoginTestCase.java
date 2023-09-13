@@ -12,7 +12,7 @@ public class LoginTestCase extends CombinedSingleTestCase<RegisterTestCase> {
     }
 
     @Override
-    public void prepair() throws Exception {
+    public void prepare() throws Exception {
 
     }
 

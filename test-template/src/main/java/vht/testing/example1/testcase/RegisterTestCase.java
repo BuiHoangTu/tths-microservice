@@ -11,18 +11,23 @@ public class RegisterTestCase extends SingleTestCase {
     }
 
     @Override
-    public void prepair() throws Exception {
+    public void prepare() throws Exception {
 
     }
 
     @Override
     public JSONObject doWork() throws Exception {
-        return null;
+        return getStudentClient().signup();
     }
 
     @Override
     public void valid() throws Exception {
-
+//        if (responseObject.getInt("status") != 200 ) {
+//            throw new Exception("status not 200");
+//        }
+        if (responseObject.has("Error") || responseObject.has("error")) {
+            throw new Exception("contain Error field => Failed");
+        }
     }
 
     public StudentClient getStudentClient() {

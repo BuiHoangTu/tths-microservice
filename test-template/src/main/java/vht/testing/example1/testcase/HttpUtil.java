@@ -2,9 +2,7 @@ package vht.testing.example1.testcase;
 
 import io.micrometer.core.instrument.util.IOUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -26,6 +24,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class HttpUtil {
@@ -111,13 +111,48 @@ public class HttpUtil {
         }
     }
 
+    public static String post2(String url, String data, Map<String, String> headers) throws Exception {
+        try (CloseableHttpClient httpclient = HttpUtil.makeHttpsClientUnsafe()){
+            HttpPost post = new HttpPost(url);
+            post.setHeader("Content-Type", "application/json");
+            headers.forEach(post::addHeader);
+            HttpEntity entity = new StringEntity(data, "UTF-8");
+            post.setEntity(entity);
+            //post.setConfig(dtr.C_rawl.getDefaultTimedOutRequestConfig(10000));
+            CloseableHttpResponse response = httpclient.execute(post);
+            return HttpUtil.getResponceString(response, post);
+        }
+    }
     public static String post2(String url, String data) throws Exception {
-        CloseableHttpClient httpclient = HttpUtil.makeHttpsClientUnsafe();
-        HttpPost post = new HttpPost(url);
-        HttpEntity entity = new StringEntity(data, "UTF-8");
-        post.setEntity(entity);
-        //post.setConfig(dtr.C_rawl.getDefaultTimedOutRequestConfig(10000));
-        CloseableHttpResponse response = httpclient.execute(post);
-        return HttpUtil.getResponceString(response, post);
+        return post2(url, data, Collections.emptyMap());
+    }
+
+
+
+    public static String put2(String url, String data, Map<String, String> headers) throws Exception {
+        try (CloseableHttpClient httpclient = HttpUtil.makeHttpsClientUnsafe()){
+            var put = new HttpPut(url);
+            put.setHeader("Content-Type", "application/json");
+            headers.forEach(put::addHeader);
+            HttpEntity entity = new StringEntity(data, "UTF-8");
+            put.setEntity(entity);
+            //post.setConfig(dtr.C_rawl.getDefaultTimedOutRequestConfig(10000));
+            CloseableHttpResponse response = httpclient.execute(put);
+            return HttpUtil.getResponceString(response, put);
+        }
+
+    }
+
+    public static String get2(String url, Map<String, String> headers) throws Exception {
+        try (CloseableHttpClient httpclient = HttpUtil.makeHttpsClientUnsafe()){
+            var get = new HttpGet(url);
+            get.setHeader("Content-Type", "application/json");
+            headers.forEach(get::addHeader);
+            // HttpEntity entity = new StringEntity(data, "UTF-8");
+            // put.setEntity(entity);
+            //post.setConfig(dtr.C_rawl.getDefaultTimedOutRequestConfig(10000));
+            CloseableHttpResponse response = httpclient.execute(get);
+            return HttpUtil.getResponceString(response, get);
+        }
     }
 }

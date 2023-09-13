@@ -17,6 +17,9 @@ package vht.testing;
 
 import java.util.ArrayList;
 
+/**
+ * This thing do : tests.forEach::test()
+ */
 public abstract class TestCaseRunner {
 
     protected final ArrayList<SingleTestCase> testCases;
@@ -46,6 +49,10 @@ public abstract class TestCaseRunner {
 
     public abstract void makeTestCases();
 
+    /**
+     * makeTestCases() and runTestCase();
+     * @throws Exception
+     */
     public void test() throws Exception {
         makeTestCases();
         runTestCase();

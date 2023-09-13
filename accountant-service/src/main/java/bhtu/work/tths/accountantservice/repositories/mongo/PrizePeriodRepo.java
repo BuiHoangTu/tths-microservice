@@ -10,7 +10,7 @@ import bhtu.work.tths.accountantservice.models.PrizePeriod;
 public interface PrizePeriodRepo extends MongoRepository<PrizePeriod, LocalDate> {
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'dateOfApply' : {$lt : ?0 }} }",
+            "{ '$match': { 'dateOfApply' : {$lte : ?0 }} }",
             "{ '$sort' : { 'dateOfApply' : -1 } }",
             "{ '$limit' : 1 }"
     })

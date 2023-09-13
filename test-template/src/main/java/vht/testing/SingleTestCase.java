@@ -8,7 +8,7 @@ package vht.testing;
 import org.json.JSONObject;
 
 /**
- *
+ * This thing test(): if not haveRun, prepare -> doWork and save Response -> valid return code and run defining valid
  * @author d
  */
 public abstract class SingleTestCase {
@@ -66,7 +66,7 @@ public abstract class SingleTestCase {
 
     private boolean runed = false;
 
-    public abstract void prepair() throws Exception;
+    public abstract void prepare() throws Exception;
 
     public abstract JSONObject doWork() throws Exception;
 
@@ -74,7 +74,7 @@ public abstract class SingleTestCase {
         if (expectedResultField != null && expectedResultField.isEmpty() == false
                 && expectedResultCode != null && expectedResultCode.isEmpty() == false
                 && responseObject.get(expectedResultField).toString().equals(expectedResultCode) == false) {
-            throw new Exception();
+            throw new Exception("expectedResultField or expectedResultCode not valid");
         }
     }
 
@@ -86,7 +86,7 @@ public abstract class SingleTestCase {
 
             LOGGER.info("-------------------- run test case:" + testCaseId);
 
-            prepair();
+            prepare();
             responseObject = doWork();
             if (responseObject != null) {
                 LOGGER.info("responseObject:" + responseObject.toString(4));

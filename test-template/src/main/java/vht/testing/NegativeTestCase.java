@@ -27,7 +27,7 @@ public class NegativeTestCase<T extends SingleTestCase> extends SingleTestCase {
     }
 
     @Override
-    public void prepair() throws Exception {
+    public void prepare() throws Exception {
         //preCombinedSingleTestCase.prepair();
     }
 
