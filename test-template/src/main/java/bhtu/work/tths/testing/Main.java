@@ -1,6 +1,7 @@
 package bhtu.work.tths.testing;
 
 import bhtu.work.tths.testing.service.accountant.AccTest;
+import bhtu.work.tths.testing.service.statistic.StaTest;
 import vht.testing.SingleTestCase;
 
 public class Main {
@@ -13,6 +14,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
 //        new AuthTest().test();
 
-        new AccTest().test();
+//        new AccTest().test();
+
+        new StaTest().test();
     }
 }

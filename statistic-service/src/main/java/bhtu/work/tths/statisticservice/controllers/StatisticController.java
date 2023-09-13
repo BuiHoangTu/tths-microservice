@@ -72,6 +72,9 @@ public class StatisticController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    /**
+     * User want to know how much has one household received
+     */
     @GetMapping("household-number")
     public ResponseEntity<?> getByHouseholdNumber(
             HttpServletRequest request,

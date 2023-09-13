@@ -25,7 +25,11 @@ public class Get extends CombinedSingleTestCase<Update> {
     @Override
     public JSONObject doWork() throws Exception {
         Thread.sleep(2000); // wait for update
-        return new JSONObject(HttpUtil.get2("http://localhost:8080/api/prize-period/get", Collections.emptyMap()));
+        return new JSONObject(HttpUtil.get2(
+                "http://localhost:8080/api/prize-period/get",
+                Collections.emptyMap(),
+                Collections.emptyMap()
+        ));
     }
 
     @Override

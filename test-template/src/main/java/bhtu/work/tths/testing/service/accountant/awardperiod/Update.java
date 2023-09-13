@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import vht.testing.SingleTestCase;
 import vht.testing.example1.testcase.HttpUtil;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Update extends SingleTestCase {
     private static final Logger LOGGER_UPDATE = LoggerFactory.getLogger(Update.class);
@@ -55,7 +52,12 @@ public class Update extends SingleTestCase {
         login.test();
         try {
             var token = login.responseObject.get("authorization");
-            var response = HttpUtil.put2("http://127.0.0.1:8080/api/award-period/update", request.toString(), Map.of("Authorization", token.toString()));
+            var response = HttpUtil.put2(
+                    "http://127.0.0.1:8080/api/award-period/update",
+                    request.toString(),
+                    Map.of("Authorization", token.toString()),
+                    Collections.emptyMap()
+            );
             return new JSONObject(response);
         } catch (JSONException e) {
             LOGGER_UPDATE.info("{}: Can't find symbol in this {}", e, login.responseObject);
