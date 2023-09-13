@@ -1,4 +1,4 @@
-package bhtu.work.tths.testing.service.accountant.awardperiod;
+package bhtu.work.tths.testing.service.accountant.prizeperiod;
 
 import bhtu.work.tths.testing.service.auth.Login;
 import bhtu.work.tths.testing.service.auth.Signup;
@@ -29,14 +29,14 @@ public class Update extends SingleTestCase {
     private Update() {
         this.awardLevels = new LinkedList<>();
 
-        var awardLevel = new HashMap<String, String>(2);
-        awardLevel.put("achievement", "gioi");
-        awardLevel.put("prizeValue", "1000");
+        var awardLevel = new HashMap<String, Object>(2);
+        awardLevel.put("unitPrice", 3300);
+        awardLevel.put("nameOfPrize", "keo (cai)");
         awardLevels.add(awardLevel);
 
         awardLevel = new HashMap<>(2);
-        awardLevel.put("achievement", "gioi");
-        awardLevel.put("prizeValue", "1000");
+        awardLevel.put("unitPrice", 5400);
+        awardLevel.put("nameOfPrize", "gao (kg)");
         awardLevels.add(awardLevel);
     }
 
@@ -46,7 +46,7 @@ public class Update extends SingleTestCase {
         var awardLevels = new JSONArray(this.awardLevels);
 
         request
-                .put("awardLevels", awardLevels);
+                .put("rewardTypes", awardLevels);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Update extends SingleTestCase {
         login.test();
         try {
             var token = login.responseObject.get("authorization");
-            var response = HttpUtil.put2("http://127.0.0.1:8080/api/award-period/update", request.toString(), Map.of("Authorization", token.toString()));
+            var response = HttpUtil.put2("http://127.0.0.1:8080/api/prize-period/update", request.toString(), Map.of("Authorization", token.toString()));
             return new JSONObject(response);
         } catch (JSONException e) {
             LOGGER_UPDATE.info("{}: Can't find symbol in this {}", e, login.responseObject);
