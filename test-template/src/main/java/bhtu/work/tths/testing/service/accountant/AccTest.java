@@ -22,6 +22,7 @@ public class AccTest extends TestCaseRunner {
         awardLevel.put("prizeValue", 10);
         awardLevels.add(awardLevel);
         this.addTestCase(new Get(awardLevels));
+        // update is contained in here
 
         // other type of level
         var rewardTypes = new LinkedList<Map<String, ?>>();
@@ -35,5 +36,6 @@ public class AccTest extends TestCaseRunner {
         awardLevel.put("nameOfPrize", "gao (kg)");
         rewardTypes.add(awardLevel);
         this.addTestCase(new bhtu.work.tths.testing.service.accountant.prizeperiod.Get(rewardTypes));
+        // update is contained
     }
 }

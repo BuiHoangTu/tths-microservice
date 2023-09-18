@@ -35,7 +35,7 @@ public class StuTest extends TestCaseRunner {
                         }
                     ]
                 }""";
-//        addTestCase(new Add(addingJson));
+        addTestCase(new Add(addingJson));
         addTestCase(new Find("name", "SomeStudent"));
         addTestCase(new Get("648045a58aba772fe97d6fe4"));
 

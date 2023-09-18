@@ -9,6 +9,7 @@ public class AuthTest extends TestCaseRunner {
         String username = "test_user5";
         String pwd = "test_pwd";
         String houseNumber = "test_number5";
+        // auto signup created
         this.addTestCase(new Login(username, pwd, houseNumber));
     }
 }
