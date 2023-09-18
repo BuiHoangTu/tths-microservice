@@ -15,9 +15,9 @@ import java.util.Map;
 
 public class Find extends SingleTestCase {
     private static final Logger LOGGER_FIND = LoggerFactory.getLogger(Find.class);
-    private JSONObject request = new JSONObject();
     private String token;
-    private String category, filter;
+    private final String category;
+    private final String filter;
 
     public Find(String category, String filter) {
         this.category = category;
