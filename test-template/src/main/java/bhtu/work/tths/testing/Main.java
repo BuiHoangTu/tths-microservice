@@ -1,10 +1,10 @@
 package bhtu.work.tths.testing;
 
-import bhtu.work.tths.testing.service.accountant.AccTest;
-import bhtu.work.tths.testing.service.auth.AuthTest;
-import bhtu.work.tths.testing.service.statistic.StaTest;
-import bhtu.work.tths.testing.service.student.StuTest;
-import vht.testing.SingleTestCase;
+import bhtu.work.tths.testing.service.accountant.AccTestRunner;
+import bhtu.work.tths.testing.service.auth.AuthTestRunner;
+import bhtu.work.tths.testing.service.statistic.StaTestRunner;
+import bhtu.work.tths.testing.service.student.StuTestRunner;
+import bhtu.work.tths.testing.template.SingleTestCase;
 
 public class Main {
     static {
@@ -14,12 +14,19 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        new AuthTest().test();
+        var client = new Client();
+        client.username = "test1";
+        client.password = "test1";
+        client.houseNumber = "test1";
 
-        new AccTest().test();
+        // new AuthTestRunner(client, true, true).test();
 
-        new StaTest().test();
-
-        new StuTest().test();
+        client = new Client();
+        client.username = "admin";
+        client.password = "admin2";
+        new AuthTestRunner(client, false, true).test();
+        new AccTestRunner(client).test();
+        new StaTestRunner(client).test();
+        new StuTestRunner(client).test();
     }
 }

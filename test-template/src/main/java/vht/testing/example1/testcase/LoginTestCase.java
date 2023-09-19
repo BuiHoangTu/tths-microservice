@@ -27,6 +27,7 @@ public class LoginTestCase extends CombinedSingleTestCase<RegisterTestCase> {
     }
 
     public StudentClient getStudentClient() {
+
         return getSuperTestCase().getStudentClient();
     }
 }

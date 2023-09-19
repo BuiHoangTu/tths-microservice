@@ -1,26 +1,29 @@
 package bhtu.work.tths.testing.service.student;
 
-import bhtu.work.tths.testing.service.auth.Login;
-import bhtu.work.tths.testing.service.auth.Signup;
+import bhtu.work.tths.testing.Client;
+import bhtu.work.tths.testing.template.DependentTestCase;
 import bhtu.work.tths.testing.template.HttpUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vht.testing.SingleTestCase;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
-public class Update extends SingleTestCase {
-    private static final Logger LOGGER_UPDATE = LoggerFactory.getLogger(Update.class);
+public class UpdateStudentTest extends DependentTestCase {
+    private static final Logger LOGGER_UPDATE = LoggerFactory.getLogger(UpdateStudentTest.class);
     private JSONObject request = new JSONObject();
+    private final Client client;
+    private final FindStudentTest findTest;
     private final String studentName;
     private final String jsonSource;
     private String token;
 
-    public Update(String firstStudentWithName, String studentOneReward) {
+    public UpdateStudentTest(Client client, FindStudentTest findStudentTestTest, String firstStudentWithName, String studentOneReward) {
+        super(List.of(findStudentTestTest));
+        this.client = client;
+        this.findTest = findStudentTestTest;
         this.studentName = firstStudentWithName;
         this.jsonSource = studentOneReward;
     }
@@ -31,33 +34,19 @@ public class Update extends SingleTestCase {
         request = new JSONObject(jsonSource);
 
         // prepare token
-        var login = new Login((Signup) null, "admin", "admin2"); // must be this role to update
-        login.test();
-        try {
-            this.token = login.responseObject.get("authorization").toString();
-
-        } catch (JSONException e) {
-            LOGGER_UPDATE.info("{}: Can't find symbol in this {}", e, login.responseObject);
-            throw e;
-        }
+        this.token = client.jwt;
 
         // insert id
-        var find = new Find("name", studentName);
-        find.test();
-        try {
-            // students -> first -> id
-            String studentId = find.responseObject.getJSONArray("students").getJSONObject(0).get("id").toString();
-            request.put("id", studentId);
-        } catch (Exception e) {
-            LOGGER_UPDATE.info("Can't find this student: {}", ((Object) e));
-            throw e;
-        }
+        var findTest = getDependingTestCases().get(0);
+        // students -> first -> id
+        String studentId = findTest.responseObject.getJSONArray("students").getJSONObject(0).get("id").toString();
+        request.put("id", studentId);
     }
 
     @Override
     public JSONObject doWork() throws Exception {
         var res = HttpUtils.put2(
-                "http://127.0.0.1:8080/api/student/update",
+                client.baseUrl + "/api/student/update",
                 request.toString(),
                 Map.of("Authorization", token),
                 Collections.emptyMap()

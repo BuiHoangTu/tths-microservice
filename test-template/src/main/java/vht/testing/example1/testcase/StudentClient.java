@@ -1,15 +1,6 @@
 package vht.testing.example1.testcase;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContextBuilder;
 import org.json.JSONObject;
 @Slf4j
 public class StudentClient {
@@ -22,6 +13,7 @@ public class StudentClient {
     private String user;
     private String password;
 
+    private String token;
 
     public JSONObject login() throws Exception {
         JSONObject loginJson = new JSONObject();
@@ -30,6 +22,7 @@ public class StudentClient {
 
         String response = HttpUtil.post2("http://127.0.0.1:8080/api/auth/login", loginJson.toString());
 
+        token = "get token";
         return new JSONObject(response);
     }
 

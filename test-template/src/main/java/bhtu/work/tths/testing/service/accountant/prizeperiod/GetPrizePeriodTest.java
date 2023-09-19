@@ -1,22 +1,24 @@
 package bhtu.work.tths.testing.service.accountant.prizeperiod;
 
+import bhtu.work.tths.testing.Client;
+import bhtu.work.tths.testing.template.DependentTestCase;
 import bhtu.work.tths.testing.template.HttpUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import vht.testing.CombinedSingleTestCase;
-import vht.testing.example1.testcase.HttpUtil;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class Get extends CombinedSingleTestCase<Update> {
+public class GetPrizePeriodTest extends DependentTestCase {
     private final List<Map<String, ?>> expectedAwardLevels;
+    private final Client client;
 
-    public Get(List<Map<String, ?>> expectedAwardLevels) {
-        super(new Update(expectedAwardLevels));
+    public GetPrizePeriodTest(List<Map<String, ?>> expectedAwardLevels, Client client, UpdatePrizePeriodTest updateTest) {
+        super(Collections.singletonList(updateTest));
         this.expectedAwardLevels = expectedAwardLevels;
 
+        this.client = client;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class Get extends CombinedSingleTestCase<Update> {
     public JSONObject doWork() throws Exception {
         Thread.sleep(2000); // wait for update
         return new JSONObject(HttpUtils.get2(
-                "http://localhost:8080/api/prize-period/get",
+                client .baseUrl + "/api/prize-period/get",
                 Collections.emptyMap(),
                 Collections.emptyMap()
         ));

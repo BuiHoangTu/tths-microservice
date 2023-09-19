@@ -1,14 +1,23 @@
 package bhtu.work.tths.testing.service.accountant;
 
-import bhtu.work.tths.testing.service.accountant.awardperiod.Get;
-import vht.testing.TestCaseRunner;
+import bhtu.work.tths.testing.Client;
+import bhtu.work.tths.testing.service.accountant.awardperiod.GetAwardPeriodTest;
+import bhtu.work.tths.testing.service.accountant.awardperiod.UpdateAwardPeriodTest;
+import bhtu.work.tths.testing.service.accountant.prizeperiod.GetPrizePeriodTest;
+import bhtu.work.tths.testing.service.accountant.prizeperiod.UpdatePrizePeriodTest;
+import bhtu.work.tths.testing.template.TestCaseRunner;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class AccTest extends TestCaseRunner {
+public class AccTestRunner extends TestCaseRunner {
+    private final Client client;
+
+    public AccTestRunner(Client client) {
+        this.client = client;
+    }
 
     @Override
     public void makeTestCases() {
@@ -21,7 +30,10 @@ public class AccTest extends TestCaseRunner {
         awardLevel.put("achievement", "tot");
         awardLevel.put("prizeValue", 10);
         awardLevels.add(awardLevel);
-        this.addTestCase(new Get(awardLevels));
+        var updateAP = new UpdateAwardPeriodTest(awardLevels, client);
+        var getAP = new GetAwardPeriodTest(awardLevels, client, updateAP);
+        this.addTestCase(updateAP);
+        this.addTestCase(getAP);
         // update is contained in here
 
         // other type of level
@@ -35,7 +47,10 @@ public class AccTest extends TestCaseRunner {
         awardLevel.put("unitPrice", 5400);
         awardLevel.put("nameOfPrize", "gao (kg)");
         rewardTypes.add(awardLevel);
-        this.addTestCase(new bhtu.work.tths.testing.service.accountant.prizeperiod.Get(rewardTypes));
+
+        var updateTest = new UpdatePrizePeriodTest(rewardTypes, client);
+        this.addTestCase(updateTest);
+        this.addTestCase(new GetPrizePeriodTest(rewardTypes, client, updateTest));
         // update is contained
     }
 }
