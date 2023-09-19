@@ -68,9 +68,3 @@ spring:
       - id: discovery-server-web-resources
         uri: http://localhost:8761
         predicates: Path=/eureka/**
-
-grpc:
-  client:
-    grpc-authorize:
-      address: lb://auth-service
-      negotiation-type: plaintext

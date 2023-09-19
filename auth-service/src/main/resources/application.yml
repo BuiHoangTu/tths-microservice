@@ -4,7 +4,7 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://java:java@tths.np7ff7c.mongodb.net/?retryWrites=true&w=majority
+      uri: mongodb://user2:password2@localhost:27017/?authMechanism=SCRAM-SHA-1
       database: StudentReward
 
   app:
@@ -31,5 +31,5 @@ grpc:
     port: 0
   client:
     grpc-household:
-      address: lb:household-service
+      address: pse-household-service
       negotiation-type: plaintext

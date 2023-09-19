@@ -1,7 +1,70 @@
 server:
-  port: 8080
+  port: 8080 # static port
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:password@discovery-server:8761/eureka # http://uname:pword@docker_name:port/eureka
+
+logging:
+  level:
+    root: DEBUG
+
+    org:
+      springframework:
+        cloud:
+          gateway:
+            "": TRACE
+            route:
+              RouteDefinitionLocator: INFO
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-headers: "*"
+            allowed-origins: http://localhost:4200
+            allowed-methods: "*"
+
+      routes:
+        ## accountant service
+        - id: accountant-service
+          uri: lb://accountant-service # lb -> load balancer // this is the link to microservice
+          predicates:
+            - Path=/api/award-period/**, /api/prize-period/** # these links would be redirected to the above mservice
+
+        ## auth-service
+        - id: auth-service
+          uri: lb://auth-service
+          predicates: Path=/api/auth/**
+
+        ## household-pseu-service
+        - id: household-service
+          uri: lb://pseu-household-service # uri based on name of application <- eureka make link based on name
+          predicates: Path=/api/pseu-household/**
+
+        ## statistic
+        - id: statistic-service
+          uri: lb://statistic-service
+          predicates: Path=/api/statistic/**
+
+        ## student
+        - id: student-service
+          uri: lb://student-service
+          predicates: Path=/api/student/**
+
+        ## discovery server
+        - id: discovery-server
+          uri: http://localhost:8761
+          predicates: Path=/eureka/web
+          filters: SetPath=/ # route to `http://localhost:8761` instead of `http://localhost:8761/eureka/web`
+
+        ## eureka resources, eureka UI will try to load from this
+        - id: discovery-server-web-resources
+          uri: http://localhost:8761
+          predicates: Path=/eureka/**

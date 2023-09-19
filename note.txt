@@ -1,3 +1,2 @@
 add name of accesses for each end-point
-finish boil-plate in share.utils
 dockerized images face unk error

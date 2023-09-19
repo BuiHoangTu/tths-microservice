@@ -1,6 +1,7 @@
 package bhtu.work.tths.share.models.enums;
 
 public enum EUserAccess {
+    ADMIN (0),
     READ_A_STUDENT (10),
     FIX_A_STUDENT_DETAIL (11),
     READ_REGIONAL_STUDENTS (20),

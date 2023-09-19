@@ -22,5 +22,5 @@ grpc:
     port: 0
   client:
     grpc-household:
-      address: lb:household-service
+      address: pse-household-service
       negotiation-type: plaintext
