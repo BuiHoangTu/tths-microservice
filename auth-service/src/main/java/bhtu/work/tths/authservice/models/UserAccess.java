@@ -1,6 +1,6 @@
 package bhtu.work.tths.authservice.models;
 
-import bhtu.work.tths.core.models.enums.EUserAccess;
+import bhtu.work.tths.share.models.enums.EUserAccess;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

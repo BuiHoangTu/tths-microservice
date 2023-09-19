@@ -1,7 +1,7 @@
 package bhtu.work.tths.share.utils;
 
 
-import bhtu.work.tths.core.models.enums.EUserAccess;
+import bhtu.work.tths.share.models.enums.EUserAccess;
 
 import java.util.Collection;
 import java.util.Set;

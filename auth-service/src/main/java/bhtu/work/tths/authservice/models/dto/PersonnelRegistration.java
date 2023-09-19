@@ -2,7 +2,7 @@ package bhtu.work.tths.authservice.models.dto;
 
 
 
-import bhtu.work.tths.core.models.enums.EUserAccess;
+import bhtu.work.tths.share.models.enums.EUserAccess;
 
 import java.util.Set;
 

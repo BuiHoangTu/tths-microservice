@@ -1,4 +1,4 @@
-package bhtu.work.tths.core.models.enums;
+package bhtu.work.tths.share.models.enums;
 
 public enum EUserAccess {
     ADMIN (0),

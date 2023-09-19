@@ -11,6 +11,7 @@ import net.devh.boot.grpc.server.service.GrpcService;
 import bhtu.work.tths.studentservice.proto.StudentServiceGrpc.StudentServiceImplBase;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -131,33 +132,47 @@ public class StudentGrpcServer extends StudentServiceImplBase {
     @Override
     public void getByEventDate(EventDate request, StreamObserver<bhtu.work.tths.studentservice.proto.EventOfStudent> responseObserver) {
         try {
-            List<EventOfStudent> prizes = studentRepo.findEventsByDate(LocalDate.parse(request.getDate())).getEvents();
+            var studentWrapper = studentRepo.findEventsByDate(LocalDate.parse(request.getDate()));
 
-            for (var p : prizes) {
+            if (studentWrapper == null) {
+                studentWrapper = new Student(null,null,null,null,null,null);
+                studentWrapper.setEvents(Collections.emptyList());
+            }
+
+            for (var p : studentWrapper.getEvents()) {
                 var pe = mapEvent(p);
                 responseObserver.onNext(pe);
             }
         } catch (Exception e) {
             responseObserver.onError(e);
-        } finally {
-            responseObserver.onCompleted();
+            STUDENT_GRPC_LOGGER.error("", e);
+            return;
         }
+
+        responseObserver.onCompleted();
     }
 
     @Override
     public void getByEventName(EventName request, StreamObserver<bhtu.work.tths.studentservice.proto.EventOfStudent> responseObserver) {
         try {
-            var studentWarper = studentRepo.findEventsByName(request.getName());
+            var studentWrapper = studentRepo.findEventsByName(request.getName());
 
-            for (var event : studentWarper.getEvents()) {
-                var pe = mapEvent(event);
+            if (studentWrapper == null) {
+                studentWrapper = new Student(null,null,null,null,null,null);
+                studentWrapper.setEvents(Collections.emptyList());
+            }
+
+            for (var me : studentWrapper.getEvents()) {
+                var pe = mapEvent(me);
                 responseObserver.onNext(pe);
-                STUDENT_GRPC_LOGGER.debug("Sent: {}", event);
+                STUDENT_GRPC_LOGGER.debug("Sent: {}", me);
             }
         } catch (Exception e) {
             responseObserver.onError(e);
-        } finally {
-            responseObserver.onCompleted();
+            STUDENT_GRPC_LOGGER.error("", e);
+            return; // onError close the connection anyway
         }
+        // if no error, close connect
+        responseObserver.onCompleted();
     }
 }
