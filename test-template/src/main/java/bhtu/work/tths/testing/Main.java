@@ -14,19 +14,78 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        var client = new Client();
-        client.username = "test1";
-        client.password = "test1";
-        client.houseNumber = "test1";
+        // test as new account
+        var parentAccount = new Client();
+        parentAccount.username = "test1";
+        parentAccount.password = "test1";
+        parentAccount.houseNumber = "test1";
+        new AuthTestRunner(parentAccount, true, true).test();
+        new AccTestRunner(parentAccount, false, true, false, true).test(); // dont run update (no authority)
+        // no staticTest
+        new StuTestRunner(parentAccount, false, false, true, false).test(); // can only get
 
-        // new AuthTestRunner(client, true, true).test();
+        // test as admin
+        var adminAccount = new Client();
+        adminAccount.username = "admin";
+        adminAccount.password = "admin2";
+        // use admin account, not running signup
+        new AuthTestRunner(adminAccount, false, true).test();
+        new AccTestRunner(adminAccount, true, true, true, true).test();
+        new StaTestRunner(adminAccount, true, true).test();
+        new StuTestRunner(adminAccount, true, true, true, true).test();
 
-        client = new Client();
-        client.username = "admin";
-        client.password = "admin2";
-        new AuthTestRunner(client, false, true).test();
-        new AccTestRunner(client).test();
-        new StaTestRunner(client).test();
-        new StuTestRunner(client).test();
+        // test other restriction
+        boolean hasException = false;
+        try {
+            new AccTestRunner(parentAccount, true, false, false, false).test();
+        } catch (Exception ignored) {
+            hasException = true;
+        }
+        if (!hasException) throw new Exception("Over authorization");
+        hasException = false;
+        try {
+            new AccTestRunner(parentAccount, false, false, true, false).test();
+        } catch (Exception ignored) {
+            hasException = true;
+        }
+        if (!hasException) throw new Exception("Over authorization");
+
+        hasException = false;
+        try {
+            new StaTestRunner(parentAccount, true, false).test();
+        } catch (Exception ignored) {
+            hasException = true;
+        }
+        if (!hasException) throw new Exception("Over authorization");
+        hasException = false;
+        try {
+            new StaTestRunner(parentAccount, false, true).test();
+        } catch (Exception ignored) {
+            hasException = true;
+        }
+        if (!hasException) throw new Exception("Over authorization");
+
+        hasException = false;
+        try {
+            new StuTestRunner(parentAccount, true, false, false, false).test();
+        } catch (Exception ignored) {
+            hasException = true;
+        }
+        if (!hasException) throw new Exception("Over authorization");
+        hasException = false;
+        try {
+            new StuTestRunner(parentAccount, false, true, false, false).test();
+        } catch (Exception ignored) {
+            hasException = true;
+        }
+        if (!hasException) throw new Exception("Over authorization");
+        hasException = false;
+        try {
+            new StuTestRunner(parentAccount, false, false, false, true).test();
+        } catch (Exception ignored) {
+            hasException = true;
+        }
+        if (!hasException) throw new Exception("Over authorization");
+
     }
 }

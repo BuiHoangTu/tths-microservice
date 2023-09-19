@@ -18,9 +18,9 @@ public class AuthTestRunner extends TestCaseRunner {
     public void makeTestCases() {
         SignupTest signup = null;
         if(runSignup) signup = new SignupTest(client);
-        var login = new LoginTest(signup, client);
-
         if(runSignup) this.addTestCase(signup);
+
+        var login = new LoginTest(signup, client);
         if(runLogin) this.addTestCase(login);
     }
 }

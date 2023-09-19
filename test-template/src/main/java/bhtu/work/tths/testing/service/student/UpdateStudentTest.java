@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,11 @@ public class UpdateStudentTest extends DependentTestCase {
     private final String jsonSource;
     private String token;
 
-    public UpdateStudentTest(Client client, FindStudentTest findStudentTestTest, String firstStudentWithName, String studentOneReward) {
-        super(List.of(findStudentTestTest));
+    public UpdateStudentTest(Client client, FindStudentTest findStudentTest, String firstStudentWithName, String studentOneReward) {
+        super(new ArrayList<>());
+        this.preCombinedSingleTestCases.add(findStudentTest);
         this.client = client;
-        this.findTest = findStudentTestTest;
+        this.findTest = findStudentTest;
         this.studentName = firstStudentWithName;
         this.jsonSource = studentOneReward;
     }

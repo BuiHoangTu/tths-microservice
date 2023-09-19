@@ -6,22 +6,33 @@ import bhtu.work.tths.testing.template.TestCaseRunner;
 public class StuTestRunner extends TestCaseRunner {
 
     private final Client client;
+    private final boolean runAdd;
+    private final boolean runFind;
+    private final boolean runGet;
+    private final boolean runUpdate;
     private String addingJson;
     private String updatingJson;
 
-    public StuTestRunner(Client client) {
+    public StuTestRunner(Client client, boolean runAdd, boolean runFind, boolean runGet, boolean runUpdate) {
 
         this.client = client;
+        this.runAdd = runAdd;
+        this.runFind = runFind;
+        this.runGet = runGet;
+        this.runUpdate = runUpdate;
     }
 
     @Override
     public void makeTestCases() {
         setTestValue();
-        addTestCase(new AddStudentTest(client, addingJson));
-        FindStudentTest findTest = new FindStudentTest(client, "name", "SomeStudent");
-        addTestCase(findTest);
-        addTestCase(new GetStudentTest(client, "648045a58aba772fe97d6fe4"));
-        addTestCase(new UpdateStudentTest(client, findTest, "SomeStudent", updatingJson));
+        if (runAdd) addTestCase(new AddStudentTest(client, addingJson));
+        FindStudentTest findTest = null;
+        if (runFind){
+            findTest = new FindStudentTest(client, "name", "SomeStudent");
+            addTestCase(findTest);
+        }
+        if (runGet) addTestCase(new GetStudentTest(client, "648045a58aba772fe97d6fe4"));
+        if (runUpdate) addTestCase(new UpdateStudentTest(client, findTest, "SomeStudent", updatingJson));
     }
     
     private void setTestValue() {

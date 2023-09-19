@@ -6,6 +6,7 @@ import bhtu.work.tths.testing.template.HttpUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +16,9 @@ public class GetPrizePeriodTest extends DependentTestCase {
     private final Client client;
 
     public GetPrizePeriodTest(List<Map<String, ?>> expectedAwardLevels, Client client, UpdatePrizePeriodTest updateTest) {
-        super(Collections.singletonList(updateTest));
+        super(new ArrayList<>());
+        if (updateTest != null) preCombinedSingleTestCases.add(updateTest);
         this.expectedAwardLevels = expectedAwardLevels;
-
         this.client = client;
     }
 

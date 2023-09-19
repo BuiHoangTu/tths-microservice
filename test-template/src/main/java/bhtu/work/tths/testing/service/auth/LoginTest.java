@@ -5,6 +5,7 @@ import bhtu.work.tths.testing.template.DependentTestCase;
 import org.json.JSONObject;
 import vht.testing.example1.testcase.HttpUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
@@ -15,9 +16,9 @@ public class LoginTest extends DependentTestCase {
 
     private final JSONObject request = new JSONObject();
 
-    public LoginTest(SignupTest preCombinedSingleTestCase2, Client client) {
-        super(emptyList());
-        if (preCombinedSingleTestCase2 != null) this.preCombinedSingleTestCases.add(preCombinedSingleTestCase2);
+    public LoginTest(SignupTest signupTest, Client client) {
+        super(new ArrayList<>());
+        if (signupTest != null) this.preCombinedSingleTestCases.add(signupTest);
         this.client = client;
     }
 

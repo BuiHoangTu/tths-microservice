@@ -14,7 +14,8 @@ public class GetAwardPeriodTest extends DependentTestCase {
     private final Client client;
 
     public GetAwardPeriodTest(List<Map<String, ?>> expectedAwardLevels, Client client, UpdateAwardPeriodTest updateTest) {
-        super(List.of(updateTest));
+        super(new ArrayList<>());
+        if (updateTest != null) preCombinedSingleTestCases.add(updateTest);
         this.expectedAwardLevels = expectedAwardLevels;
 
         this.client = client;

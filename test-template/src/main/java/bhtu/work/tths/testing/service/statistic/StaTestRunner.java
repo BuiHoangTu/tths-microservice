@@ -5,15 +5,19 @@ import bhtu.work.tths.testing.template.TestCaseRunner;
 
 public class StaTestRunner extends TestCaseRunner {
     private final Client client;
+    private final boolean runEvent;
+    private final boolean runHousehold;
 
-    public StaTestRunner(Client client) {
+    public StaTestRunner(Client client, boolean runEvent, boolean runHousehold) {
 
         this.client = client;
+        this.runEvent = runEvent;
+        this.runHousehold = runHousehold;
     }
 
     @Override
     public void makeTestCases() {
-        addTestCase(new EventStatisticTest(client, "name", "Tet"));
-        addTestCase(new HouseholdStatisticTest(client, "1"));
+        if (runEvent) addTestCase(new EventStatisticTest(client, "name", "Tet"));
+        if(runHousehold) addTestCase(new HouseholdStatisticTest(client, "1"));
     }
 }

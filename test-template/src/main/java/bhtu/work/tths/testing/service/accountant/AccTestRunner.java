@@ -14,9 +14,17 @@ import java.util.Map;
 
 public class AccTestRunner extends TestCaseRunner {
     private final Client client;
+    private final boolean runUpdateAP;
+    private final boolean runGetAP;
+    private final boolean runUpdatePP;
+    private final boolean runGetPP;
 
-    public AccTestRunner(Client client) {
+    public AccTestRunner(Client client, boolean runUpdateAP, boolean runGetAP, boolean runUpdatePP, boolean runGetPP) {
         this.client = client;
+        this.runUpdateAP = runUpdateAP;
+        this.runGetAP = runGetAP;
+        this.runUpdatePP = runUpdatePP;
+        this.runGetPP = runGetPP;
     }
 
     @Override
@@ -30,11 +38,14 @@ public class AccTestRunner extends TestCaseRunner {
         awardLevel.put("achievement", "tot");
         awardLevel.put("prizeValue", 10);
         awardLevels.add(awardLevel);
-        var updateAP = new UpdateAwardPeriodTest(awardLevels, client);
+
+        UpdateAwardPeriodTest updateAP = null;
+        if(runUpdateAP) updateAP = new UpdateAwardPeriodTest(awardLevels, client);
+        if (runUpdateAP) this.addTestCase(updateAP);
+
         var getAP = new GetAwardPeriodTest(awardLevels, client, updateAP);
-        this.addTestCase(updateAP);
-        this.addTestCase(getAP);
-        // update is contained in here
+        if (runGetAP) this.addTestCase(getAP);
+
 
         // other type of level
         var rewardTypes = new LinkedList<Map<String, ?>>();
@@ -48,9 +59,12 @@ public class AccTestRunner extends TestCaseRunner {
         awardLevel.put("nameOfPrize", "gao (kg)");
         rewardTypes.add(awardLevel);
 
-        var updateTest = new UpdatePrizePeriodTest(rewardTypes, client);
-        this.addTestCase(updateTest);
-        this.addTestCase(new GetPrizePeriodTest(rewardTypes, client, updateTest));
+        UpdatePrizePeriodTest updateTest = null;
+        if (runUpdatePP) {
+            updateTest = new UpdatePrizePeriodTest(rewardTypes, client);
+            this.addTestCase(updateTest);
+        }
+        if (runGetPP) this.addTestCase(new GetPrizePeriodTest(rewardTypes, client, updateTest));
         // update is contained
     }
 }
