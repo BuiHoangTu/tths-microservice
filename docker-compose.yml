@@ -10,8 +10,8 @@ services:
     expose:
       - 27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${TTHS_MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${TTHS_MONGO_PASSWORD}
     volumes:
       - ./data-example/mongodb-data:/data/db
   discovery-server:
@@ -35,13 +35,23 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
+    depends_on:
+      - discovery-server
   accountant-service:
     build: accountant-service
     image: tths-microservice-accountant-service
     container_name: accountant-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
       - mongo-service
       - discovery-server
@@ -50,8 +60,13 @@ services:
     build: auth-service
     image: tths-microservice-auth-service
     container_name: auth-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
       - mongo-service
       - discovery-server
@@ -69,8 +84,13 @@ services:
     build: statistic-service
     image: tths-microservice-statistic-service
     container_name: statistic-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
       - mongo-service
       - discovery-server
@@ -79,8 +99,13 @@ services:
     build: student-service
     image: tths-microservice-student-service
     container_name: student-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
       - mongo-service
       - discovery-server
