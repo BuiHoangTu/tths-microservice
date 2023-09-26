@@ -17,7 +17,7 @@ services:
   discovery-server:
     build: discovery-server
     image: tths-microservice-discovery-server:latest
-    container_name: discovery-server
+    hostname: discovery-server
     ports:
       - "8761:8761"
     expose:
@@ -27,7 +27,7 @@ services:
   api-gateway:
     build: api-gateway
     image: tths-microservice-api-gateway
-    container_name: api-gateway
+    hostname: api-gateway
     ports:
       - "8080:8080"
     expose:
@@ -43,7 +43,7 @@ services:
   accountant-service:
     build: accountant-service
     image: tths-microservice-accountant-service
-    container_name: accountant-service
+    hostname: accountant-service
     links:
       - mongo-service:${TTHS_MONGO_HOST}
     environment:
@@ -59,7 +59,7 @@ services:
   auth-service:
     build: auth-service
     image: tths-microservice-auth-service
-    container_name: auth-service
+    hostname: auth-service
     links:
       - mongo-service:${TTHS_MONGO_HOST}
     environment:
@@ -74,7 +74,7 @@ services:
   household-service:
     build: household-service
     image: tths-microservice-household-service
-    container_name: household-service
+    hostname: household-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
@@ -83,7 +83,7 @@ services:
   statistic-service:
     build: statistic-service
     image: tths-microservice-statistic-service
-    container_name: statistic-service
+    hostname: statistic-service
     links:
       - mongo-service:${TTHS_MONGO_HOST}
     environment:
@@ -98,7 +98,7 @@ services:
   student-service:
     build: student-service
     image: tths-microservice-student-service
-    container_name: student-service
+    hostname: student-service
     links:
       - mongo-service:${TTHS_MONGO_HOST}
     environment:
