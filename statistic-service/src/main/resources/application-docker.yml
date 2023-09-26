@@ -1,6 +1,18 @@
 server:
   port: 8080
 
+spring:
+  data:
+    mongodb:
+      host: ${MONGO_HOST}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      port: 27017
+      database: StudentReward
+      authentication-database: admin
+  application:
+    name: statistic-service
+
 eureka:
   client:
     serviceUrl:

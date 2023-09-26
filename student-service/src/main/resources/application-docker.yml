@@ -9,7 +9,11 @@ eureka:
 spring:
   data:
     mongodb:
-      host: mongo
-      username: root
-      password: example
+      host: ${MONGO_HOST}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
       port: 27017
+      database: StudentReward
+      authentication-database: admin
+  application:
+    name: student-service

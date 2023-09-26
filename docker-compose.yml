@@ -10,14 +10,14 @@ services:
     expose:
       - 27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${TTHS_MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${TTHS_MONGO_PASSWORD}
     volumes:
       - ./data-example/mongodb-data:/data/db
   discovery-server:
     build: discovery-server
     image: tths-microservice-discovery-server:latest
-    container_name: discovery-server
+    hostname: discovery-server
     ports:
       - "8761:8761"
     expose:
@@ -27,7 +27,7 @@ services:
   api-gateway:
     build: api-gateway
     image: tths-microservice-api-gateway
-    container_name: api-gateway
+    hostname: api-gateway
     ports:
       - "8080:8080"
     expose:
@@ -35,13 +35,23 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
+    depends_on:
+      - discovery-server
   accountant-service:
     build: accountant-service
     image: tths-microservice-accountant-service
-    container_name: accountant-service
+    hostname: accountant-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
       - mongo-service
       - discovery-server
@@ -49,9 +59,14 @@ services:
   auth-service:
     build: auth-service
     image: tths-microservice-auth-service
-    container_name: auth-service
+    hostname: auth-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
       - mongo-service
       - discovery-server
@@ -59,7 +74,7 @@ services:
   household-service:
     build: household-service
     image: tths-microservice-household-service
-    container_name: household-service
+    hostname: household-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
@@ -68,9 +83,14 @@ services:
   statistic-service:
     build: statistic-service
     image: tths-microservice-statistic-service
-    container_name: statistic-service
+    hostname: statistic-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
       - mongo-service
       - discovery-server
@@ -78,9 +98,14 @@ services:
   student-service:
     build: student-service
     image: tths-microservice-student-service
-    container_name: student-service
+    hostname: student-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
       - mongo-service
       - discovery-server

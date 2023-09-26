@@ -4,8 +4,12 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://user2:password2@localhost:27017/?authMechanism=SCRAM-SHA-1
+      host: localhost
+      username: root
+      password: example
+      port: 27017
       database: StudentReward
+      authentication-database: admin
 
   app:
     jwtCookieName: tths
