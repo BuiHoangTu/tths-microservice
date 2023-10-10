@@ -17,6 +17,7 @@ message EventOfStudent {
   string achievement = 3;
   string classStr = 4;
   repeated PrizeGroup prizeGroup = 5;
+  int32 totalExpense = 6;
 
 }
 
@@ -33,14 +34,18 @@ message StudentId {
   string identifier = 1;
 }
 
-message EventId {
+message EventDate {
   string date = 1;
-  string name = 2;
+}
+
+message EventName {
+  string name = 1;
 }
 
 
 service StudentService {
   rpc getById(StudentId) returns(Student){}
   rpc getByHouseholdNumber(StudentId) returns(stream Student){}
-  rpc getByEvent(EventId) returns(stream EventOfStudent){}
+  rpc getByEventDate(EventDate) returns(stream EventOfStudent){}
+  rpc getByEventName(EventName) returns(stream EventOfStudent){}
 }

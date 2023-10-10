@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class})
+@SpringBootApplication()
 @EnableEurekaClient
 public class StudentServiceApplication {
 

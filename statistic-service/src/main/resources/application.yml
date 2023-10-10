@@ -6,8 +6,12 @@ spring:
     name: statistic-service
   data:
     mongodb:
-      uri: mongodb+srv://java:java@tths.np7ff7c.mongodb.net/?retryWrites=true&w=majority
+      host: localhost
+      username: root
+      password: example
+      port: 27017
       database: StudentReward
+      authentication-database: admin
 
   testdata:
     student:
@@ -32,14 +36,14 @@ eureka:
 grpc:
   client:
     grpc-student-service:
-      address: lb:student-service
+      address: student-service
       negotiation-type: plaintext # ssl must be mentioned here if used
     grpc-reward-detail-service:
-      address: lb:accountant-service
+      address: accountant-service
       negotiation-type: plaintext
     grpc-prize-period-service:
-      address: lb:accountant-service
+      address: accountant-service
       negotiation-type: plaintext
     grpc-auth-service:
-      address: lb:auth-service
+      address: auth-service
       negotiation-type: plaintext

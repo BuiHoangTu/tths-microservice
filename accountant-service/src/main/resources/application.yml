@@ -6,8 +6,12 @@ spring:
     name: accountant-service
   data:
     mongodb:
-      uri: mongodb+srv://java:java@tths.np7ff7c.mongodb.net/?retryWrites=true&w=majority
+      host: localhost
+      username: root
+      password: example
+      port: 27017
       database: StudentReward
+      authentication-database: admin
 
   testdata:
     student:
@@ -32,5 +36,5 @@ grpc:
 
   client:
     auth-service:
-      address: lb:auth-service
+      address: AUTH-SERVICE
       negotiation-type: plaintext

@@ -1,26 +1,26 @@
 package bhtu.work.tths.accountantservice.models;
 
+import lombok.Data;
+
+import java.util.Objects;
+
 /**
  * Amount of money for each achivement 
  */
+@Data
 public class AwardLevel {
     private String achievement;
     private int prizeValue;
 
-    public String getAchievement() {
-        return achievement;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AwardLevel that)) return false;
+        return prizeValue == that.prizeValue && Objects.equals(achievement, that.achievement);
     }
 
-    public void setAchievement(String achievement) {
-        this.achievement = achievement;
+    @Override
+    public int hashCode() {
+        return Objects.hash(achievement);
     }
-
-    public int getPrizeValue() {
-        return prizeValue;
-    }
-
-    public void setPrizeValue(int prizeValue) {
-        this.prizeValue = prizeValue;
-    }
-
 }

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package proto;
+
+option java_multiple_files = true;
+option java_package = "bhtu.work.tths.authservice.proto";
+
+
+message HouseholdNumber {
+  string number = 1;
+}
+
+message Existence {
+  bool isValid = 1;
+}
+
+service Verify {
+  rpc verifyHouseholdNumber(HouseholdNumber) returns(Existence) {}
+}

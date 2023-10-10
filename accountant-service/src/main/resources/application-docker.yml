@@ -1,15 +1,26 @@
 server:
   port: 8080
 
+spring:
+  application:
+    name: accountant-service
+  data:
+    mongodb:
+      host: ${MONGO_HOST}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      port: 27017
+      database: StudentReward
+      authentication-database: admin
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:password@discovery-server:8761/eureka # http://uname:pword@docker_name:port/eureka
 
-spring:
-  data:
-    mongodb:
-      host: mongo
-      username: root
-      password: example
-      port: 27017
+grpc:
+  server:
+    port: 0
+  client:
+    auth-service:
+      address: AUTH-SERVICE
+      negotiation-type: plaintext

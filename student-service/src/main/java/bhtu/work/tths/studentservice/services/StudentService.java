@@ -10,7 +10,9 @@ import bhtu.work.tths.studentservice.models.dto.StudentOneReward;
 import bhtu.work.tths.studentservice.models.enums.EGetStudents;
 import bhtu.work.tths.studentservice.repositories.mongo.StudentRepo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class StudentService {
@@ -38,19 +40,22 @@ public class StudentService {
             case PARENT -> {
                 return this.studentRepo.findByParentRegex(".*" + filter + ".*");
             }
-            default -> {
-                return null;
-            }
+            default -> throw new IllegalArgumentException();
         }
 
     }
 
     public Student addStudent(Student student) {
-        return studentRepo.insert(student);
+        var optionalStudent = studentRepo.findStudentByHouseholdNumberAndName(student.getHouseholdNumber(), student.getName());
+        if (optionalStudent.isPresent()) {
+            var existingStudent = optionalStudent.get();
+            existingStudent.getEvents().addAll(student.getEvents());
+            return studentRepo.save(existingStudent);
+        } else return studentRepo.insert(student);
     }
 
     public Student getStudentById(@NonNull String Id) {
-        return studentRepo.findById(Id).get();
+        return studentRepo.findById(Id).orElse(null);
     }
 
     public Student updateStudent(StudentOneReward changedStudent) {
@@ -58,7 +63,7 @@ public class StudentService {
         Student studentToChange = new Student(changedStudent.id(), changedStudent.name(), changedStudent.dateOfBirth(),
                 changedStudent.school(), changedStudent.householdNumber(), changedStudent.parent());
 
-        Student onDbStudent = studentRepo.findById(studentToChange.getId()).get();
+        Student onDbStudent = studentRepo.findById(studentToChange.getId()).orElseThrow(() -> new NoSuchElementException("This student's id is not existed"));
         onDbStudent.setHouseholdNumber(studentToChange.getHouseholdNumber());
         onDbStudent.setDateOfBirth(studentToChange.getDateOfBirth());
         onDbStudent.setParent(studentToChange.getParent());
@@ -73,7 +78,9 @@ public class StudentService {
         return studentRepo.save(onDbStudent);
     }
 
-    public List<Student> getStudentByHouseholdNumber(@NonNull String householdNumber) {
-        return studentRepo.findByHouseholdNumber(householdNumber);
+    public List<EventOfStudent> dsds() {
+        var student = studentRepo.findEventsByName("Trung Thu");
+
+        return new ArrayList<>(student.getEvents());
     }
 }

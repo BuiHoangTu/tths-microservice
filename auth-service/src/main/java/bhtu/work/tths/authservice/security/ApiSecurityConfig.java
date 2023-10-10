@@ -17,6 +17,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -79,15 +80,13 @@ public class ApiSecurityConfig {
     private static final String[] openUrls = { "/api/open/**", "/api/auth/login", "/api/auth/signup" };
 
     @Bean
-    @Autowired
+//    @Autowired
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors((configure) -> {
-            configure.configurationSource(corsConfigurationSource());
-        }); // allow all diff ports access
+//        http.cors((configure) -> {
+//            configure.configurationSource(corsConfigurationSource());
+//        }); // allow all diff ports access
 
-        http.csrf((httpSecurityCsrfConfigurer) -> {
-            httpSecurityCsrfConfigurer.disable();
-        });
+        http.csrf(AbstractHttpConfigurer::disable);
 
         http.exceptionHandling((x) -> x.authenticationEntryPoint(unauthorizedHandler));
         http.sessionManagement((x) -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -107,19 +106,19 @@ public class ApiSecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        // Configure allowed origins, methods, headers, and credentials
-        configuration.setAllowedOrigins(List.of(getGuiUrl()));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//
+//        // Configure allowed origins, methods, headers, and credentials
+//        configuration.setAllowedOrigins(List.of(getGuiUrl()));
+//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+//        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+//        configuration.setAllowCredentials(true);
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//
+//        return source;
+//    }
 }

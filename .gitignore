@@ -34,3 +34,10 @@ build/
 
 ### secure files ###
 data-example
+
+### logs ###
+**.log
+logs
+
+### backup ###
+*.bak

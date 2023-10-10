@@ -26,6 +26,8 @@
     	<module>discovery-server</module>
     	<module>api-gateway</module>
         <module>common</module>
+		<module>test-template</module>
+        <module>core</module>
     </modules>
 
     <properties>
@@ -35,6 +37,20 @@
 		<protobuf-plugin.version>0.6.1</protobuf-plugin.version>
 		<grpc.version>1.42.1</grpc.version>
 	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>bhtu.work</groupId>-->
+<!--			<artifactId>core</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--		</dependency>-->
+	</dependencies>
 
 	<dependencyManagement> <!-- help to manage version and config, still have to include it in child -->
 		<dependencies>
@@ -142,27 +158,13 @@
 		</pluginManagement>
 
 		<plugins>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>jib-maven-plugin</artifactId>
-				<version>3.2.1</version>
-				<configuration>
-					<from>
-						<image>eclipse-temurin:17-jre-alpine</image>
-					</from>
-					<to>
-						<image>registry.hub.docker.com/oziousprime/${project.parent.artifactId}-${project.artifactId}</image>
-					</to>
-				</configuration>
-			</plugin>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
                         <exclude>
-                            <groupId>org.projectlombok</groupId>
+                            <groupId>org.project-lombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>

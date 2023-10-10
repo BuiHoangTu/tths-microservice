@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  mongo:
-    container_name: mongodb
+  mongo-service:
+    container_name: tths-database-mongo
     image: mongo
     restart: unless-stopped
     ports:
@@ -10,76 +10,103 @@ services:
     expose:
       - 27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${TTHS_MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${TTHS_MONGO_PASSWORD}
     volumes:
       - ./data-example/mongodb-data:/data/db
   discovery-server:
-    image: oziousprime/tths-microservice-discovery-server:latest
-    container_name: discovery-server
-    pull_policy: always
+    build: discovery-server
+    image: tths-microservice-discovery-server:latest
+    hostname: discovery-server
     ports:
       - "8761:8761"
+    expose:
+      - 8761
     environment:
       - SPRING_PROFILES_ACTIVE=docker
   api-gateway:
-    image: oziousprime/tths-microservice-api-gateway
-    container_name: api-gateway
-    pull_policy: always
+    build: api-gateway
+    image: tths-microservice-api-gateway
+    hostname: api-gateway
     ports:
-      - 8181:8080
+      - "8080:8080"
     expose:
-      - 8181
+      - 8080
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
+    depends_on:
+      - discovery-server
   accountant-service:
-    image: oziousprime/tths-microservice-accountant-service
-    container_name: accountant-service
-    pull_policy: always
+    build: accountant-service
+    image: tths-microservice-accountant-service
+    hostname: accountant-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
-      - mongo
+      - mongo-service
       - discovery-server
       - api-gateway
   auth-service:
-    image: oziousprime/tths-microservice-auth-service
-    container_name: auth-service
-    pull_policy: always
+    build: auth-service
+    image: tths-microservice-auth-service
+    hostname: auth-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
-      - mongo
+      - mongo-service
       - discovery-server
       - api-gateway
   household-service:
-    image: oziousprime/tths-microservice-household-service
-    container_name: household-service
-    pull_policy: always
+    build: household-service
+    image: tths-microservice-household-service
+    hostname: household-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - discovery-server
       - api-gateway
   statistic-service:
-    image: oziousprime/tths-microservice-statistic-service
-    container_name: statistic-service
-    pull_policy: always
+    build: statistic-service
+    image: tths-microservice-statistic-service
+    hostname: statistic-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
-      - mongo
+      - mongo-service
       - discovery-server
       - api-gateway
   student-service:
-    image: oziousprime/tths-microservice-student-service
-    container_name: student-service
-    pull_policy: always
+    build: student-service
+    image: tths-microservice-student-service
+    hostname: student-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
     depends_on:
-      - mongo
+      - mongo-service
       - discovery-server
       - api-gateway

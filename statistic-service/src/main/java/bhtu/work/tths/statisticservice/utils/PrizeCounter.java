@@ -1,101 +1,85 @@
 package bhtu.work.tths.statisticservice.utils;
 
+import bhtu.work.tths.share.utils.counter.ComplexCounter;
+import bhtu.work.tths.share.utils.counter.Countable;
+import bhtu.work.tths.share.utils.counter.Counter;
 import bhtu.work.tths.statisticservice.models.PrizeGroup;
-import org.bson.assertions.Assertions;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class PrizeCounter implements Map<String, PrizeGroup> {
-    private Map<String, PrizeGroup> counter = new HashMap<>();
+public class PrizeCounter implements Counter<PrizeGroup>{
+    private static Countable<String, PrizeGroup> warp(PrizeGroup p) {
+        return new Countable<>() {
+            @Override
+            public String getKey() {
+                return p.getNameOfPrize();
+            }
 
-    @Override
-    public int size() {
-        return counter.size();
+            @Override
+            public long getCount() {
+                return p.getAmount();
+            }
+
+            @Override
+            public void setCount(long newCount) {
+                p.setAmount((int) newCount);
+            }
+
+            @Override
+            public PrizeGroup get() {
+                return p;
+            }
+        };
     }
 
-    @Override
-    public boolean isEmpty() {
-        return counter.isEmpty();
-    }
+    private final Counter<Countable<String, PrizeGroup>> counter = new ComplexCounter<>();
+
 
     @Override
-    public boolean containsKey(Object key) {
-        return counter.containsKey(key);
+    public long put(PrizeGroup unit) {
+        return this.counter.put(warp(unit));
     }
+
 
     @Override
-    public boolean containsValue(Object value) {
-        return counter.containsValue(value);
-    }
-
-    @Override
-    public PrizeGroup get(Object key) {
-        return counter.get(key);
-    }
-
-    /**
-     *
-     * @return new PrizeGroup after put in
-     */
-    @Override
-    public PrizeGroup put(String key, PrizeGroup value) {
-        if (value == null) throw new NullPointerException("Can't insert null");
-
-        var old = counter.get(key);
-        var newTotal = 0;
-        if (old != null) newTotal += old.getAmount();
-        newTotal += value.getAmount();
-
-        var nPG = new PrizeGroup(key, newTotal);
-        this.counter.put(key, nPG);
-        return nPG;
-    }
-
-    /**
-     *
-     * @return new total
-     */
-    public int put(PrizeGroup value) {
-        return this.put(value.getNameOfPrize(), value).getAmount();
+    public long getCount(PrizeGroup unit) {
+        return this.counter.getCount(warp(unit));
     }
 
     @Override
-    public PrizeGroup remove(Object key) {
-        return counter.remove(key);
+    public Set<Map.Entry<PrizeGroup, Long>> entrySet() {
+        return counter.entrySet().stream().map((entry -> new Map.Entry<PrizeGroup, Long>() {
+            @Override
+            public PrizeGroup getKey() {
+                return entry.getKey().get();
+            }
+
+            @Override
+            public Long getValue() {
+                return entry.getValue();
+            }
+
+            @Override
+            public Long setValue(Long value) {
+                return entry.setValue(value);
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                return entry.equals(o);
+            }
+
+            @Override
+            public int hashCode() {
+                return entry.hashCode();
+            }
+        })).collect(Collectors.toSet());
     }
 
-    @Override
-    public void putAll(Map<? extends String, ? extends PrizeGroup> m) {
-        for(var pg: m.entrySet()) {
-            this.put(pg.getKey(), pg.getValue());
-        }
-    }
-    public void putAll(Collection<PrizeGroup> pgs) {
-        for(var pg : pgs){
-            this.put(pg);
-        }
-    }
-
-    @Override
-    public void clear() {
-        this.counter.clear();
-    }
-
-    @Override
-    public Set<String> keySet() {
-        return counter.keySet();
-    }
-
-    @Override
-    public Collection<PrizeGroup> values() {
-        return counter.values();
-    }
-
-    @Override
-    public Set<Entry<String, PrizeGroup>> entrySet() {
-        return counter.entrySet();
+    public java.util.Set<PrizeGroup> values() {
+        Set<PrizeGroup> out = new HashSet<>();
+        this.entrySet().forEach((entry) -> out.add(entry.getKey()));
+        return out;
     }
 }

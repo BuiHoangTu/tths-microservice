@@ -33,7 +33,8 @@ public class PrizePeriodService {
     }
 
     public PrizePeriod updateAwardLevel(PrizePeriod prizePeriod) {
-        return this.periodRepo.save(prizePeriod);
+        if (prizePeriod.getDateOfApply() == null) prizePeriod.setDateOfApply(LocalDate.now());
+        return this.periodRepo.insert(prizePeriod);
     }
 
 }

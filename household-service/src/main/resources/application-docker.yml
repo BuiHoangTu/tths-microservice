@@ -5,3 +5,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:password@discovery-server:8761/eureka # http://uname:pword@docker_name:port/eureka
+
+grpc:
+  server:
+    port: 0

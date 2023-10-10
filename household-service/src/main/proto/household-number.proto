@@ -10,10 +10,10 @@ message HouseholdNumber {
   string number = 1;
 }
 
-message Verifications {
+message Existence {
   bool isValid = 1;
 }
 
-service Authorize {
-  rpc verifyHouseholdNumber(HouseholdNumber) returns(Verifications) {}
+service Verify {
+  rpc verifyHouseholdNumber(HouseholdNumber) returns(Existence) {}
 }
