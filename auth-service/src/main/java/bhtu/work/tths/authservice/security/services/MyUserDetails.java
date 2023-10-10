@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import bhtu.work.tths.authservice.models.User;
+import bhtu.work.tths.core.models.User;
 
 public class MyUserDetails implements UserDetails {
     @Serial

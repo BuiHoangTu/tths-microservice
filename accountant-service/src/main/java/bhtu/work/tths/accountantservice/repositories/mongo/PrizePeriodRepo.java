@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import bhtu.work.tths.accountantservice.models.PrizePeriod;
+import bhtu.work.tths.core.models.PrizePeriod;
 
 public interface PrizePeriodRepo extends MongoRepository<PrizePeriod, LocalDate> {
 

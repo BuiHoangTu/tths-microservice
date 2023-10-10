@@ -1,6 +1,6 @@
 package bhtu.work.tths.studentservice.repositories.mongo;
 
-import bhtu.work.tths.studentservice.models.Student;
+import bhtu.work.tths.core.models.Student;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

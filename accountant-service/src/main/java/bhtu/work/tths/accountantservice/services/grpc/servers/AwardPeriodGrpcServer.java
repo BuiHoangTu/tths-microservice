@@ -11,7 +11,7 @@ import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
 public class AwardPeriodGrpcServer extends AwardServiceImplBase {
-    private AwardPeriod mapAP(bhtu.work.tths.accountantservice.models.AwardPeriod mAwardPeriod) {
+    private AwardPeriod mapAP(bhtu.work.tths.core.models.AwardPeriod mAwardPeriod) {
         var pAPBuilder = AwardPeriod.newBuilder();
 
         pAPBuilder.setDateOfApply(mAwardPeriod.getDateOfApply().toString());

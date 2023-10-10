@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
-import bhtu.work.tths.studentservice.models.Student;
-import bhtu.work.tths.studentservice.models.dto.StudentOneReward;
+import bhtu.work.tths.core.models.Student;
+import bhtu.work.tths.core.models.dto.StudentOneReward;
 import bhtu.work.tths.studentservice.services.StudentService;
 
 import javax.servlet.http.HttpServletRequest;

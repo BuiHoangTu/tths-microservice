@@ -1,9 +1,9 @@
 package bhtu.work.tths.statisticservice.services.grpc.clients;
 
-import bhtu.work.tths.statisticservice.models.AwardLevel;
-import bhtu.work.tths.statisticservice.models.AwardPeriod;
-import bhtu.work.tths.statisticservice.models.PrizePeriod;
-import bhtu.work.tths.statisticservice.models.PrizeValue;
+import bhtu.work.tths.core.models.AwardLevel;
+import bhtu.work.tths.core.models.AwardPeriod;
+import bhtu.work.tths.core.models.PrizePeriod;
+import bhtu.work.tths.core.models.PrizeValue;
 import com.google.common.util.concurrent.Futures;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;

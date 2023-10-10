@@ -1,8 +1,8 @@
 package bhtu.work.tths.statisticservice.services;
 
-import bhtu.work.tths.statisticservice.models.EventOfStudent;
-import bhtu.work.tths.statisticservice.models.dto.RewardByEvent;
-import bhtu.work.tths.statisticservice.models.dto.RewardByHouseholdNumber;
+import bhtu.work.tths.core.models.EventOfStudent;
+import bhtu.work.tths.core.models.dto.RewardByEvent;
+import bhtu.work.tths.core.models.dto.RewardByHouseholdNumber;
 import bhtu.work.tths.statisticservice.services.grpc.clients.RewardDetailGrpcClient;
 import bhtu.work.tths.statisticservice.services.grpc.clients.StudentGrpcClient;
 import bhtu.work.tths.statisticservice.utils.EventCounter;

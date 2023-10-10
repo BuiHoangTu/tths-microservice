@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import bhtu.work.tths.authservice.models.User;
+import bhtu.work.tths.core.models.User;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {

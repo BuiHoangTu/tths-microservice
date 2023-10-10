@@ -1,6 +1,6 @@
 package bhtu.work.tths.accountantservice.controllers;
 
-import bhtu.work.tths.accountantservice.models.AwardPeriod;
+import bhtu.work.tths.core.models.AwardPeriod;
 import bhtu.work.tths.accountantservice.proto.Verifications;
 import bhtu.work.tths.accountantservice.services.AwardPeriodService;
 import bhtu.work.tths.accountantservice.services.grpc.clients.Auth;

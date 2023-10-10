@@ -1,7 +1,7 @@
 package bhtu.work.tths.studentservice.services.grpc.servers;
 
-import bhtu.work.tths.studentservice.models.EventOfStudent;
-import bhtu.work.tths.studentservice.models.Student;
+import bhtu.work.tths.core.models.EventOfStudent;
+import bhtu.work.tths.core.models.Student;
 import bhtu.work.tths.studentservice.proto.EventDate;
 import bhtu.work.tths.studentservice.proto.EventName;
 import bhtu.work.tths.studentservice.proto.StudentId;

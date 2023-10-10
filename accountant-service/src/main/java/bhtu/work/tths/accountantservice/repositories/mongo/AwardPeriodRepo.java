@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import bhtu.work.tths.accountantservice.models.AwardPeriod;
+import bhtu.work.tths.core.models.AwardPeriod;
 
 public interface AwardPeriodRepo extends MongoRepository<AwardPeriod, LocalDate> {
 

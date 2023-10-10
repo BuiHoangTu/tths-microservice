@@ -3,7 +3,7 @@ package bhtu.work.tths.authservice.repositories.mongo;
 import com.mongodb.lang.NonNull;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import bhtu.work.tths.authservice.models.User;
+import bhtu.work.tths.core.models.User;
 
 import java.util.List;
 import java.util.Optional;

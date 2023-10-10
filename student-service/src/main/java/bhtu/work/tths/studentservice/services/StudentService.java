@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import bhtu.work.tths.studentservice.models.EventOfStudent;
-import bhtu.work.tths.studentservice.models.Student;
-import bhtu.work.tths.studentservice.models.dto.StudentOneReward;
-import bhtu.work.tths.studentservice.models.enums.EGetStudents;
+import bhtu.work.tths.core.models.EventOfStudent;
+import bhtu.work.tths.core.models.Student;
+import bhtu.work.tths.core.models.dto.StudentOneReward;
+import bhtu.work.tths.core.models.enums.EGetStudents;
 import bhtu.work.tths.studentservice.repositories.mongo.StudentRepo;
 
 import java.util.ArrayList;

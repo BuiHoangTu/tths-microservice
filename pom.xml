@@ -45,11 +45,15 @@
 			<optional>true</optional>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>bhtu.work</groupId>-->
-<!--			<artifactId>core</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement> <!-- help to manage version and config, still have to include it in child -->

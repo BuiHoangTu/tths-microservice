@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bhtu.work.tths.accountantservice.models.PrizePeriod;
+import bhtu.work.tths.core.models.PrizePeriod;
 import bhtu.work.tths.accountantservice.repositories.mongo.PrizePeriodRepo;
 
 @Service

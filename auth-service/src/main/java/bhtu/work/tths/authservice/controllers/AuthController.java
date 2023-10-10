@@ -1,8 +1,8 @@
 package bhtu.work.tths.authservice.controllers;
 
 import bhtu.work.tths.authservice.services.AuthService;
-import bhtu.work.tths.authservice.models.dto.LoginRequest;
-import bhtu.work.tths.authservice.models.dto.SignupRequest;
+import bhtu.work.tths.core.models.dto.LoginRequest;
+import bhtu.work.tths.core.models.dto.SignupRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;

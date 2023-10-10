@@ -3,7 +3,7 @@ package bhtu.work.tths.statisticservice.utils;
 import bhtu.work.tths.share.utils.counter.ComplexCounter;
 import bhtu.work.tths.share.utils.counter.Countable;
 import bhtu.work.tths.share.utils.counter.Counter;
-import bhtu.work.tths.statisticservice.models.PrizeGroup;
+import bhtu.work.tths.core.models.PrizeGroup;
 
 import java.util.*;
 import java.util.stream.Collectors;

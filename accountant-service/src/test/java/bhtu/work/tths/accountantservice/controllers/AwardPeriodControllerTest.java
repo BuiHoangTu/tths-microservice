@@ -1,9 +1,8 @@
 package bhtu.work.tths.accountantservice.controllers;
 
-import bhtu.work.tths.accountantservice.models.AwardLevel;
-import bhtu.work.tths.accountantservice.models.AwardPeriod;
+import bhtu.work.tths.core.models.AwardLevel;
+import bhtu.work.tths.core.models.AwardPeriod;
 import bhtu.work.tths.accountantservice.repositories.mongo.AwardPeriodRepo;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

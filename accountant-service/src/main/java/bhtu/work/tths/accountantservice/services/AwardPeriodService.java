@@ -1,6 +1,6 @@
 package bhtu.work.tths.accountantservice.services;
 
-import bhtu.work.tths.accountantservice.models.AwardPeriod;
+import bhtu.work.tths.core.models.AwardPeriod;
 import bhtu.work.tths.accountantservice.repositories.mongo.AwardPeriodRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

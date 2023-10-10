@@ -11,7 +11,7 @@ import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
 public class PrizePeriodGrpcServer extends PrizeServiceImplBase{
-    private PrizePeriod mapPP(bhtu.work.tths.accountantservice.models.PrizePeriod mPrizePeriod) {
+    private PrizePeriod mapPP(bhtu.work.tths.core.models.PrizePeriod mPrizePeriod) {
         var pPPBuilder = PrizePeriod.newBuilder();
 
         pPPBuilder.setDateOfApply(mPrizePeriod.getDateOfApply().toString());

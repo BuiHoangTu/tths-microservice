@@ -2,7 +2,7 @@ package bhtu.work.tths.statisticservice.utils;
 
 import bhtu.work.tths.share.utils.counter.Countable;
 import bhtu.work.tths.share.utils.counter.Counter;
-import bhtu.work.tths.statisticservice.models.EventOfStudent;
+import bhtu.work.tths.core.models.EventOfStudent;
 
 import java.time.LocalDate;
 import java.util.HashMap;
