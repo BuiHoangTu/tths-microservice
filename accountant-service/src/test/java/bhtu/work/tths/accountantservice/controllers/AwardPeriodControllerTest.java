@@ -3,12 +3,10 @@ package bhtu.work.tths.accountantservice.controllers;
 import bhtu.work.tths.accountantservice.models.AwardLevel;
 import bhtu.work.tths.accountantservice.models.AwardPeriod;
 import bhtu.work.tths.accountantservice.repositories.mongo.AwardPeriodRepo;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -20,8 +18,6 @@ import java.util.LinkedList;
 class AwardPeriodControllerTest {
     @MockBean
     private AwardPeriodRepo repo;
-    @Autowired
-    private AwardPeriodController awardPeriodController;
     private AwardPeriod testAP;
 
     @BeforeAll
