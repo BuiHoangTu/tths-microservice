@@ -1,12 +1,13 @@
 package bhtu.work.tths.statisticservice.services;
 
+import bhtu.work.tths.share.utils.counter.StackCounter;
 import bhtu.work.tths.statisticservice.models.EventOfStudent;
 import bhtu.work.tths.statisticservice.models.dto.RewardByEvent;
 import bhtu.work.tths.statisticservice.models.dto.RewardByHouseholdNumber;
 import bhtu.work.tths.statisticservice.services.grpc.clients.RewardDetailGrpcClient;
 import bhtu.work.tths.statisticservice.services.grpc.clients.StudentGrpcClient;
-import bhtu.work.tths.statisticservice.utils.EventCounter;
-import bhtu.work.tths.statisticservice.utils.PrizeCounter;
+import bhtu.work.tths.statisticservice.utils.EventWrapper;
+import bhtu.work.tths.statisticservice.utils.PrizeWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,17 +58,17 @@ public class StatisticService {
 
     public RewardByHouseholdNumber getByHouseholdNumber(String householdNumber) {
         var students = studentGrpc.getStudentByHouseholdNumber(householdNumber);
-        PrizeCounter counter = new PrizeCounter();
+        StackCounter<PrizeWrapper> counter = new StackCounter<>();
 
         while (students.hasNext()) {
             var student = students.next();
             for (var event : student.getEvents()) {
                 STATISTIC_SERVICE_LOGGER.info("Putting {} inside counter", event);
-                counter.putAll(event.getPrizes());
+                counter.addAll(event.getPrizes().stream().map(PrizeWrapper::new).toList());
             }
         }
         STATISTIC_SERVICE_LOGGER.info("Finish counting");
-        return new RewardByHouseholdNumber(counter.values().stream().toList(), householdNumber);
+        return new RewardByHouseholdNumber(counter.stream().map(PrizeWrapper::getCore).toList(), householdNumber);
     }
 
 
@@ -85,17 +86,17 @@ public class StatisticService {
     }
 
     private List<RewardByEvent> squashEvent(Iterator<EventOfStudent> iterator) {
-        EventCounter counter = new EventCounter();
+        StackCounter<EventWrapper> counter = new StackCounter<>();
 
         while (iterator.hasNext()) {
             var eventOfStudent = iterator.next();
-            counter.put(eventOfStudent);
+            counter.count(new EventWrapper(eventOfStudent));
         }
 
         var out = new ArrayList<RewardByEvent>();
 
-        counter.entrySet().forEach((entry) -> {
-            var ev = entry.getKey();
+        counter.forEach((eventWrapper) -> {
+            var ev = eventWrapper.getCore();
             out.add(new RewardByEvent(ev.getPrizes().stream().toList(), ev.getTotalExpense(), ev.getDateOfEvent(), ev.getNameOfEvent()));
         });
 
