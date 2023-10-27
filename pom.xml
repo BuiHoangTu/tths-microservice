@@ -1,163 +1,197 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<!-- add spring boot to all children -->
-	<parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- add spring boot to all children -->
+    <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.13</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-	<groupId>bhtu.work</groupId>
-	<artifactId>tths-microservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+    <groupId>bhtu.work</groupId>
+    <artifactId>tths-microservice</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>tths-microservice</name>
-	<description>Parent for `Student Award` microservice</description>
+    <description>Parent for `Student Award` microservice</description>
 
-	<modules>
-		<module>accountant-service</module>
-    	<module>auth-service</module>
-		<module>household-service</module>
-		<module>statistic-service</module>
-		<module>student-service</module>
-    	<module>discovery-server</module>
-    	<module>api-gateway</module>
+    <modules>
+        <module>accountant-service</module>
+        <module>auth-service</module>
+        <module>household-service</module>
+        <module>statistic-service</module>
+        <module>student-service</module>
+        <module>discovery-server</module>
+        <module>api-gateway</module>
         <module>common</module>
-		<module>test-template</module>
+        <module>test-template</module>
         <module>core</module>
     </modules>
 
     <properties>
-		<java.version>17</java.version>
-		<spring-cloud.version>2021.0.2</spring-cloud.version>
-		<protobuf.version>3.19.6</protobuf.version>
-		<protobuf-plugin.version>0.6.1</protobuf-plugin.version>
-		<grpc.version>1.42.1</grpc.version>
-	</properties>
+        <java.version>17</java.version>
+        <spring-cloud.version>2021.0.2</spring-cloud.version>
+        <protobuf.version>3.19.6</protobuf.version>
+        <protobuf-plugin.version>0.6.1</protobuf-plugin.version>
+        <grpc.version>1.42.1</grpc.version>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>bhtu.work</groupId>-->
-<!--			<artifactId>core</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--		</dependency>-->
-	</dependencies>
+        <!--		<dependency>-->
+        <!--			<groupId>bhtu.work</groupId>-->
+        <!--			<artifactId>core</artifactId>-->
+        <!--			<version>0.0.1-SNAPSHOT</version>-->
+        <!--		</dependency>-->
+    </dependencies>
 
-	<dependencyManagement> <!-- help to manage version and config, still have to include it in child -->
-		<dependencies>
-			<!-- container test-->
-			<dependency>
-				<groupId>org.testcontainers</groupId>
-				<artifactId>testcontainers-bom</artifactId>
-				<version>1.18.3</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.testcontainers</groupId>
-				<artifactId>mongodb</artifactId>
-				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.testcontainers</groupId>
-				<artifactId>junit-jupiter</artifactId>
-				<scope>test</scope>
-			</dependency>
-			<!-- cloud -->
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
+    <dependencyManagement> <!-- help to manage version and config, still have to include it in child -->
+        <dependencies>
+            <!-- container test-->
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>1.18.3</version>
                 <type>pom</type>
                 <scope>import</scope>
-			</dependency>
-			<!-- gRPC -->
-			<dependency>
-				<groupId>com.google.protobuf</groupId>
-				<artifactId>protobuf-java</artifactId>
-				<version>${protobuf.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-bom</artifactId>
-				<version>${grpc.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>net.devh</groupId>
-				<artifactId>grpc-spring-boot-starter</artifactId>
-				<version>2.14.0.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>net.devh</groupId>
-				<artifactId>grpc-server-spring-boot-starter</artifactId>
-				<version>2.14.0.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>net.devh</groupId>
-				<artifactId>grpc-client-spring-boot-starter</artifactId>
-				<version>2.14.0.RELEASE</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>mongodb</artifactId>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <scope>test</scope>
+            </dependency>
+            <!-- cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- gRPC -->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-bom</artifactId>
+                <version>${grpc.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.devh</groupId>
+                <artifactId>grpc-spring-boot-starter</artifactId>
+                <version>2.14.0.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>net.devh</groupId>
+                <artifactId>grpc-server-spring-boot-starter</artifactId>
+                <version>2.14.0.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>net.devh</groupId>
+                <artifactId>grpc-client-spring-boot-starter</artifactId>
+                <version>2.14.0.RELEASE</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<build>
-		<extensions>
-			<extension>
-				<groupId>kr.motd.maven</groupId>
-				<artifactId>os-maven-plugin</artifactId>
-				<version>1.7.0</version>
-			</extension>
-		</extensions>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.7.0</version>
+            </extension>
+        </extensions>
 
-<!--		<defaultGoal>clean generate-sources compile install</defaultGoal>-->
+        <!--		<defaultGoal>clean generate-sources compile install</defaultGoal>-->
 
-		<pluginManagement>
-			<plugins>
-				<!-- compile proto -->
+        <pluginManagement>
+            <plugins>
+                <!-- compile proto -->
+                <plugin>
+                    <groupId>kr.motd.maven</groupId>
+                    <artifactId>os-maven-plugin</artifactId>
+                    <version>1.7.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.xolstice.maven.plugins</groupId>
+                    <artifactId>protobuf-maven-plugin</artifactId>
+                    <version>${protobuf-plugin.version}</version>
+                    <configuration>
+                        <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}
+                        </protocArtifact>
+                        <pluginId>grpc-java</pluginId>
+                        <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}
+                        </pluginArtifact>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>compile</goal>
+                                <goal>compile-custom</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+				<!-- Ignore warning in generated files-->
 				<plugin>
-					<groupId>kr.motd.maven</groupId>
-					<artifactId>os-maven-plugin</artifactId>
-					<version>1.7.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.xolstice.maven.plugins</groupId>
-					<artifactId>protobuf-maven-plugin</artifactId>
-					<version>${protobuf-plugin.version}</version>
-					<configuration>
-						<protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
-						<pluginId>grpc-java</pluginId>
-						<pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
-					</configuration>
+					<groupId>com.google.code.maven-replacer-plugin</groupId>
+					<artifactId>maven-replacer-plugin</artifactId>
+					<version>1.3.2</version>
 					<executions>
 						<execution>
+							<phase>prepare-package</phase>
 							<goals>
-								<goal>compile</goal>
-								<goal>compile-custom</goal>
+								<goal>replace</goal>
 							</goals>
 						</execution>
 					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+					<configuration>
+						<includes>
+							<include>target/generated-sources/apache/blahblah//*.java</include>
+						</includes>
 
-		<plugins>
+						<regex>true</regex>
+						<regexFlags>
+							<regexFlag>MULTILINE</regexFlag>
+						</regexFlags>
+
+						<replacements>
+							<replacement>
+								<token>^(@SuppressWarnings\(.*?\)\s+)?public class</token>
+								<value>@SuppressWarnings("all") public class</value>
+							</replacement>
+						</replacements>
+					</configuration>
+				</plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
