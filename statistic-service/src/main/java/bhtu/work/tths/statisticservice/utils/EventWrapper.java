@@ -2,8 +2,6 @@ package bhtu.work.tths.statisticservice.utils;
 
 import bhtu.work.tths.share.utils.counter.Countable;
 import bhtu.work.tths.statisticservice.models.EventOfStudent;
-import bhtu.work.tths.statisticservice.models.PrizeGroup;
-
 import java.util.Objects;
 
 public class EventWrapper implements Countable {
