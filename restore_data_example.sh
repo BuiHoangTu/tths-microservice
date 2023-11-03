@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#!/bin/sh
 # this script may need higher authority to perform
 SCRIPT=$(readlink -f "$0")
 SCRIPT_PATH=$(dirname "$SCRIPT")

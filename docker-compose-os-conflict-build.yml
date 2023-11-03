@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  builder:
+    container_name: builder
+    build:
+      context: .
+      dockerfile: Dockerfile-build
+    volumes:
+      - ./discovery-server/docker-build-target:/workspace/discovery-server/target
+      - ./api-gateway/docker-build-target:/workspace/api-gateway/target
+      - ./accountant-service/docker-build-target:/workspace/accountant-service/target
+      - ./auth-service/docker-build-target:/workspace/auth-service/target
+      - ./household-service/docker-build-target:/workspace/household-service/target
+      - ./statistic-service/docker-build-target:/workspace/statistic-service/target
+      - ./student-service/docker-build-target:/workspace/student-service/target

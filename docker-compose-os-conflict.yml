@@ -1,0 +1,126 @@
+version: '3'
+
+services:
+  mongo-service:
+    container_name: tths-database-mongo
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    expose:
+      - 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${TTHS_MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${TTHS_MONGO_PASSWORD}
+    volumes:
+      - ./data-example/mongodb-data:/data/db
+  discovery-server:
+    build:
+      context: discovery-server
+      dockerfile: Dockerfile-os-conflict
+    image: tths-microservice-discovery-server:latest
+    hostname: discovery-server
+    ports:
+      - "8761:8761"
+    expose:
+      - 8761
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+  api-gateway:
+    build:
+      context: api-gateway
+      dockerfile: Dockerfile-os-conflict
+    image: tths-microservice-api-gateway
+    hostname: api-gateway
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
+    depends_on:
+      - discovery-server
+  accountant-service:
+    build:
+      context: accountant-service
+      dockerfile: Dockerfile-os-conflict
+    image: tths-microservice-accountant-service
+    hostname: accountant-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
+    depends_on:
+      - mongo-service
+      - discovery-server
+      - api-gateway
+  auth-service:
+    build:
+      context: auth-service
+      dockerfile: Dockerfile-os-conflict
+    image: tths-microservice-auth-service
+    hostname: auth-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
+    depends_on:
+      - mongo-service
+      - discovery-server
+      - api-gateway
+  household-service:
+    build:
+      context: household-service
+      dockerfile: Dockerfile-os-conflict
+    image: tths-microservice-household-service
+    hostname: household-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery-server
+      - api-gateway
+  statistic-service:
+    build:
+      context: statistic-service
+      dockerfile: Dockerfile-os-conflict
+    image: tths-microservice-statistic-service
+    hostname: statistic-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
+    depends_on:
+      - mongo-service
+      - discovery-server
+      - api-gateway
+  student-service:
+    build:
+      context: student-service
+      dockerfile: Dockerfile-os-conflict
+    image: tths-microservice-student-service
+    hostname: student-service
+    links:
+      - mongo-service:${TTHS_MONGO_HOST}
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_HOST=${TTHS_MONGO_HOST}
+      - MONGO_USERNAME=${TTHS_MONGO_USERNAME}
+      - MONGO_PASSWORD=${TTHS_MONGO_PASSWORD}
+    depends_on:
+      - mongo-service
+      - discovery-server
+      - api-gateway

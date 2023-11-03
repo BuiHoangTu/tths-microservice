@@ -41,3 +41,6 @@ logs
 
 ### backup ###
 *.bak
+
+### os-conflict ###
+docker-build-target/**

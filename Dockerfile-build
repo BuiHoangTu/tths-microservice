@@ -1,0 +1,8 @@
+FROM eclipse-temurin:17.0.8.1_1-jre as build
+WORKDIR workspace
+# parent maven files
+ADD ./* ./
+RUN ls /workspace/ -a
+RUN chmod 777 mvnw
+RUN ./mvnw package
+ENTRYPOINT ["cp", "package"]

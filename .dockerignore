@@ -1,0 +1,15 @@
+.dockerignore
+.git/**
+.gitignore
+Dockerfile-build
+data-example/**
+note.txt
+restore_data_example.sh
+.env
+.idea/**
+Docker-compose_with-build.yml
+mvnw.cmd
+test-template
+
+# each mcr-service
+target/**
